@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.mire.cinema.Application;
-import com.mire.cinema.domain.Member;
+import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.repository.mapper.MemberMapper;
 
 import lombok.extern.java.Log;
@@ -23,12 +23,13 @@ class ApplicationTests {
 
 	@Autowired
 	MemberMapper memberMapper;
+	
+	
 
 	@Test
 	void contextLoads() {
+		
 
-		Member member = new Member(1, "gd");
-		memberMapper.saveMember(member);
 	}
 
 }

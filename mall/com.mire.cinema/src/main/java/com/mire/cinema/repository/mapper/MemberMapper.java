@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.mire.cinema.domain.Member;
+import com.mire.cinema.domain.member.Member;
 
 
 
@@ -14,11 +14,11 @@ import com.mire.cinema.domain.Member;
 @Mapper
 public interface MemberMapper {
    
-	void saveMember(Member member);
-    Member findMemberbyId(String id);
+	void insertMember(Member member);
+    Member selectMember(String id);
 
     List<Member> getMemberList();
-    void deleteMember(Member member);
+    void deleteMember(String id);
 
     void updateMember(Member member);
 }
