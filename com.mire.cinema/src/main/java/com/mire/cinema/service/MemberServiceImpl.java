@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mire.cinema.domain.member.LoginResponseDTO;
 import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.member.MemberLoginDTO;
+import com.mire.cinema.domain.member.MemberUpdateDTO;
 import com.mire.cinema.repository.mapper.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,21 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void modifyMember(Member member) {
+	public void modifyMember(MemberUpdateDTO dto) {
+		Member member = memberMapper.selectMember(dto.getMemberId());
+		if(member == null || !member.getMemberPasswd().equals(dto.getMemberPasswd())) {
+			new IllegalArgumentException("아이디와 비밀번호가 일치하지 않습니다.");
+			return;
+			
+		}
+		
+		if(dto.getMemberEmail() == null) {
+			dto.setMemberEmail(member.getMemberEmail());
+		}
+		if(dto.getMemberPhone() == null) {
+			dto.setMemberPhone(member.getMemberPhone());
+		}
+		
 		
 		memberMapper.updateMember(member);
 

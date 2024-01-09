@@ -23,7 +23,7 @@
        <%@ include file="header.jsp" %>
     </header>
     <!-- 메인 -->
-    <main class="container">
+    <main class="container" id="main">
         <h1 style="height: 500px;"> 메인 부분</h1>
     </main>
     <!-- 푸터-->

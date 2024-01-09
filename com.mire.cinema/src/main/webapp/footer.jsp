@@ -11,35 +11,35 @@
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>회사소개</p>
+               <p class="text-dark">회사소개</p>
          </a></li>
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>인재채용</p>
+               <p  class="text-dark">인재채용</p>
          </a></li>
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>사회공헌</p>
+               <p  class="text-dark">사회공헌</p>
          </a></li>
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>제휴/광고/부대사업문의</p>
+               <p  class="text-dark">제휴/광고/부대사업문의</p>
          </a></li>
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>이용약관</p>
+               <p  class="text-dark">이용약관</p>
          </a></li>
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>위치기반서비스 이용약관</p>
+               <p  class="text-dark">위치기반서비스 이용약관</p>
          </a></li>
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>개인정보처리방침</p>
+               <p  class="text-dark">개인정보처리방침</p>
          </a></li>
          <li class="nav-item"><a href="#"
             class="nav-link px-2 text-body-secondary">
-               <p>윤리경영</p>
+               <p  class="text-dark">윤리경영</p>
          </a></li>
       </ul>
       <p class="text-center">(주)미래IT캠퍼스 대표자 : 이충기 사업자번호 : 212-81-85877

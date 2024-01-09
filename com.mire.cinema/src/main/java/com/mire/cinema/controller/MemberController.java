@@ -2,6 +2,7 @@ package com.mire.cinema.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.mire.cinema.domain.member.LoginResponseDTO;
 import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.member.MemberJoinDTO;
 import com.mire.cinema.domain.member.MemberLoginDTO;
+import com.mire.cinema.domain.member.MemberUpdateDTO;
 import com.mire.cinema.response.SucessMessage;
 import com.mire.cinema.service.MemberService;
 
@@ -55,17 +57,17 @@ public class MemberController {
 	    }
 
 	    @GetMapping("/{memberId}")
-	    public ResponseEntity<Member> findMember(@PathVariable String memberId) {
+	    public ResponseEntity<String> findMember(@PathVariable String memberId) {
 	        Member foundMember = memberService.findMember(memberId);
 	        
-	        return ResponseEntity.ok(foundMember);
+	        return ResponseEntity.ok(foundMember.getMemberId());
 	    
 	    }
 	    
 	    @PostMapping("/logout")
 	    public ResponseEntity<Void> logout(HttpSession session) {
 	        session.invalidate();
-	        return ResponseEntity.ok().build();
+	        return new ResponseEntity<>(SucessMessage.statusOK);
 	    }
 	    
 	    @PostMapping("/login")
@@ -82,8 +84,9 @@ public class MemberController {
 	    }
 
 	    @PutMapping
-	    public ResponseEntity<String> modifyMember(@RequestBody Member member) {
-	        memberService.modifyMember(member);
+	    public ResponseEntity<String> modifyMember(@RequestBody MemberUpdateDTO dto) {
+	        
+	    	memberService.modifyMember(dto);
 	        return new ResponseEntity<>(SucessMessage.UPDATE,  SucessMessage.statusOK);
 	    }
 
@@ -91,6 +94,24 @@ public class MemberController {
 	    public ResponseEntity<String> removeMember(@PathVariable String memberId) {
 	        memberService.removeMember(memberId);
 	        return new ResponseEntity<>(SucessMessage.DELETE,  SucessMessage.statusOK);
+	    }
+	    
+	    
+	    // 페이지를 내려줌
+	    @GetMapping("/info/{memberId}")
+	    public ModelAndView findMemberInfo(@PathVariable String memberId) {
+	        Member foundMember = memberService.findMember(memberId);
+	        ModelAndView mv = new ModelAndView("memberInfo");
+	        mv.addObject("member",foundMember);
+	        return mv;
+	    
+	    }
+	    // 페이지를 내려줌
+	    @GetMapping("/editForm/{memberId}")
+	    public ModelAndView getEditForm(@PathVariable String memberId) {
+	        ModelAndView mv = new ModelAndView("memberEditForm");
+	        return mv;
+	    
 	    }
 	   
 	

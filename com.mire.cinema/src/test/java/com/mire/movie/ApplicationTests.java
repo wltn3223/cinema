@@ -28,9 +28,10 @@ class ApplicationTests {
 
 	@Test
 	void contextLoads() {
+		Member member = memberMapper.selectMember("wltn3223");
+		System.out.println(member.getMemberName());
 		
-			Member member = new Member();
-			memberMapper.selectMember(member.getMemberId());
+			
 	}
 
 }

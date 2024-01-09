@@ -5,12 +5,14 @@ import com.mire.cinema.domain.DiscountGrade;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @Builder
+
 public class Member {
     private Long memberNo;
     private String memberId;
