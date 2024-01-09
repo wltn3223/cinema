@@ -67,7 +67,7 @@ public class MemberController {
 	    }
 	    
 	    @PostMapping("/login")
-	    public ResponseEntity<String> checkMember(@RequestBody MemberLoginDTO memberLoginDTO, HttpSession session) {
+	    public ResponseEntity<String> checkMember(@Valid @RequestBody MemberLoginDTO memberLoginDTO, HttpSession session) {
 	    	
 	    	LoginResponseDTO response =  memberService.loginMember(memberLoginDTO);
 	    	

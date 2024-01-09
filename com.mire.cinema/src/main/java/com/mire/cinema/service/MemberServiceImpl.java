@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberMapper memberMapper;
