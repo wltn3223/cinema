@@ -22,7 +22,9 @@ import com.mire.cinema.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
+@Log
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor

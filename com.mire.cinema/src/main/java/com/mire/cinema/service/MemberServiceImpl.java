@@ -1,6 +1,7 @@
 package com.mire.cinema.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mire.cinema.domain.member.LoginResponseDTO;
 import com.mire.cinema.domain.member.Member;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberMapper memberMapper;

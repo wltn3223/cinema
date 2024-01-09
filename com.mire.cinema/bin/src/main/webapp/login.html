@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<title>로그인 및 회원가입</title>
+</head>
+
+<body style="background-color: black;">
+	<div class="mb-5 p-3">
+		<a href="/" class="text-dark text-decoration-none">
+			<h2 style="color: white;">MIRE MOVIE</h2>
+		</a>
+	</div>
+
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="container rounded p-4" style="background-color: #343a40; color: white;">
+					<h2 class="text-center mb-4">로그인</h2>
+					<form>
+						<div class="form-group">
+							<label for="memberId">아이디</label>
+							<input type="text" class="form-control" id="memberId" placeholder="아이디를 입력하세요"
+								required>
+						</div>
+						<div class="form-group">
+							<label for="memberPasswd">비밀번호</label>
+							<input type="password" class="form-control" id="memberPasswd" placeholder="비밀번호를 입력하세요"
+								required>
+						</div>
+						<div class="text-center">
+							<button type="button" class="btn btn-light mr-2" onclick="Login()">로그인</button>
+							<button type="button" class="btn btn-light"><a href="/join.html">회원가입</a></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+<style>
+	body {
+		background-color: #f8f9fa;
+		/* 전체 배경색을 설정할 수 있습니다. */
+	}
+</style>
+<script>
+	function Login() {
+		var id = document.getElementById('memberId').value;
+		var passwd = document.getElementById('memberPasswd').value;
+
+		if (id === "" || id === null) {
+			alert("아이디를 입력해주세요");
+			return;
+		}
+		if (passwd === "" || passwd === null) {
+			alert("비밀번호를 입력해주세요");
+			return;
+		}
+		
+		var memberData = {
+			memberId:id,
+			memberPasswd:passwd
+		};
+
+
+		$.ajax({
+			type: "Post",
+			url: "/member/login",
+			contentType: "application/json",
+			data: JSON.stringify(memberData),
+			success: function (data) {
+				alert(data);
+				location.href = "/index.jsp";
+			},
+			error: function (error) {
+				// 에러가 발생했을 때의 처리
+				var result = error.responseText;
+				alert(result);
+			}
+
+		});
+
+
+	}
+
+	
+</script>
+
+</html>
