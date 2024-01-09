@@ -15,6 +15,7 @@ public enum DiscountGrade {
 	  DiscountGrade(String grade, double discountRate) {
 	        this.grade = grade;
 	        this.discountRate = discountRate;
+	        System.out.println(grade+discountRate);
 	    }
 	
 	
