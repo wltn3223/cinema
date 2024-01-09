@@ -13,7 +13,8 @@ public class Member {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
-	}
+		System.out.println(memberNo+memberId);
+    }
     
 
 }
