@@ -2,7 +2,10 @@ package com.mire.cinema.domain.member;
 
 import com.mire.cinema.domain.DiscountGrade;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @ToString
@@ -19,6 +22,4 @@ public class Member {
 	private String memberDate;
 	
    
-
 }
-

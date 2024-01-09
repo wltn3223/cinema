@@ -29,7 +29,8 @@ class ApplicationTests {
 	@Test
 	void contextLoads() {
 		
-
+			Member member = new Member();
+			memberMapper.selectMember(member.getMemberId());
 	}
 
 }

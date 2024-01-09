@@ -11,8 +11,5 @@ import lombok.Setter;
 public class LoginResponseDTO {
 	private boolean result;
 	private String message;
-	private void sysout() {
-		// TODO Auto-generated method stub
-
-	}
+	
 }
