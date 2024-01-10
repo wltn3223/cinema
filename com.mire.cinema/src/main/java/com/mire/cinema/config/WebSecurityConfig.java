@@ -32,7 +32,7 @@ public class WebSecurityConfig {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeRequests()
-        .requestMatchers("/memberInfo.jsp").authenticated()
+        .requestMatchers("/memberInfo.jsp").hasRole("USER")
         .anyRequest().permitAll()
         .and()
         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

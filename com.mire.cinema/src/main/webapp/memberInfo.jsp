@@ -25,7 +25,7 @@
 					<div class="form-group">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control" id="memberId" readonly="readonly"
-							value="${member.memberId}">
+							value="${memberId}">
 					</div>
 					<div class="form-group">
 						<label for="memberName">이름</label> <input type="text"

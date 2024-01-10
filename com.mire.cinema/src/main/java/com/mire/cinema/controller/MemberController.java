@@ -1,5 +1,8 @@
 package com.mire.cinema.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -71,11 +74,12 @@ public class MemberController {
 	    @PostMapping("/logout")
 	    public ResponseEntity<Void> logout(HttpSession session) {
 	        session.invalidate();
+	        HomeController.isLogin = false;
 	        return new ResponseEntity<>(SucessMessage.statusOK);
 	    }
 	    
 	    @PostMapping("/login")
-	    public TokenDTO checkMember(@Valid @RequestBody MemberLoginDTO memberLoginDTO,  HttpServletResponse response) {
+	    public ResponseEntity<String>  checkMember(@Valid @RequestBody MemberLoginDTO memberLoginDTO,  HttpServletResponse response, HttpSession session) {
 	    	
 	    	TokenDTO tokenDTO =  memberService.loginMember(memberLoginDTO);
 	    	
@@ -84,10 +88,12 @@ public class MemberController {
 	        accessTokenCookie.setHttpOnly(true);
 	        accessTokenCookie.setPath("/"); // 쿠키의 유효 경로 설정
 	        response.addCookie(accessTokenCookie);
+	        
+	        session.setAttribute("memberId", memberLoginDTO.getMemberId());
+	    	session.setMaxInactiveInterval(59);
 	    	
 	    	
-	    	
-	    	return tokenDTO;
+	    	return new ResponseEntity<>(SucessMessage.LOGIN,  SucessMessage.statusOK);
 	    }
 
 	    @PutMapping

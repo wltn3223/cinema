@@ -78,7 +78,8 @@
 			contentType: "application/json",
 			data: JSON.stringify(memberData),
 			success: function (data) {
-				alert(data);
+				alert(data.message);
+				localStorage.setItem('memberId',data.memberId);
 				location.href = "/index.jsp";
 			},
 			error: function (error) {

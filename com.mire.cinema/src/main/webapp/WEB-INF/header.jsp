@@ -20,11 +20,12 @@
 						href="#"><h2>MIRE MOVIE</h2></a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
-					
+					<c:if test="${memberId eq null}">
 						<a class="btn btn-sm btn-outline-secondary" href="/login.html">로그인</a>
                   &nbsp; <a class="btn btn-sm btn-outline-secondary"
 							href="/join.html">회원가입</a>
-				
+					</c:if>
+					<c:if test="${memberId ne null}">
 
 						<div>
 							<a href="#"
@@ -36,7 +37,7 @@
 							<ul class="dropdown-menu text-small"
 								aria-labelledby="dropdownUser1">
 								<li><a class="dropdown-item" href="#">회원 정보 수정</a></li>
-								<li><a class="dropdown-item" href="../memberInfo.jsp">회원 정보 조회</a></li>
+								<li><a class="dropdown-item" href="/memberInfo.jsp">회원 정보 조회</a></li>
 								<li>
 									<hr class="dropdown-divider">
 								</li>
@@ -44,7 +45,7 @@
 							</ul>
 						</div>
 
-					
+					</c:if>
 
 				</div>
 		</header>
@@ -91,6 +92,8 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+	
+	
 	function logout() {
 
 		$.ajax({
