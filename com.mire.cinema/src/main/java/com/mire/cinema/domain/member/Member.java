@@ -1,17 +1,16 @@
 package com.mire.cinema.domain.member;
 
-import com.mire.cinema.domain.DiscountGrade;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 
 public class Member {
     private Long memberNo;
@@ -20,6 +19,7 @@ public class Member {
 	private String memberName;
 	private String memberEmail;
 	private String memberPhone;
+	private String memberRole;
 	private DiscountGrade memberGrade;
 	private String memberDate;
 	

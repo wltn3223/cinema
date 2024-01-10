@@ -1,4 +1,4 @@
-package com.mire.cinema.repository.mapper;
+package com.mire.cinema.repository;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import com.mire.cinema.domain.member.Member;
 public interface MemberMapper {
    
 	void insertMember(Member member);
-    Member selectMember(String id);
+    Member selectMember(String memberId);
 
     List<Member> getMemberList();
     void deleteMember(String id);

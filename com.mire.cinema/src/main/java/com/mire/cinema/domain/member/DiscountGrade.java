@@ -1,4 +1,4 @@
-package com.mire.cinema.domain;
+package com.mire.cinema.domain.member;
 
 import lombok.Getter;
 

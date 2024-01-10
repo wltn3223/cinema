@@ -20,7 +20,7 @@
 <body>
     <!-- 헤더 -->
     <header>
-       <%@ include file="header.jsp" %>
+       <%@ include file="./WEB-INF/header.jsp" %>
     </header>
     <!-- 메인 -->
     <main class="container" id="main">
@@ -28,7 +28,7 @@
     </main>
     <!-- 푸터-->
     <footer class="container">
-       <%@ include file="footer.jsp"%>
+       <%@ include file="./WEB-INF/footer.jsp"%>
     </footer>
 </body>
 

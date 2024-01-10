@@ -14,7 +14,7 @@
 
 <body>
 	<header>
-		<%@ include file="../../header.jsp"%>
+		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
 
 	<div class="container mt-5">
@@ -64,7 +64,7 @@
 		</div>
 	</div>
 	<footer class="text-dark">
-		<%@ include file="../../footer.jsp"%>
+		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
 

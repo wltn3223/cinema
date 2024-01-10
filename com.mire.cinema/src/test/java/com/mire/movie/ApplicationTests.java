@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.mire.cinema.Application;
 import com.mire.cinema.domain.member.Member;
-import com.mire.cinema.repository.mapper.MemberMapper;
+import com.mire.cinema.repository.MemberMapper;
 
 import lombok.extern.java.Log;
 
