@@ -91,6 +91,8 @@ function updateInfo() {
        
         console.log("Update successful:", response);
         alert(response);
+        location.href = "/member/memberInfo.jsp";
+        alert(response);
       },
       error: function (error) {
     	  var errorMessage = error.responseText;

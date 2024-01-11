@@ -36,7 +36,6 @@
 							</a>
 							<ul class="dropdown-menu text-small"
 								aria-labelledby="dropdownUser1">
-								<li><a class="dropdown-item" href="#">회원 정보 수정</a></li>
 								<li><a class="dropdown-item" href="../member/memberInfo.jsp">회원 정보 조회</a></li>
 								<li>
 									<hr class="dropdown-divider">

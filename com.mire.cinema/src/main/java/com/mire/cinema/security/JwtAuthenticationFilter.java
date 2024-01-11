@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
 	}
 
 	private String resolveToken(HttpServletRequest request) {
-		// Try to retrieve the token from the "accessToken" cookie
+		
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
 			}
 		}
 
-		// If the token is not found in the cookie, return null
+		
 		return null;
 	}
 

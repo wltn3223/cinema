@@ -1,8 +1,5 @@
 package com.mire.cinema.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,9 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mire.cinema.domain.member.DiscountGrade;
 import com.mire.cinema.domain.member.Member;
-import com.mire.cinema.domain.member.MemberJoinDTO;
-import com.mire.cinema.domain.member.MemberLoginDTO;
-import com.mire.cinema.domain.member.MemberUpdateDTO;
+import com.mire.cinema.domain.member.MemberDTO;
 import com.mire.cinema.domain.member.Role;
 import com.mire.cinema.domain.member.TokenDTO;
 import com.mire.cinema.response.SucessMessage;
@@ -30,6 +25,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +39,7 @@ public class MemberController {
 	    private final MemberService memberService;
 
 	    @PostMapping
-	    public ResponseEntity<String> saveMember(@Valid @RequestBody MemberJoinDTO memberDTO,BindingResult bindingResult) {
+	    public ResponseEntity<String> saveMember(@Valid @RequestBody MemberDTO.Join memberDTO,BindingResult bindingResult) {
 	        if(bindingResult.hasErrors()) {
 	        	  return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
 	        }
@@ -78,9 +74,9 @@ public class MemberController {
 	    }
 	    
 	    @PostMapping("/login")
-	    public ResponseEntity<String>  checkMember(@Valid @RequestBody MemberLoginDTO memberLoginDTO,  HttpServletResponse response, HttpSession session) {
+	    public ResponseEntity<String>  checkMember(@Valid @RequestBody MemberDTO.Login memberDTO,  HttpServletResponse response, HttpSession session) {
 	    	
-	    	TokenDTO tokenDTO =  memberService.loginMember(memberLoginDTO);
+	    	TokenDTO tokenDTO =  memberService.loginMember(memberDTO);
 	    	
 	        // 토큰을 HttpOnly 쿠키에 저장하여 클라이언트로 전송
 	        Cookie accessTokenCookie = new Cookie("accessToken", tokenDTO.getGrantType() + "_" + tokenDTO.getAccessToken());
@@ -88,7 +84,7 @@ public class MemberController {
 	        accessTokenCookie.setPath("/"); // 쿠키의 유효 경로 설정
 	        response.addCookie(accessTokenCookie);
 	        
-	        session.setAttribute("memberId", memberLoginDTO.getMemberId());
+	        session.setAttribute("memberId", memberDTO.getMemberId());
 	    	session.setMaxInactiveInterval(59);
 	    	
 	    	
@@ -96,7 +92,7 @@ public class MemberController {
 	    }
 
 	    @PutMapping
-	    public ResponseEntity<String> modifyMember(@RequestBody MemberUpdateDTO dto) {
+	    public ResponseEntity<String> modifyMember(@RequestBody MemberDTO.Update dto) {
 	        
 	    	memberService.modifyMember(dto);
 	        return new ResponseEntity<>(SucessMessage.UPDATE,  SucessMessage.statusOK);
@@ -109,13 +105,19 @@ public class MemberController {
 	    }
 	    
 	    
-	    // 페이지를 내려줌
+	   
 	    @GetMapping("/info/{memberId}")
-	    public ModelAndView findMemberInfo(@PathVariable String memberId) {
-	        Member foundMember = memberService.findMember(memberId);
-	        ModelAndView mv = new ModelAndView("memberInfo");
-	        mv.addObject("member",foundMember);
-	        return mv;
+	    public  ResponseEntity<MemberDTO.Info> findMemberInfo(@PathVariable String memberId) {
+	        Member info = memberService.findMember(memberId);
+	       MemberDTO.Info member = MemberDTO.Info.builder()
+	    		   .memberId(info.getMemberId())
+	    		   .memberName(info.getMemberName())
+	    		   .memberEmail(info.getMemberEmail())
+	    		   .memberPhone(info.getMemberPhone())
+	    		   .memberGrade(info.getMemberGrade())
+	    		   .memberDate(info.getMemberDate()).build();
+	        
+	        return  new ResponseEntity<>(member,  SucessMessage.statusOK);
 	    
 	    }
 	    // 페이지를 내려줌
