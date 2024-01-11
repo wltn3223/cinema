@@ -17,7 +17,7 @@
 				<div class="col-4 pt-1"></div>
 				<div class="col-4 text-center">
 					<a class="blog-header-logo text-body-emphasis text-decoration-none text-dark"
-						href="#"><h2>MIRE MOVIE</h2></a>
+						href="/"><h2>MIRE MOVIE</h2></a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
 					<c:if test="${memberId eq null}">
@@ -32,12 +32,14 @@
 								class="dropdown text-end d-flex align-items: center; link-dark text-decoration-none"
 								id="dropdownUser1" data-bs-toggle="dropdown"
 								aria-expanded="false">
-								<p style="margin: auto;" class="text-dark">${memberId}님 환영합니다.</p>
+								<p style="margin: auto;" class="text-dark">${memberId}님
+									환영합니다.</p>
 							</a>
 							<ul class="dropdown-menu text-small"
 								aria-labelledby="dropdownUser1">
 								<li><a class="dropdown-item" href="#">회원 정보 수정</a></li>
-								<li><a class="dropdown-item" href="../member/memberInfo.jsp">회원 정보 조회</a></li>
+								<li><a class="dropdown-item"
+									href="../member/memberInfo.jsp">회원 정보 조회</a></li>
 								<li>
 									<hr class="dropdown-divider">
 								</li>
@@ -52,36 +54,37 @@
 	</div>
 	<div class="nav-scroller py-1 mb-3 border-bottom border-top bg-dark">
 		<nav class="nav nav-underline justify-content-center">
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">영화</a>
+			<li class="nav-item dropdown"><a class="nav-link text-light"
+				href="#" role="button" data-bs-toggle="dropdown">영화</a>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="#">전체영화</a></li>
 					<li><a class="dropdown-item" href="#">큐레이션</a></li>
 					<li><a class="dropdown-item" href="#">무비포스트</a></li>
 				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">예매</a>
+			<li class="nav-item dropdown"><a class="nav-link text-light"
+				href="#" role="button" data-bs-toggle="dropdown">예매</a>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="#">영화예매</a></li>
 					<li><a class="dropdown-item" href="#">영화예매내역</a></li>
 					<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">상품</a>
+			<li class="nav-item dropdown" ><a class="nav-link text-light"
+				href="/itemgiftcard/itemlist.jsp" role="button"
+				data-bs-toggle="dropdown">상품</a>
+
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">상품목록</a></li>
-					<li><a class="dropdown-item" href="#">상품</a></li>
-					<li><a class="dropdown-item" href="#">상품</a></li>
+					<li><a class="dropdown-item" href="/itemgiftcard/itemlist.jsp">상품목록</a></li>
+
 				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">공지사항</a>
+			<li class="nav-item dropdown"><a class="nav-link text-light"
+				href="#" role="button" data-bs-toggle="dropdown">공지사항</a>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="#">이벤트</a></li>
 					<li><a class="dropdown-item" href="#">이벤트</a></li>
 					<li><a class="dropdown-item" href="#">이벤트</a></li>
 				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">고객센터 </a>
+			<li class="nav-item dropdown"><a class="nav-link text-light"
+				href="#" role="button" data-bs-toggle="dropdown">고객센터 </a>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="#">문의내역등록</a></li>
 					<li><a class="dropdown-item" href="#">문의내역조회</a></li>
@@ -92,8 +95,6 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-	
-	
 	function logout() {
 
 		$.ajax({
