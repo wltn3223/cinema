@@ -74,7 +74,6 @@ public class MemberController {
 	    @PostMapping("/logout")
 	    public ResponseEntity<Void> logout(HttpSession session) {
 	        session.invalidate();
-	        HomeController.isLogin = false;
 	        return new ResponseEntity<>(SucessMessage.statusOK);
 	    }
 	    
