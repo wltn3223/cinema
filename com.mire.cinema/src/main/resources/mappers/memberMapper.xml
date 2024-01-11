@@ -18,10 +18,9 @@
 		delete from member where member_id = #{memberId}
 	</delete>
 
-	<update id="updateMember">
+	<update id="updateMember" parameterType="com.mire.cinema.domain.member.MemberDTO$Update">
 		update member set
-		member_email = #{memberEmail},
-		member_phone = #{memberPhone}
+		member_passwd = #{memberEditPasswd}
 		where member_id = #{memberId}
 	</update>
 

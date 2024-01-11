@@ -20,43 +20,48 @@
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
-				<h1 class="text-center mb-4">내 정보</h1>
+
+
+				<h1 class="text-center mb-4">정보 수정</h1>
 				<form>
 					<div class="form-group">
 						<label for="memberId">아이디</label> <input type="text"
-							class="form-control" id="memberId" readonly="readonly"
-							value="${memberId}">
+							class="form-control" id="memberId" readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberName">이름</label> <input type="text"
-							class="form-control" id="memberName" readonly="readonly"
-							value="${member.memberName}">
+							class="form-control" id="memberName" readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberEmail">이메일</label> <input type="email"
-							class="form-control" id="memberEmail" readonly="readonly"
-							value="${member.memberEmail}">
+							class="form-control" id="memberEmail" readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberPhone">전화번호</label> <input type="tel"
-							class="form-control" id="memberPhone" readonly="readonly"
-							value="${member.memberPhone}">
+							class="form-control" id="memberPhone" readonly="readonly">
 					</div>
 					<div class="form-group">
-						<label for="memberPhone">가입일</label> <input type="tel"
-							class="form-control" id="memberPhone" readonly="readonly"
-							value="${member.memberDate}">
+						<label for="memberGrade">회원등급</label> <input type="tel"
+							class="form-control" id="memberGrade" readonly="readonly">
+					</div>
+					<div class="form-group">
+						<label for="memberDate">가입일</label> <input type="tel"
+							class="form-control" id="memberDate" readonly="readonly">
+
 					</div>
 					<div class="d-flex justify-content-center">
 						<div class="text-center">
 							<button class="btn btn-light bg-dark" type="button">
-								<a href="/member/editForm/${member.memberId}" class="text-light">정보수정</a>
+
+
+								<a href="/member/memberEditForm.jsp" class="text-light">비밀번호변경</a>
 							</button>
 						</div>
 						<div class="text-center">
-							<a href="/index.jsp"><button class="btn btn-light bg-dark text-light" type="button">
-								홈으로
-							</button></a>
+							<a href="/index.jsp"><button
+									class="btn btn-light bg-dark text-light" type="button">
+									홈으로</button></a>
+
 						</div>
 					</div>
 				</form>
@@ -77,4 +82,38 @@
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+		// document가 준비되었을 때 실행할 코드
+		// getInfo 함수 호출
+		getInfo();
+	});
+	function getInfo() {
+		let memberId = '${memberId}';
+		
+		$.ajax({
+			type: "get",
+			url: "/member/info/" + memberId, // 서버에서 정보를 가져오는 URL을 설정
+			contentType: "application/json;charset=UTF-8",
+			success: function(response) {
+				// 서버에서 받아온 정보를 폼에 넣기
+				$('#memberId').val(response.memberId);
+				$('#memberName').val(response.memberName);
+				$('#memberEmail').val(response.memberEmail);
+				$('#memberPhone')
+				.val(response.memberPhone);
+				$('#memberGrade').val(response.memberGrade);
+				$('#memberDate').val(response.memberDate);
+			},
+			error: function(error) {
+				var errorMessage = error.responseText;
+				alert(errorMessage);
+			}
+		});
+	}
+
+</script>
+
+
 </html>
