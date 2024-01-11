@@ -1,18 +1,13 @@
 package com.mire.movie;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.junit.jupiter.api.Test;
-import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.mire.cinema.Application;
-import com.mire.cinema.domain.member.Member;
-import com.mire.cinema.repository.MemberMapper;
+import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
+import com.mire.cinema.repository.ItemGiftCardMapper;
 
 import lombok.extern.java.Log;
 
@@ -20,18 +15,13 @@ import lombok.extern.java.Log;
 @SpringBootTest
 @ContextConfiguration(classes = Application.class)
 class ApplicationTests {
-
 	@Autowired
-	MemberMapper memberMapper;
-	
-	
+	ItemGiftCardMapper itemGiftCardMapper;
 
-	@Test
-	void contextLoads() {
-		Member member = memberMapper.selectMember("wltn3223");
-		System.out.println(member.getMemberName());
-		
-			
-	}
-
+	 @Test
+	    void testSelectItemGiftCard() {
+	       
+	        ItemGiftCard selectedGiftCard = itemGiftCardMapper.selectItemGiftCard("test1");
+	        log.info("Selected Item: " + selectedGiftCard);
+	    }
 }

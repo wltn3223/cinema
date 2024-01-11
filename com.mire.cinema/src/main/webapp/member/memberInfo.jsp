@@ -20,6 +20,8 @@
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
+
+
 				<h1 class="text-center mb-4">정보 수정</h1>
 				<form>
 					<div class="form-group">
@@ -45,10 +47,13 @@
 					<div class="form-group">
 						<label for="memberDate">가입일</label> <input type="tel"
 							class="form-control" id="memberDate" readonly="readonly">
+
 					</div>
 					<div class="d-flex justify-content-center">
 						<div class="text-center">
 							<button class="btn btn-light bg-dark" type="button">
+
+
 								<a href="/member/memberEditForm.jsp" class="text-light">비밀번호변경</a>
 							</button>
 						</div>
@@ -56,6 +61,7 @@
 							<a href="/index.jsp"><button
 									class="btn btn-light bg-dark text-light" type="button">
 									홈으로</button></a>
+
 						</div>
 					</div>
 				</form>
@@ -76,6 +82,7 @@
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
 	$(document).ready(function() {
 		// document가 준비되었을 때 실행할 코드
@@ -107,5 +114,6 @@
 	}
 
 </script>
+
 
 </html>
