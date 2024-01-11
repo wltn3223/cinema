@@ -70,7 +70,36 @@
 
 
 </body>
-
+<script>
+   $(document).ready(function() {
+      // document가 준비되었을 때 실행할 코드
+      // getInfo 함수 호출
+      getInfo();
+   });
+   function getInfo() {
+      let memberId = '${memberId}';
+      
+      $.ajax({
+         type: "get",
+         url: "/member/info/" + memberId, // 서버에서 정보를 가져오는 URL을 설정
+         contentType: "application/json;charset=UTF-8",
+         success: function(response) {
+            // 서버에서 받아온 정보를 폼에 넣기
+            $('#memberId').val(response.memberId);
+            $('#memberName').val(response.memberName);
+            $('#memberEmail').val(response.memberEmail);
+            $('#memberPhone')
+            .val(response.memberPhone);
+            $('#memberGrade').val(response.memberGrade);
+            $('#memberDate').val(response.memberDate);
+         },
+         error: function(error) {
+            var errorMessage = error.responseText;
+            alert(errorMessage);
+         }
+      });
+   }
+   </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script

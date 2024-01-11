@@ -62,7 +62,7 @@
 			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
 				role="button" data-bs-toggle="dropdown">예매</a>
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">영화예매</a></li>
+					<li><a class="dropdown-item" href="/cinema/list.jsp">영화예매</a></li>
 					<li><a class="dropdown-item" href="#">영화예매내역</a></li>
 					<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 				</ul></li> &nbsp;&nbsp;&nbsp;
