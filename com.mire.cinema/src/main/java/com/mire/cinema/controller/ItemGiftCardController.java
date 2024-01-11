@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
-import com.mire.cinema.response.SucessMessage;
+import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.ItemGiftCardService;
 
 import jakarta.validation.Valid;
@@ -71,7 +71,7 @@ public class ItemGiftCardController {
 	@GetMapping("/list")
 	public ResponseEntity<List<ItemGiftCard>> itemGiftCardList() {
 	    List<ItemGiftCard> itemList = itemGiftCardService.selectAllItemGiftCard();
-	    return new ResponseEntity<>(itemList, SucessMessage.statusOK);
+	    return new ResponseEntity<>(itemList, SucessMsg.statusOK);
 	}
 
    

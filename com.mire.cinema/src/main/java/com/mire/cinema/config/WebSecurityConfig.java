@@ -2,6 +2,7 @@ package com.mire.cinema.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,13 +32,23 @@ public class WebSecurityConfig {
         .csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
-        .authorizeRequests()
-        .requestMatchers("/member/memberInfo.jsp").hasRole("USER")
-        .requestMatchers("/member/info/*").hasRole("USER")
-        .requestMatchers("/member/memberEditFrom.jsp").hasRole("USER")
-        .anyRequest().permitAll()
+        .formLogin().loginPage("/login.html")
         .and()
-        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+        .authorizeRequests(authorizeRequests -> {
+        	authorizeRequests
+        	.requestMatchers("/index.jsp").permitAll()
+        	.requestMatchers("/login.html").permitAll()
+        	.requestMatchers("/WEB-INF/header.jsp").permitAll()
+        	.requestMatchers("/WEB-INF/footer.jsp").permitAll()
+        	.requestMatchers("/member/login").permitAll()
+        	.requestMatchers("/join.html").permitAll()
+        	.requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
+        	.requestMatchers(HttpMethod.POST,"/member").permitAll()
+        	.anyRequest().authenticated();
+        	
+        })
+		 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+//		   .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 		
 		
 		return http.build();
