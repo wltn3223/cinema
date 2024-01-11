@@ -45,12 +45,8 @@ public class MemberDTO {
 		private String memberId;
 		@NotBlank(message = "비밀번호를 입력하세요")
 		private String memberPasswd;
-		@NotBlank(message = "회원이름을 입력하세요")
-		private String memberName;
-		@NotBlank(message = "이메일을 입력하세요")
-		private String memberEmail;
-		@NotBlank(message = "휴대폰 번호를 입력하세요")
-		private String memberPhone;
+		@NotBlank(message = "변경할 비밀번호를 입력하세요")
+		private String memberEditPasswd;
 	}
 	@Builder
 	@Data

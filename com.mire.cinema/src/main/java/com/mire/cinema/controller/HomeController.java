@@ -61,7 +61,7 @@ public class HomeController {
 			
 			HttpSession session =   request.getSession();
 			session.setAttribute("memberId", authentication.getName());
-			session.setMaxInactiveInterval(checkTime(jwtTokenProvider.expirationDate()) - 1);
+			session.setMaxInactiveInterval(checkTime(jwtTokenProvider.expirationDate()) - 60);
 			
 			System.out.println(session.getMaxInactiveInterval());
 		}
@@ -70,7 +70,7 @@ public class HomeController {
 	public int checkTime(Date Date) {
 		Date now = new Date();
 		
-		int restTime = (int)((Date.getTime() -  now.getTime())/60000);
+		int restTime = (int)((Date.getTime() -  now.getTime())/1000);
 		
 		return restTime;
 	}

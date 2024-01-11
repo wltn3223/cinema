@@ -85,7 +85,7 @@ public class MemberController {
 	        response.addCookie(accessTokenCookie);
 	        
 	        session.setAttribute("memberId", memberDTO.getMemberId());
-	    	session.setMaxInactiveInterval(59);
+	    	session.setMaxInactiveInterval(59*30);
 	    	
 	    	
 	    	return new ResponseEntity<>(SucessMessage.LOGIN,  SucessMessage.statusOK);
@@ -93,7 +93,7 @@ public class MemberController {
 
 	    @PutMapping
 	    public ResponseEntity<String> modifyMember(@RequestBody MemberDTO.Update dto) {
-	        
+	        log.info(dto.toString());
 	    	memberService.modifyMember(dto);
 	        return new ResponseEntity<>(SucessMessage.UPDATE,  SucessMessage.statusOK);
 	    }

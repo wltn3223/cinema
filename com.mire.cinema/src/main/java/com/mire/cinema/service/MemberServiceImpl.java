@@ -1,5 +1,6 @@
 package com.mire.cinema.service;
 
+import org.apache.ibatis.javassist.runtime.DotClass;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -44,19 +45,13 @@ public class MemberServiceImpl implements MemberService {
 	public void modifyMember(MemberDTO.Update dto) {
 		Member member = memberMapper.selectMember(dto.getMemberId());
 		if (member == null || !member.getMemberPasswd().equals(dto.getMemberPasswd())) {
-			new IllegalArgumentException("아이디와 비밀번호가 일치하지 않습니다.");
-			return;
+			throw new IllegalArgumentException("회원님의 비밀번호 정보가 일치하지 않습니다.");
 
 		}
 
-		if (dto.getMemberEmail() == null) {
-			dto.setMemberEmail(member.getMemberEmail());
-		}
-		if (dto.getMemberPhone() == null) {
-			dto.setMemberPhone(member.getMemberPhone());
-		}
+		
 
-		memberMapper.updateMember(member);
+		memberMapper.updateMember(dto);
 
 	}
 

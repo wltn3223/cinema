@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.mire.cinema.domain.member.Member;
+import com.mire.cinema.domain.member.MemberDTO;
 
 
 
@@ -20,5 +21,5 @@ public interface MemberMapper {
     List<Member> getMemberList();
     void deleteMember(String id);
 
-    void updateMember(Member member);
+    void updateMember(MemberDTO.Update dto);
 }

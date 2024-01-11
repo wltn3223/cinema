@@ -34,6 +34,7 @@ public class WebSecurityConfig {
         .authorizeRequests()
         .requestMatchers("/member/memberInfo.jsp").hasRole("USER")
         .requestMatchers("/member/info/*").hasRole("USER")
+        .requestMatchers("/member/memberEditFrom.jsp").hasRole("USER")
         .anyRequest().permitAll()
         .and()
         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

@@ -20,7 +20,7 @@
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
-				<h1 class="text-center mb-4">내 정보</h1>
+				<h1 class="text-center mb-4">정보 수정</h1>
 				<form>
 					<div class="form-group">
 						<label for="memberId">아이디</label> <input type="text"
@@ -49,7 +49,7 @@
 					<div class="d-flex justify-content-center">
 						<div class="text-center">
 							<button class="btn btn-light bg-dark" type="button">
-								<a href="/member/editForm/${member.memberId}" class="text-light">정보수정</a>
+								<a href="/member/memberEditForm.jsp" class="text-light">비밀번호변경</a>
 							</button>
 						</div>
 						<div class="text-center">
@@ -94,7 +94,8 @@
 				$('#memberId').val(response.memberId);
 				$('#memberName').val(response.memberName);
 				$('#memberEmail').val(response.memberEmail);
-				$('#memberPhone').val(response.memberPhone);
+				$('#memberPhone')
+				.val(response.memberPhone);
 				$('#memberGrade').val(response.memberGrade);
 				$('#memberDate').val(response.memberDate);
 			},
