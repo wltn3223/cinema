@@ -29,9 +29,10 @@
 					<div class="form-group">
 						<label for="itemType">상품분류</label> <select class="form-control"
 							id="itemType" required>
-							<option value="식품">식품</option>
+							<option value="팝콘">팝콘</option>
 							<option value="음료">음료</option>
-							<option value="셋트">셋트</option>
+							<option value="굿즈">굿즈</option>
+							<option value="세트">세트</option>
 							<option value="기타">기타</option>
 						</select>
 					</div>
