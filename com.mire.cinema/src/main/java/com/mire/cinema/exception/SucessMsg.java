@@ -1,8 +1,8 @@
-package com.mire.cinema.response;
+package com.mire.cinema.exception;
 
 import org.springframework.http.HttpStatus;
 
-public interface SucessMessage {
+public interface SucessMsg {
 	 String LOGIN= "로그인 성공";
 	    String INSERT= "등록 성공";
 	    String SELECT= "조회 성공";
