@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.NoticeMapper">
+
+	<!-- 보드번호 보드제목 보드내용 -->
+	<insert id="insertNotice">
+		insert into
+		board(board_no,board_title,board_content,board_type)
+		values
+		(board_no_seq.nextval,#{boardTitle},#{boardContent},#{boardType})
+	</insert>
+
+	<!-- 보드리스트 보기 -->
+	<select id="selectNotice" resultType="Notice">
+		SELECT * FROM board
+		ORDER BY
+		board_date DESC
+	</select>
+
+	<!-- 보드번호로 해당 보드정보 보기 -->
+	<select id="getNotice" resultType="Notice">
+		select * from board where
+		board_no = #{boardNo}
+	</select>
+
+	<!-- 보드번호로 제목,내용 업데이트 -->
+	<update id="updateNotice" parameterType="com.mire.cinema.domain.notice.NoticeDTO$NoticeUpdate">
+		update board set board_title = #{boardTitle},board_content=#{boardContent} where board_no = #{boardNo};
+	</update>
+
+	<delete id="deleteNotice">
+		delete from board where board_no = #{boardNo}
+	</delete>
+
+	<!-- 조회수 증가 -->
+	<update id="updateNoticeViews">
+		update board
+		set board_views = board_views + 1
+		where
+		board_no = #{boardNo}
+	</update>
+</mapper>
