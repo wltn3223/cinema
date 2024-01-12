@@ -13,7 +13,7 @@ public class ItemGiftCard {
 	 	private Long itemNo;
 	    private String itemName;
 		private String itemType;
-		private String itemPrice;
+		private Integer itemPrice;
 		private String itemSize;
 		private String itemInfo;
 		
