@@ -70,7 +70,11 @@
 					<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 				</ul></li> &nbsp;&nbsp;&nbsp;
 			<li class="nav-item dropdown" ><a class="nav-link text-light"
-				href="/itemgiftcard/itemlist.jsp" role="button">상품</a>
+				href="/itemgiftcard/itemlist.jsp" role="button"
+				data-bs-toggle="dropdown">상품</a>
+
+				<ul class="dropdown-menu">
+					<li><a class="dropdown-item" href="/itemgiftcard/itemlist.jsp">상품목록</a></li>
 
 				</ul></li> &nbsp;&nbsp;&nbsp;
 			<li class="nav-item dropdown"><a class="nav-link text-light"
