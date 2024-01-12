@@ -78,15 +78,13 @@
 			contentType: "application/json",
 			data: JSON.stringify(memberData),
 			success: function (data) {
-				alert(data.message);
-				localStorage.setItem('memberId',data.memberId);
+				alert(data);
 				location.href = "/index.jsp";
 			},
 			error: function (error) {
-				// 에러가 발생했을 때의 처리
-				var result = error.responseText;
-				console.log(result);
-			}
+		        // 서버에서의 오류 처리
+		       alert(error.responseText);
+		    }
 
 		});
 

@@ -12,6 +12,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -44,7 +45,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
 	}
 
 	private String resolveToken(HttpServletRequest request) {
-		// Try to retrieve the token from the "accessToken" cookie
+		
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -57,8 +58,14 @@ public class JwtAuthenticationFilter extends GenericFilter {
 			}
 		}
 
-		// If the token is not found in the cookie, return null
+		
 		return null;
 	}
-
+	
+	private void redirectLoginPage(ServletRequest request, ServletResponse response) throws IOException {
+        String loginPageUrl = "/login.html";
+       ((HttpServletResponse)response).sendRedirect(loginPageUrl);
+    }
 }
+
+

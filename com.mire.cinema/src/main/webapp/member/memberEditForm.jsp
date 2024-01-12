@@ -20,7 +20,7 @@
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
-				<h1 class="text-center mb-4">정보 수정</h1>
+				<h1 class="text-center mb-4">비밀번호 변경</h1>
 				<form>
 					<div class="form-group">
 						<label for="memberId">아이디</label> <input type="text"
@@ -29,21 +29,24 @@
 					</div>
 					
 					<div class="form-group">
-						<label for="memberPasswd">비밀번호</label> <input type="email"
+						<label for="memberPasswd">기존 비밀번호 입력</label> <input type="email"
 							class="form-control" id="memberPasswd">
 					</div>
 					
 					<div class="form-group">
-						<label for="memberEmail">이메일</label> <input type="email"
-							class="form-control" id="memberEmail">
+						<label for="memberEditPasswd">변경할 비밀번호 입력</label> <input type="email"
+							class="form-control" id="memberEditPasswd">
 					</div>
+					
 					<div class="form-group">
-						<label for="memberPhone">전화번호</label> <input type="tel"
-							class="form-control" id="memberPhone">
+						<label for="memberEditPasswd1">변경할 비밀번호 입력 확인</label> <input type="email"
+							class="form-control" id="memberEditPasswd1">
 					</div>
+					
+	
 					<div class="d-flex justify-content-center">
 						<div class="text-center">
-							<button class="btn btn-light bg-dark text-light" type="button" onclick="updateInfo()">
+							<button class="btn btn-light bg-dark text-light" type="button" onclick="checkPassword()">
 								수정하기
 							</button>
 						</div>
@@ -66,19 +69,33 @@
 </body>
 
 <script type="text/javascript">
+function checkPassword(){
+	var passwd = $("#memberEditPasswd").val();
+    var passwd1 = $("#memberEditPasswd1").val();
+	
+    if(passwd === passwd1){
+    	 updateInfo()
+	}
+    else {
+		alert("변경할 비밀번호와 비밀번호 확인이 일치하지않습니다. 다시 시도해 주세요.")
+	}
+	
+}
+
+
+
 function updateInfo() {
     // Get values from the input fields
     var memberId = $("#memberId").val();
     var memberPasswd = $("#memberPasswd").val();
-    var memberEmail = $("#memberEmail").val();
-    var memberPhone = $("#memberPhone").val();
-
+    var memberEditPasswd = $("#memberEditPasswd").val();
+ 
+   
     // Create data object to be sent in the request
     var data = {
-      memberId: memberId,
+    	memberId: memberId,
       memberPasswd: memberPasswd,
-      memberEmail: memberEmail,
-      memberPhone: memberPhone
+      memberEditPasswd: memberEditPasswd,
     };
 
 
@@ -88,9 +105,8 @@ function updateInfo() {
       contentType: "application/json;charset=UTF-8",
       data: JSON.stringify(data),
       success: function (response) {
-       
-        console.log("Update successful:", response);
         alert(response);
+        location.href = "/member/memberInfo.jsp";
       },
       error: function (error) {
     	  var errorMessage = error.responseText;

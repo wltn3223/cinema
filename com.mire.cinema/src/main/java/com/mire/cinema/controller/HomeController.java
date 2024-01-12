@@ -19,17 +19,14 @@ import lombok.extern.java.Log;
 @Controller
 public class HomeController {
 	
-	static boolean isLogin = false;
+	
 	private final JwtTokenProvider jwtTokenProvider;
 	
 	@RequestMapping("/")
 	public String home(HttpServletRequest request) {
 		
-		if(isLogin == false) {
-		
 			CheckedLogin(request);
-		}
-
+	
 		return "redirect:/index.jsp";// template> home.html 으로 보내줌
 	}
 	
@@ -38,7 +35,6 @@ public class HomeController {
 	
 	
 	public void CheckedLogin(HttpServletRequest request) {
-		isLogin = true;
 		
 		
 		String token = null;
@@ -61,7 +57,7 @@ public class HomeController {
 			
 			HttpSession session =   request.getSession();
 			session.setAttribute("memberId", authentication.getName());
-			session.setMaxInactiveInterval(checkTime(jwtTokenProvider.expirationDate()) - 1);
+			session.setMaxInactiveInterval(checkTime(jwtTokenProvider.expirationDate()) - 60);
 			
 			System.out.println(session.getMaxInactiveInterval());
 		}
@@ -70,7 +66,7 @@ public class HomeController {
 	public int checkTime(Date Date) {
 		Date now = new Date();
 		
-		int restTime = (int)((Date.getTime() -  now.getTime())/60000);
+		int restTime = (int)((Date.getTime() -  now.getTime())/1000);
 		
 		return restTime;
 	}

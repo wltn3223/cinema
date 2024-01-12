@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.ItemGiftCardMapper">
+
+	<insert id="insertItemGiftCard">
+		insert into itemgiftcard(item_no, item_name, item_type, item_price, item_size, item_info) values (item_no_seq.nextval, #{itemName}, #{itemType}, #{itemPrice}, #{itemSize}, #{itemInfo})
+	</insert>
+
+	<select id="selectItemGiftCard" resultType="ItemGiftCard">
+		select * from
+		itemgiftcard where item_name = #{itemName}
+
+	</select>
+
+	<select id="selectAllItemGiftCard" resultType="ItemGiftCard">
+		select * from itemgiftcard
+	</select>
+
+	<delete id="deleteItemGiftCard">
+		delete from itemgiftcard where item_name =
+		#{itemName}
+	</delete>
+
+	<update id="updateItemGiftCard">
+		update itemgiftcard set item_type = #{itemType},item_price = #{itemPrice},item_size = #{itemSize},item_info = #{itemInfo} where	item_name = #{itemName}
+	</update>
+
+
+
+</mapper>
