@@ -36,45 +36,44 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        // 영화관 목록 가져오기
-        $.ajax({
-            url: "/cinema/list", // 영화관 목록을 가져올 서버의 URL
-            type: "GET",
-            dataType: "json",
-            success: function (data) {
-                // 영화관 목록 출력
-                var tbody = $("#cinema-list tbody");
-                tbody.empty();
+$(document).ready(function () {
+    // 영화관 목록 가져오기
+    $.ajax({
+        url: "/cinema/list", // 영화관 목록을 가져올 서버의 URL
+        type: "GET",
+        dataType: "json", // 추가: 서버에서 받아오는 데이터 타입을 명시
+        success: function (data) {
+        	var tbody = $("#cinema-list tbody");
+            if (data.length === 0) {
+                tbody.append("<tr><td colspan='6'>게시글이 없습니다.</td></tr>");
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    var cinema = data[i];
+                    // Add a click event to each row
+                    var row = $("<tr>")
+                        .append("<td>" + cinema.cinemaNo + "</td>")
+                        .append("<td>" + cinema.cinemaName + "</td>")
+                        .append("<td>" + cinema.cinemaIntro + "</td>")
+                        .append("<td>" + cinema.cinemaTotalScreen + "</td>")
+                        .append("<td>" + cinema.cinemaPhone + "</td>")
+                        .append("<td>" + cinema.cinemaLocation + "</td>")
+                        .click(function () {
+                            // 수정: 클릭 이벤트 핸들러에서 cinema 매개변수를 사용하지 않도록 수정
+                            sessionStorage.setItem('cinema', JSON.stringify(cinema));
+                            window.location.href = "/cinema/modify.jsp";
+                        });
 
-                if (data.length === 0) {
-                    tbody.append("<tr><td colspan='6'>게시글이 없습니다.</td></tr>");
-                } else {
-                    $.each(data, function (index, cinema) {
-                        // Add a click event to each row
-                        var row = $("<tr>")
-                            .append("<td>" + cinema.cinemaNo + "</td>")
-                            .append("<td>" + cinema.cinemaName + "</td>")
-                            .append("<td>" + cinema.cinemaIntro + "</td>")
-                            .append("<td>" + cinema.cinemaTotalScreen + "</td>")
-                            .append("<td>" + cinema.cinemaPhone + "</td>")
-                            .append("<td>" + cinema.cinemaLocation + "</td>")
-                            .click(function () {
-                                // Redirect to read.jsp with the cinema number
-                                window.location.href = "/cinema/modify.jsp?cinemaNo=" + cinema.cinemaNo;
-                            });
-
-                        tbody.append(row);
-                    });
+                    tbody.append(row);
                 }
-            },
-            error: function (xhr, status, error) {
-                // 에러 발생 시 처리
-                console.error("영화관 목록 가져오기 실패:", error);
-                alert("영화관 목록을 가져오는 데 실패했습니다.");
             }
-        });
+        },
+        error: function (xhr, status, error) {
+            // 에러 발생 시 처리
+            console.error("영화관 목록 가져오기 실패:", error);
+            alert("영화관 목록을 가져오는 데 실패했습니다.");
+        }
     });
+});
 </script>
 
 <footer class="container mt-5">
