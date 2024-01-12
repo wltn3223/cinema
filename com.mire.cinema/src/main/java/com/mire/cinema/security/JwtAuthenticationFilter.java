@@ -12,6 +12,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -60,5 +61,11 @@ public class JwtAuthenticationFilter extends GenericFilter {
 		
 		return null;
 	}
-
+	
+	private void redirectLoginPage(ServletRequest request, ServletResponse response) throws IOException {
+        String loginPageUrl = "/login.html";
+       ((HttpServletResponse)response).sendRedirect(loginPageUrl);
+    }
 }
+
+

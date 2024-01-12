@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 
 
+
+
 @Repository
 @Mapper
 public interface ItemGiftCardMapper {

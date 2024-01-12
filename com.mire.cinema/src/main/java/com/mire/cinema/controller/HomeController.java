@@ -19,17 +19,14 @@ import lombok.extern.java.Log;
 @Controller
 public class HomeController {
 	
-	static boolean isLogin = false;
+	
 	private final JwtTokenProvider jwtTokenProvider;
 	
 	@RequestMapping("/")
 	public String home(HttpServletRequest request) {
 		
-		if(isLogin == false) {
-		
 			CheckedLogin(request);
-		}
-
+	
 		return "redirect:/index.jsp";// template> home.html 으로 보내줌
 	}
 	
@@ -38,7 +35,6 @@ public class HomeController {
 	
 	
 	public void CheckedLogin(HttpServletRequest request) {
-		isLogin = true;
 		
 		
 		String token = null;

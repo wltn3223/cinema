@@ -1,5 +1,7 @@
 package com.mire.cinema.controller;
 
+import java.util.Arrays;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,10 +20,12 @@ import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.member.MemberDTO;
 import com.mire.cinema.domain.member.Role;
 import com.mire.cinema.domain.member.TokenDTO;
-import com.mire.cinema.response.SucessMessage;
+import com.mire.cinema.exception.ErrorMsg;
+import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.MemberService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -29,105 +33,105 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
+
+	private final MemberService memberService;
+
+	@PostMapping
+	public ResponseEntity<String> saveMember(@Valid @RequestBody MemberDTO.Join memberDTO,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
+					HttpStatus.BAD_REQUEST);
+		}
+
+		Member member = Member.builder().memberId(memberDTO.getMemberId()).memberPasswd(memberDTO.getMemberPasswd())
+				.memberName(memberDTO.getMemberName()).memberEmail(memberDTO.getMemberEmail())
+				.memberPhone(memberDTO.getMemberPhone()).memberRole(Role.USER).memberGrade(DiscountGrade.SILVER)
+				.build();
+
+		memberService.saveMember(member);
+		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
+	}
+
+	@GetMapping("/{memberId}")
+	public ResponseEntity<String> findMember(@PathVariable String memberId) {
+		Member foundMember = memberService.findMember(memberId);
+
+		if (foundMember == null) {
+			throw new NullPointerException(ErrorMsg.USERNOTFOUND);
+		}
+
+		return new ResponseEntity<>(foundMember.getMemberId(), SucessMsg.statusOK);
+
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<Void> logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		Arrays.asList(request.getCookies()).stream().filter(cookie -> cookie.getName().equals("accessToken"))
+				.findFirst().ifPresent(cookie -> {
+
+					Cookie copyCookie = new Cookie(cookie.getName(), "");
+					copyCookie.setDomain(cookie.getDomain());
+					copyCookie.setPath("/");
+					copyCookie.setMaxAge(1);
+					response.addCookie(copyCookie);
+				});
+
+		session.invalidate();
+		return new ResponseEntity<>(SucessMsg.statusOK);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<String> checkMember(@Valid @RequestBody MemberDTO.Login memberDTO,
+			HttpServletResponse response, HttpSession session) {
+
+		TokenDTO tokenDTO = memberService.loginMember(memberDTO);
+
+		// 토큰을 HttpOnly 쿠키에 저장하여 클라이언트로 전송
+		Cookie accessTokenCookie = new Cookie("accessToken", tokenDTO.getGrantType() + "_" + tokenDTO.getAccessToken());
+		accessTokenCookie.setHttpOnly(true);
+		accessTokenCookie.setPath("/"); // 쿠키의 유효 경로 설정
+		accessTokenCookie.setSecure(true);
+		response.addCookie(accessTokenCookie);
+
+		session.setAttribute("memberId", memberDTO.getMemberId());
+		session.setMaxInactiveInterval(59 * 30);
+
+		return new ResponseEntity<>(SucessMsg.LOGIN, SucessMsg.statusOK);
+	}
+
+	@PutMapping
+	public ResponseEntity<String> modifyMember(@RequestBody MemberDTO.Update dto) {
 	
-	    private final MemberService memberService;
+		memberService.modifyMember(dto);
+		return new ResponseEntity<>(SucessMsg.UPDATE, SucessMsg.statusOK);
+	}
 
-	    @PostMapping
-	    public ResponseEntity<String> saveMember(@Valid @RequestBody MemberDTO.Join memberDTO,BindingResult bindingResult) {
-	        if(bindingResult.hasErrors()) {
-	        	  return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
-	        }
-	        
-	    	
-	    	Member member = Member.builder()
-	        .memberId(memberDTO.getMemberId())
-	        .memberPasswd(memberDTO.getMemberPasswd())
-	        .memberName(memberDTO.getMemberName())
-	        .memberEmail(memberDTO.getMemberEmail())
-	        .memberPhone(memberDTO.getMemberPhone())
-	        .memberRole(Role.USER)
-	        .memberGrade(DiscountGrade.SILVER).build();
+	@DeleteMapping("/{memberId}")
+	public ResponseEntity<String> removeMember(@PathVariable String memberId) {
+		memberService.removeMember(memberId);
+		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
+	}
 
-	    	
-	        memberService.saveMember(member);
-	        return new ResponseEntity<>(SucessMessage.INSERT, SucessMessage.statusOK);
-	    }
+	@GetMapping("/info/{memberId}")
+	public ResponseEntity<MemberDTO.Info> findMemberInfo(@PathVariable String memberId) {
+		Member info = memberService.findMember(memberId);
 
-	    @GetMapping("/{memberId}")
-	    public ResponseEntity<String> findMember(@PathVariable String memberId) {
-	        Member foundMember = memberService.findMember(memberId);
-	        
-	        return ResponseEntity.ok(foundMember.getMemberId());
-	    
-	    }
-	    
-	    @PostMapping("/logout")
-	    public ResponseEntity<Void> logout(HttpSession session) {
-	        session.invalidate();
-	        return new ResponseEntity<>(SucessMessage.statusOK);
-	    }
-	    
-	    @PostMapping("/login")
-	    public ResponseEntity<String>  checkMember(@Valid @RequestBody MemberDTO.Login memberDTO,  HttpServletResponse response, HttpSession session) {
-	    	
-	    	TokenDTO tokenDTO =  memberService.loginMember(memberDTO);
-	    	
-	        // 토큰을 HttpOnly 쿠키에 저장하여 클라이언트로 전송
-	        Cookie accessTokenCookie = new Cookie("accessToken", tokenDTO.getGrantType() + "_" + tokenDTO.getAccessToken());
-	        accessTokenCookie.setHttpOnly(true);
-	        accessTokenCookie.setPath("/"); // 쿠키의 유효 경로 설정
-	        response.addCookie(accessTokenCookie);
-	        
-	        session.setAttribute("memberId", memberDTO.getMemberId());
-	    	session.setMaxInactiveInterval(59*30);
-	    	
-	    	
-	    	return new ResponseEntity<>(SucessMessage.LOGIN,  SucessMessage.statusOK);
-	    }
+		if (info == null) {
+			throw new IllegalArgumentException(ErrorMsg.USERINFO);
+		}
+		MemberDTO.Info member = MemberDTO.Info.builder().memberId(info.getMemberId()).memberName(info.getMemberName())
+				.memberEmail(info.getMemberEmail()).memberPhone(info.getMemberPhone())
+				.memberGrade(info.getMemberGrade()).memberDate(info.getMemberDate()).build();
 
-	    @PutMapping
-	    public ResponseEntity<String> modifyMember(@RequestBody MemberDTO.Update dto) {
-	        log.info(dto.toString());
-	    	memberService.modifyMember(dto);
-	        return new ResponseEntity<>(SucessMessage.UPDATE,  SucessMessage.statusOK);
-	    }
+		return new ResponseEntity<>(member, SucessMsg.statusOK);
 
-	    @DeleteMapping("/{memberId}")
-	    public ResponseEntity<String> removeMember(@PathVariable String memberId) {
-	        memberService.removeMember(memberId);
-	        return new ResponseEntity<>(SucessMessage.DELETE,  SucessMessage.statusOK);
-	    }
-	    
-	    
-	   
-	    @GetMapping("/info/{memberId}")
-	    public  ResponseEntity<MemberDTO.Info> findMemberInfo(@PathVariable String memberId) {
-	        Member info = memberService.findMember(memberId);
-	       MemberDTO.Info member = MemberDTO.Info.builder()
-	    		   .memberId(info.getMemberId())
-	    		   .memberName(info.getMemberName())
-	    		   .memberEmail(info.getMemberEmail())
-	    		   .memberPhone(info.getMemberPhone())
-	    		   .memberGrade(info.getMemberGrade())
-	    		   .memberDate(info.getMemberDate()).build();
-	        
-	        return  new ResponseEntity<>(member,  SucessMessage.statusOK);
-	    
-	    }
-	    // 페이지를 내려줌
-	    @GetMapping("/editForm/{memberId}")
-	    public ModelAndView getEditForm(@PathVariable String memberId) {
-	        ModelAndView mv = new ModelAndView("memberEditForm");
-	        return mv;
-	    
-	    }
-	   
-	
+	}
+
 
 }
