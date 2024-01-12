@@ -60,66 +60,73 @@ p {
 </style>
 </head>
 
-<body >
+<body>
 	<!-- 헤더 -->
 	<header>
 		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
 
 	<!-- itemTab -->
-	<div style="display: flex; justify-content: space-between; align-items: center;" class="container">
-		<div class="tab">
-			<p style="color: black; font-size: 30px;">스토어</p>
-			<a href="/itemgiftcard/iteminsert.jsp">상품등록</a>
-			<ul class="tabnav">
-				<li><a href="#tab01">새로운상품</a></li>
-				<li><a href="#tab02">팝콘/음료/굿즈</a></li>
-				<li><a href="#tab03">포인트몰</a></li>
-			</ul>
-			<div class="tabcontent">
-				<div id="tab01">
-					<a href="#"><img src="/img/item01.PNG" width="1200px"
-						height="400px" style="margin-bottom: 120px; margin-left: 70px;"></a>
-					<a href="#">
-						<p style="font-weight: bold; color: black; text-align: right;">>더보기</p>
-					</a>
-					<div class="item-container">
-						<c:forEach var="item" items="${itemGiftCards}">
-							<a href="#" onclick="loadItemInfo('${item.itemName}')">
-								<div class="item">
-									<img src="${item.image}" alt="${item.itemName} 이미지" width="220"
-										height="220">
-									<p style="color: black; font-weight: bold;">${item.itemName}</p>
-									<p style="color: black; font-size: 13px;">${item.itemInfo}</p>
-									<p style="color: #9d00f7; font-size: 25px; font-weight: 400;">${item.itemPrice}원</p>
-								</div>
-							</a>
-							
-						</c:forEach>
-					</div>
-				</div>
-				<div id="tab02">
-					<div class="item-container">
-						<c:forEach var="item" items="${itemGiftCards}">
-							<a href="#" onclick="loadItemInfo('${item.itemName}')">
-								<div class="item">
-									<img src="${item.image}" alt="${item.itemName} 이미지" width="220"
-										height="220">
-									<p style="color: black; font-weight: bold;">${item.itemName}</p>
-									<p style="color: black; font-size: 13px;">${item.itemInfo}</p>
-									<p style="color: #9d00f7; font-size: 25px; font-weight: 400;">${item.itemPrice}원</p>
-								</div>
-							</a>
-						</c:forEach>
-					</div>
-				</div>
-				<div id="tab03">
-					<br>
-					<h2>등록된 상품이 없습니다.</h2>
-					<br>
-				</div>
-			</div>
-		</div>
+	<div
+		style="display: flex; justify-content: space-between; align-items: center;"
+		class="container">
+		<table>
+			<tbody>
+
+				<tr>
+					<td colspan="2" style="font-weight: 500; font-size: 25px;">패밀리패키지</td>
+				</tr>
+				<tr>
+					<td colspan="2">2d 일반관람권3매 + ㅇㅇ</td>
+				</tr>
+
+				<tr style="border-top: 1px solid black;">
+					<td rowspan="8"><img src="/img/item02.PNG"
+						style="width: 500px; height: 500px; border-right: 1px solid black; margin-right: 30px;"></td>
+				</tr>
+
+				<tr>
+					<td id="hd">사용극장</td>
+					<td>모든 지점</td>
+				</tr>
+				<tr>
+					<td id="hd">유효기간</td>
+
+					<td>구매일로부터 24개월 이내</td>
+				</tr>
+				<tr>
+					<td id="hd">판매수량</td>
+
+					<td>1회 8개 구매가능</td>
+				</tr>
+				<tr>
+					<td id="hd">구매 후 취소&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+					<td>구매일로부터 10일 이내 취소 가능</td>
+				</tr>
+				<tr>
+					<td id="hd">수량/금액</td>
+
+					<td><button id="decreaseBtn">-</button>
+						<span id="quantity" style="color: black;">1</span> 개
+						<button id="increaseBtn">+</button>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+						style="color: black; font-size: 30px; font-weight: 600;"
+						id="totalPrice">43,000원</span></td>
+
+				</tr>
+				<tr>
+					<td id="hd">원산지</td>
+					<td>팝콘: 옥수수(미국산)</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button id="purchaseBtn">구매하기</button>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
 	</div>
 	<!-- itemTab -->
 
