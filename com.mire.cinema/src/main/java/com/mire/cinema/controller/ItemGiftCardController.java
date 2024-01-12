@@ -17,13 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
-<<<<<<< HEAD
-import com.mire.cinema.domain.member.Member;
-import com.mire.cinema.domain.member.MemberDTO;
-import com.mire.cinema.response.SucessMessage;
-=======
 import com.mire.cinema.exception.SucessMsg;
->>>>>>> 41570c327162db5934f61726a7fe5e5f290456c8
 import com.mire.cinema.service.ItemGiftCardService;
 
 import jakarta.validation.Valid;
@@ -92,7 +86,7 @@ public class ItemGiftCardController {
 	            .itemInfo(info.getItemInfo())
 	            .build();
 
-	    return new ResponseEntity<>(item, SucessMessage.statusOK);
+	    return new ResponseEntity<>(item, SucessMsg.statusOK);
 	}
 
 
