@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
+import com.mire.cinema.domain.member.Member;
+import com.mire.cinema.domain.member.MemberDTO;
 import com.mire.cinema.response.SucessMessage;
 import com.mire.cinema.service.ItemGiftCardService;
 
@@ -33,16 +35,16 @@ public class ItemGiftCardController {
 	private final ItemGiftCardService itemGiftCardService;
 
 	@PostMapping()
-	public ResponseEntity<String> saveMember(@Valid @RequestBody ItemGiftCardDTO itemGiftCardDTO,
+	public ResponseEntity<String> saveMember(@Valid @RequestBody ItemGiftCardDTO.Insert insert,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
 					HttpStatus.BAD_REQUEST);
 		}
 
-		ItemGiftCard itemGiftCard = ItemGiftCard.builder().itemName(itemGiftCardDTO.getItemName())
-				.itemType(itemGiftCardDTO.getItemType()).itemPrice(itemGiftCardDTO.getItemPrice())
-				.itemSize(itemGiftCardDTO.getItemSize()).itemInfo(itemGiftCardDTO.getItemInfo()).build();
+		ItemGiftCard itemGiftCard = ItemGiftCard.builder().itemName(insert.getItemName())
+				.itemType(insert.getItemType()).itemPrice(insert.getItemPrice())
+				.itemSize(insert.getItemSize()).itemInfo(insert.getItemInfo()).build();
 
 		itemGiftCardService.saveItemGiftCard(itemGiftCard);
 		
@@ -73,6 +75,22 @@ public class ItemGiftCardController {
 	    List<ItemGiftCard> itemList = itemGiftCardService.selectAllItemGiftCard();
 	    return new ResponseEntity<>(itemList, SucessMessage.statusOK);
 	}
+	
+
+	@GetMapping("/info/{itemName}")
+	public ResponseEntity<ItemGiftCardDTO.Info> findItemInfo(@PathVariable String itemName) {
+	    ItemGiftCard info = itemGiftCardService.findItemGiftCard(itemName);
+	    ItemGiftCardDTO.Info item = ItemGiftCardDTO.Info.builder()
+	            .itemName(info.getItemName())
+	            .itemType(info.getItemType())
+	            .itemPrice(info.getItemPrice())
+	            .itemSize(info.getItemSize())
+	            .itemInfo(info.getItemInfo())
+	            .build();
+
+	    return new ResponseEntity<>(item, SucessMessage.statusOK);
+	}
+
 
    
 }
