@@ -43,43 +43,47 @@
 	<div class="nav-scroller py-1 mb-3 border-bottom border-top bg-dark">
 		<nav class="nav nav-underline  container text-center">
 			<ul class="nav container-fluid justify-content-between">
-				<li class="nav-item dropdown mx-2"><a class="nav-link text-light"
-					href="#" role="button" data-bs-toggle="dropdown">영화</a>
+				<li class="nav-item dropdown mx-2"><a
+					class="nav-link text-light" href="#" role="button"
+					data-bs-toggle="dropdown">영화</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#">전체영화</a></li>
 						<li><a class="dropdown-item" href="#">큐레이션</a></li>
 						<li><a class="dropdown-item" href="#">무비포스트</a></li>
 					</ul></li>
-				<li class="nav-item dropdown mx-2"><a class="nav-link text-light"
-					href="#" role="button" data-bs-toggle="dropdown">예매</a>
+				<li class="nav-item dropdown mx-2"><a
+					class="nav-link text-light" href="#" role="button"
+					data-bs-toggle="dropdown">예매</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#">영화예매</a></li>
 						<li><a class="dropdown-item" href="#">영화예매내역</a></li>
 						<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 					</ul></li>
-				<li class="nav-item dropdown mx-2"><a class="nav-link text-light"
-					href="/itemgiftcard/itemlist.jsp" role="button"
-					data-bs-toggle="dropdown">상품</a>
+				<li class="nav-item dropdown mx-2"><a
+					class="nav-link text-light" href="/itemgiftcard/itemlist.jsp"
+					role="button" data-bs-toggle="dropdown">상품</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item"
 							href="/itemgiftcard/itemlist.jsp">상품목록</a></li>
 					</ul></li>
-				<li class="nav-item dropdown mx-2"><a class="nav-link text-light"
+				<li class="nav-item dropdown"><a class="nav-link text-light"
 					href="#" role="button" data-bs-toggle="dropdown">공지사항</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="#">이벤트</a></li>
-						<li><a class="dropdown-item" href="#">이벤트</a></li>
+						<li><a class="dropdown-item" href="/notice/noticelist.jsp">공지사항</a></li>
+						<li><a class="dropdown-item" href="#">공지사항글 작성</a></li>
 						<li><a class="dropdown-item" href="#">이벤트</a></li>
 					</ul></li>
-				<li class="nav-item dropdown mx-2"><a class="nav-link text-light"
-					href="#" role="button" data-bs-toggle="dropdown">고객센터</a>
+				<li class="nav-item dropdown mx-2"><a
+					class="nav-link text-light" href="#" role="button"
+					data-bs-toggle="dropdown">고객센터</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#">문의내역등록</a></li>
 						<li><a class="dropdown-item" href="#">문의내역조회</a></li>
 						<li><a class="dropdown-item" href="#"></a></li>
 					</ul></li>
-				<li class="nav-item dropdown mx-2"><a class="nav-link text-light"
-					href="#" role="button" data-bs-toggle="dropdown">My</a>
+				<li class="nav-item dropdown mx-2"><a
+					class="nav-link text-light" href="#" role="button"
+					data-bs-toggle="dropdown">My</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="../member/memberInfo.jsp">회원
 								정보 조회</a></li>
@@ -99,7 +103,7 @@
 				contentType : "application/json",
 				success : function() {
 					location.href = "/index.jsp";
-			
+
 				},
 				error : function(error) {
 					// 에러가 발생했을 때의 처리
