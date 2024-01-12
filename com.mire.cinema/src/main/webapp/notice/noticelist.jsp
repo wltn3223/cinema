@@ -59,14 +59,12 @@
 		$(document).ready(function() {
 			$.ajax({
 				type : 'GET',
-				url : '/notice/list', // 실제 URL은 서버의 컨트롤러 매핑에 따라 달라질 수 있음
+				url : '/notice/list',
 				contentType : 'application/json',
 				success : function(notices) {
-					// 서버로부터의 응답 처리
 					appendNoticesToTable(notices);
 				},
 				error : function(error) {
-					// 에러 처리
 					var errorMessage = error.responseText;
 					alert(errorMessage);
 				}
@@ -74,9 +72,8 @@
 		});
 
 		function appendNoticesToTable(notices) {
-			// 테이블에 공지사항 목록을 추가하는 로직
 			var tbody = $("table tbody");
-			tbody.empty(); // 기존 데이터 삭제
+			tbody.empty();
 
 			for (var i = 0; i < notices.length; i++) {
 				var notice = notices[i];
@@ -84,33 +81,21 @@
 						+ "<td>"
 						+ notice.boardNo
 						+ "</td>"
-						+ "<td><a href='/notice/"
-						+ notice.boardNo + "'>"
+						+ "<td><a href='#' class='notice-title' data-board-no='" + notice.boardNo + "'>"
 						+ notice.boardTitle + "</a></td>" + "<td>관리자</td>"
 						+ "<td>" + notice.boardViews + "</td>" + "<td>"
 						+ notice.boardDate + "</td>" + "</tr>";
 				tbody.append(row);
 			}
-		}
 
-		// 클릭 시 호출되는 함수로 선택한 아이템의 정보를 가져와서 sessionStorage에 저장
-		function loadItemInfo(notices) {
-			$.ajax({
-				type : 'GET',
-				url : '/notice/info/' + Notice,
-				contentType : 'application/json',
-				success : function(response) {
-					console.log(response);
-					// 선택한 아이템의 정보를 sessionStorage에 저장
-					sessionStorage.setItem('selectedNotice', JSON
-							.stringify(response));
-					// itemEditForm.jsp로 이동
-					location.href = '/notice/itemEditForm.jsp';
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
+		
+			$(".notice-title").on("click", function() {
+				
+				var boardNo = $(this).data("board-no");
+
+				sessionStorage.setItem("BoardNo", boardNo);
+				location.href="/notice/getnotice.jsp";
+
 			});
 		}
 	</script>

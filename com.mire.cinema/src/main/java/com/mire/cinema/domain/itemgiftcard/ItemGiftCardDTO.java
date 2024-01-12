@@ -19,6 +19,7 @@ public class ItemGiftCardDTO {
 		@NotBlank(message = "상품타입을 입력하세요")
 		private String itemType;
 		@NotNull(message = "상품가격을 입력하세요")
+	    @Min(value = 0, message = "상품가격은 0 이상이어야 합니다.")
 		private Integer itemPrice;
 		@NotBlank(message = "상품사이즈를 입력하세요")
 		private String itemSize;

@@ -43,7 +43,11 @@ $(document).ready(function () {
         type: "GET",
         dataType: "json", // 추가: 서버에서 받아오는 데이터 타입을 명시
         success: function (data) {
+<<<<<<< HEAD
            var tbody = $("#cinema-list tbody");
+=======
+        	var tbody = $("#cinema-list tbody");
+>>>>>>> 985f168e80a2518111b8ca4bb5f9de99357bfbe7
             if (data.length === 0) {
                 tbody.append("<tr><td colspan='6'>게시글이 없습니다.</td></tr>");
             } else {

@@ -29,9 +29,10 @@
 					<div class="form-group">
 						<label for="itemType">상품분류</label> <select class="form-control"
 							id="itemType">
-							<option>식품</option>
+							<option>팝콘</option>
 							<option>음료</option>
-							<option>셋트</option>
+							<option>세트</option>
+							<option>굿즈</option>
 							<option>기타</option>
 						</select>
 					</div>
@@ -126,8 +127,8 @@
 					success : function(response) {
 						console.log("수정 성공:", response);
 						alert("상품이 수정되었습니다.");
-						 // 수정 후 로컬 스토리지에서 선택한 상품 정보 삭제
-		                localStorage.removeItem('selectedItem');
+						 // 수정 후 세션 스토리지에서 선택한 상품 정보 삭제
+		                sessionStorage.removeItem('selectedItem');
 						location.href = "/itemgiftcard/itemlist.jsp";
 					},
 					error : function(error) {
@@ -152,8 +153,8 @@
 					success : function(response) {
 						console.log("Delete successful:", response);
 						alert("상품이 삭제되었습니다.");
-						// 삭제 후 로컬 스토리지에서 선택한 상품 정보 삭제
-		                localStorage.removeItem('selectedItem');
+						// 삭제 후 세션 스토리지에서 선택한 상품 정보 삭제
+		                sessionStorage.removeItem('selectedItem');
 						location.href = "/itemgiftcard/itemlist.jsp";
 					},
 					error : function(error) {
@@ -167,16 +168,7 @@
 			}
 		}
 
-		//상품금액 1000자리 단위 , 로 구분
-		document.getElementById('itemPrice').addEventListener('input',
-				function() {
-					var value = this.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-					this.value = addCommas(value); // 쉼표 추가하여 표시
-				});
-
-		function addCommas(number) {
-			return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
+	
 	</script>
 
 	<script
