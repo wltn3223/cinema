@@ -10,7 +10,6 @@ import com.mire.cinema.domain.cinema.Cinema;
 
 public interface CinemaService {
 
-	public Cinema read(Long cinemaNo) throws Exception;
 
 	public void modify(Cinema cinema) throws Exception;
 

@@ -18,10 +18,6 @@ public class CinemaServiceImpl implements CinemaService {
 	private final CinemaMapper cinemaMapper;
 
 
-	@Override
-	public Cinema read(Long cinemaNo) throws Exception {
-		return cinemaMapper.read(cinemaNo);
-	}
 
 	@Override
 	public void modify(Cinema cinema) throws Exception {

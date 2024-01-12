@@ -43,14 +43,6 @@ public class CinemaController {
 		return ResponseEntity.ok("수정이 완료되었습니다.");
 	}
 
-	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void read(@RequestParam("cinemaNo") Long cinemaNo, Model model) throws Exception {
-		model.addAttribute(service.read(cinemaNo));
-	}
 
-	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public void modifyForm(Long cinemaNo, Model model) throws Exception {
-		model.addAttribute(service.read(cinemaNo));
-	}
 
 }
