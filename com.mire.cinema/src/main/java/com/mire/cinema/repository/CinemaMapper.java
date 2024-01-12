@@ -11,7 +11,6 @@ import com.mire.cinema.domain.cinema.Cinema;
 @Mapper
 public interface CinemaMapper {
 
-	public Cinema read(Long cinemaNo) throws Exception;
 
 	public void update(Cinema cinema) throws Exception;
 
