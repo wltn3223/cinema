@@ -1,9 +1,8 @@
 package com.mire.cinema.domain.itemgiftcard;
 
-import com.mire.cinema.domain.member.DiscountGrade;
-import com.mire.cinema.domain.member.MemberDTO;
-
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +18,8 @@ public class ItemGiftCardDTO {
 		private String itemName;
 		@NotBlank(message = "상품타입을 입력하세요")
 		private String itemType;
-		@NotBlank(message = "상품가격 입력하세요")
-		private String itemPrice;
+		@NotNull(message = "상품가격을 입력하세요")
+		private Integer itemPrice;
 		@NotBlank(message = "상품사이즈를 입력하세요")
 		private String itemSize;
 		@NotBlank(message = "상품정보를 입력하세요")
@@ -35,7 +34,7 @@ public class ItemGiftCardDTO {
 	public static class Info {
 		private String itemName;
 		private String itemType;
-		private String itemPrice;
+		private Integer itemPrice;
 		private String itemSize;
 		private String itemInfo;
 		
