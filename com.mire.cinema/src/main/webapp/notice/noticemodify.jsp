@@ -28,15 +28,23 @@
 		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
 	<!-- 메인 -->
-	<main class="container" id="main">
-	
-	</main>
+	<main class="container" id="main"></main>
 	<!-- 푸터-->
 	<footer class="container">
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 </body>
 
-
+<script>
+	$(document).ready(function(){
+		var noticeString = sessionStorage.getItem('notice');
+		var notice = JSON.parse(noticeString);
+			$('#noticeNo').val(notice.boardNo);
+			$('#noticeTitle').val(notice.boardTitle);
+			$('#noticeContent').val(notice.boardContent);
+			$('#notice').val(notice.boardNo);
+			$('#noticeNo').val(notice.boardNo);
+	})
+</script>
 </html>
 
