@@ -56,17 +56,14 @@
 </body>
 <script>
 	$(document).ready(function() {
-		var boardNo = $('#boardNo').val();
-
-		var noticeData = {
-			boardNo : boardNo
-		};
+		
+		// noticelist에 boardNo 를 가져와서 
+		var boardNo = sessionStorage.getItem('BoardNo');
 
 		$.ajax({
 			type : 'GET',
 			url : '/notice/' + boardNo, // 실제 URL은 서버의 컨트롤러 매핑에 따라 달라질 수 있음
 			contentType : 'application/json',
-			data : JSON.stringify(noticeData),
 			success : function(notice) {
 				appendNoticeToTable(notice);
 			},
@@ -90,6 +87,7 @@
 				+ "</td>" + "<td>" + notice.boardDate + "</td>" + "</tr>";
 
 		tbody.append(row);
+
 	}
 </script>
 </html>

@@ -8,8 +8,8 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 	<header>
@@ -56,93 +56,57 @@
 		</form>
 	</div>
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		$(document).ready(
-				function() {
-					// 서버에서 영화관 정보 가져오기
-					// 서버에서 영화관 목록 가져오기
-					$.ajax({
-						url : "/cinema/list",
-						type : "GET",
-						dataType : "json",
-						success : function(data) {
-							// 영화관 목록을 `Cinema` 객체의 배열로 변환
-							var cinemas = data.map(function(item) {
-								return new Cinema(item);
-							});
-
-							// 영화관 목록을 테이블에 출력
-							var table = $("#cinemaTable");
-							table.find("tbody").empty();
-							cinemas.forEach(function(cinema) {
-								var row = $("<tr>");
-								row
-										.append($("<td>" + cinema.cinemaNo
-												+ "</td>"));
-								row.append($("<td>" + cinema.cinemaName
-										+ "</td>"));
-								row.append($("<td>" + cinema.cinemaIntro
-										+ "</td>"));
-								row.append($("<td>" + cinema.cinemaTotalScreen
-										+ "</td>"));
-								row.append($("<td>" + cinema.cinemaPhone
-										+ "</td>"));
-								row.append($("<td>" + cinema.cinemaLocation
-										+ "</td>"));
-								table.find("tbody").append(row);
-							});
-						},
-						error : function(xhr, status, error) {
-							console.error("영화관 목록 가져오기 실패:", error);
-						}
-					});
-
-					// 수정 버튼 클릭 시 폼 편집 모드로 전환
-					$("#btnEdit").on("click", function() {
-						$("input, textarea").prop("readonly", false);
-						$("#btnEdit").hide();
-						$("#btnSave, #btnCancel").show();
-					});
-
-					// 저장 버튼 클릭 시 수정된 정보 서버에 전송
-					$("#btnSave").on("click", function() {
-						var formData = $("#cinemaForm").serialize();
-
-						$.ajax({
-							url : "/cinema/save", // 수정된 정보를 저장할 서버의 URL
-							type : "POST",
-							data : formData,
-							success : function(response) {
-								// 성공적으로 저장되었을 때의 처리
-								console.log("영화관 정보 수정 성공:", response);
-								alert("영화관 정보가 성공적으로 수정되었습니다.");
-
-								// 저장 후 폼을 읽기 전용 모드로 전환
-								$("input, textarea").prop("readonly", true);
-								$("#btnEdit").show();
-								$("#btnSave, #btnCancel").hide();
-							},
-							error : function(xhr, status, error) {
-								// 에러 발생 시 처리
-								console.error("영화관 정보 저장 실패:", error);
-								alert("영화관 정보를 저장하는 데 실패했습니다.");
-							}
-						});
-					});
-
-					// 취소 버튼 클릭 시 폼을 읽기 전용 모드로 전환
-					$("#btnCancel").on("click", function() {
-						$("input, textarea").prop("readonly", true);
-						$("#btnEdit").show();
-						$("#btnSave, #btnCancel").hide();
-					});
-				});
-	</script>
 
 	<footer class="container mt-5">
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 </body>
+<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			var cinemaString = JSON.parse(sessionStorage.getItem('cinema'));
+			var cinema = JSON.String(cinemaString);
+			console.log(cinema);
+
+		})
+
+		$(document).ready(function() {
+			// 페이지 로드 시 sessionStorage에서 선택한 상품 정보를 가져와서 폼에 표시
+			var cinemaString = sessionStorage.getItem('cinema');
+			var cinema = JSON.parse(cinemaString);
+			// JSON 문자열을 객체로 변환한다.
+			$('#cinemaNo').val(cinema.cinemaNo);
+			$('#cinemaName').val(cinema.cinemaName);
+			$('#cinemaIntro').val(cinema.cinemaIntro);
+			$('#cinemaTotalScreen').val(cinema.cinemaTotalScreen);
+			$('#cinemaPhone').val(cinema.cinemaPhone);
+			$('#cinemaTotalScreen').val(cinema.cinemaTotalScreen);
+			$('#cinemaLocation').val(cinema.cinemaLocation);
+			
+			
+
+		});
+		
+		window.addEventListener('beforeunload', function (event) {
+		    // 현재 페이지 URL 확인
+		    var currentURL = window.location.href;
+		    console.log(currentURL);
+
+		    // 특정 조건에 따라 세션 스토리지를 지우기
+		    if (currentURL !== 'http://localhost:8080/cinema/modify.jsp') {
+		        // 세션 스토리지 지우기
+		        sessionStorage.clear();
+		    }
+		});
+	</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</html>
 </html>
