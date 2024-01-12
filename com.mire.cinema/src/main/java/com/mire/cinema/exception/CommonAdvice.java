@@ -16,6 +16,7 @@ public class CommonAdvice {
 	public ResponseEntity<String> IllgalHandler(IllegalArgumentException e){
 		log.info(e.getMessage());
 		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+	
 	}
 	
 	@ExceptionHandler(NullPointerException.class)
@@ -23,4 +24,5 @@ public class CommonAdvice {
 		
 		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 	}
+
 }

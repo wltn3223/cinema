@@ -24,6 +24,7 @@ public class WebSecurityConfig {
 	
 	private final JwtTokenProvider jwtTokenProvider;
 	
+	@SuppressWarnings("deprecation")
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
@@ -36,6 +37,7 @@ public class WebSecurityConfig {
         .and()
         .authorizeRequests(authorizeRequests -> {
         	authorizeRequests
+        	.requestMatchers("/member/memberInfo.jsp").authenticated()
         	.requestMatchers("/index.jsp").permitAll()
         	.requestMatchers("/login.html").permitAll()
         	.requestMatchers("/WEB-INF/header.jsp").permitAll()
@@ -43,8 +45,8 @@ public class WebSecurityConfig {
         	.requestMatchers("/member/login").permitAll()
         	.requestMatchers("/join.html").permitAll()
         	.requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
-        	.requestMatchers(HttpMethod.POST,"/member").permitAll()
-        	.anyRequest().authenticated();
+        	.requestMatchers(HttpMethod.POST,"/member").permitAll();
+
         	
         })
 		 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

@@ -81,18 +81,9 @@
 				alert(data);
 				location.href = "/index.jsp";
 			},
-			error: function (xhr, textStatus, errorThrown) {
+			error: function (error) {
 		        // 서버에서의 오류 처리
-		        if (xhr.status == 400) {
-		            // 예외 상황에 대한 처리
-		            alert("회원 정보가 일치하지 않습니다.");
-		        } else if (xhr.status == 500) {
-		            // 서버 내부 오류에 대한 처리
-		            alert("서버 오류가 발생했습니다.");
-		        } else {
-		            // 기타 오류에 대한 처리
-		            alert("오류가 발생했습니다.");
-		        }
+		       alert(error.responseText);
 		    }
 
 		});
