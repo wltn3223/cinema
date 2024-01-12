@@ -79,8 +79,7 @@ p {
 			</ul>
 			<div class="tabcontent">
 				<div id="tab01">
-					<a href="#"><img src="/itemgiftcard/item01.PNG" width="100%"
-						height="400px" style="margin-bottom: 120px; margin-left: 70px;"></a>
+					<a href="#"><img src="/img/item01.PNG" width="1200px" height="400px" style="margin-bottom: 120px; margin-left: 70px;"></a>
 					<a href="#">
 						<p style="font-weight: bold; color: black; text-align: right;">>더보기</p>
 					</a>

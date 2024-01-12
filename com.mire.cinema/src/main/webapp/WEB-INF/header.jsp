@@ -41,44 +41,6 @@
 	</div>
 
 	<div class="nav-scroller py-1 mb-3 border-bottom border-top bg-dark">
-<<<<<<< HEAD
-		<nav class="nav nav-underline justify-content-center">
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">영화</a>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">전체영화</a></li>
-					<li><a class="dropdown-item" href="#">큐레이션</a></li>
-					<li><a class="dropdown-item" href="#">무비포스트</a></li>
-				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">예매</a>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="/cinema/list.jsp">영화예매</a></li>
-					<li><a class="dropdown-item" href="#">영화예매내역</a></li>
-					<li><a class="dropdown-item" href="#">영화예매취소</a></li>
-				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">상품</a>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">상품목록</a></li>
-					<li><a class="dropdown-item" href="#">상품</a></li>
-					<li><a class="dropdown-item" href="#">상품</a></li>
-				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">공지사항</a>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">이벤트</a></li>
-					<li><a class="dropdown-item" href="#">이벤트</a></li>
-					<li><a class="dropdown-item" href="#">이벤트</a></li>
-				</ul></li> &nbsp;&nbsp;&nbsp;
-			<li class="nav-item dropdown"><a class="nav-link text-light" href="#"
-				role="button" data-bs-toggle="dropdown">고객센터 </a>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">문의내역등록</a></li>
-					<li><a class="dropdown-item" href="#">문의내역조회</a></li>
-					<li><a class="dropdown-item" href="#"></a></li>
-				</ul></li>
-=======
 		<nav class="nav nav-underline  container text-center">
 			<ul class="nav container-fluid justify-content-between">
 				<li class="nav-item dropdown mx-2"><a class="nav-link text-light"
@@ -124,7 +86,6 @@
 						<li><a class="dropdown-item" href="#"></a></li>
 					</ul></li>
 			</ul>
->>>>>>> ec8f35bdc277c0323c7a727b4927d5f078d6aa08
 		</nav>
 	</div>
 

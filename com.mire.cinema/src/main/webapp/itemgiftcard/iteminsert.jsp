@@ -84,48 +84,40 @@
 }
 </style>
 <script>
-	document.getElementById('itemPrice').addEventListener('input', function() {
-		var value = this.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-		this.value = addCommas(value); // 쉼표 추가하여 표시
-		
-	});
 
-	function addCommas(number) {
-		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
+function iteminsert() {
+    var itemName = $('#itemName').val();
+    var itemType = $('#itemType').val();
+    var itemPrice = $('#itemPrice').val();
+    var itemSize = $('#itemSize').val();
+    var itemInfo = $('#itemInfo').val();
 
-	function iteminsert() {
-		var itemName = $('#itemName').val();
-		var itemType = $('#itemType').val();
-		var itemPrice = $('#itemPrice').val()// 쉼표 제거
-		var itemSize = $('#itemSize').val();
-		var itemInfo = $('#itemInfo').val();
+    var itemData = {
+        itemName: itemName,
+        itemType: itemType,
+        itemPrice: itemPrice,
+        itemSize: itemSize,
+        itemInfo: itemInfo
+    };
 
-		var itemData = {
-			itemName : itemName,
-			itemType : itemType,
-			itemPrice : itemPrice,
-			itemSize : itemSize,
-			itemInfo : itemInfo
-		};
+    $.ajax({
+        type: 'POST',
+        url: '/item',
+        contentType: 'application/json',
+        data: JSON.stringify(itemData),
+        success: function (response) {
+            alert(response);
+            location.href = "/itemgiftcard/itemlist.jsp";
+        },
+        error: function (error) {
+            var errorMessage = error.responseText;
+            alert(errorMessage);
+        }
+    });
+}
 
-		$.ajax({
-			type : 'POST',
-			url : '/item', // 실제 URL은 서버의 컨트롤러 매핑에 따라 달라질 수 있음
-			contentType : 'application/json',
-			data : JSON.stringify(itemData),
-			success : function(response) {
-				// 서버로부터의 응답 처리
-				alert(response);
-				location.href = "/itemgiftcard/itemlist.jsp";
-			},
-			error : function(error) {
-				// 에러 처리
-				var errorMessage = error.responseText;
-				alert(errorMessage);
-			}
-		});
-	}
+
+
 </script>
 
 </html>
