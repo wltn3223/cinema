@@ -24,7 +24,7 @@
 	<div class="container">
 		<h2 class="mt-3">공지사항</h2>
 		<div class="form-container">
-			<form>
+			<form id="notice" enctype="multipart/form-data">
 				<div class="mb-3">
 					<label for="boardTitle" class="form-label">제목</label> <input
 						type="text" class="form-control" id="boardTitle"
@@ -34,6 +34,11 @@
 					<label for="boardContent" class="form-label">공지사항</label>
 					<textarea class="form-control" id="boardContent"
 						placeholder="공지사항을 입력해주세요" required></textarea>
+				</div>
+				<div class="mb-3">
+					<label for="boardImage" class="form-label">이미지</label> <input
+						type="file" class="form-control" id="noticeImage"
+						placeholder="업로드할 이미지를 삽입해주세요" required>
 				</div>
 				<button type="button" class="btn btn-primary"
 					onclick="writeNotice()">작성하기</button>
@@ -50,26 +55,30 @@
 	function writeNotice() {
 		var boardTitle = $('#boardTitle').val();
 		var boardContent = $('#boardContent').val();
+		var fileInput = $('#noticeImage')[0].files[0];
 
-		var noticeData = {
-			boardTitle : boardTitle,
-			boardContent : boardContent
-		};
+		var formData = new FormData();
+		formData.append('boardTitle', boardTitle);
+		formData.append('boardContent', boardContent);
+
+		if (fileInput) {
+			formData.append('file', fileInput);
+		}
 
 		$.ajax({
-			type : 'POST',
-			url : '/notice',
-			contentType : 'application/json',
-			dataType : 'text',
-			data : JSON.stringify(noticeData),
-			success : function(response) {
-				alert(response);
-				location.href = "/notice/noticelist.jsp";
-			},
-			error : function(error) {
-				var errorMessage = error.responseText;
-				alert(errorMessage);
-			}
+		    type: 'POST',
+		    url: '/notice',
+		    contentType: false,
+		    processData: false,
+		    data: formData,
+		    success: function (response) {
+		        alert(response);
+		        location.href = "/notice/noticelist.jsp";
+		    },
+		    error: function (error) {
+		        var errorMessage = error.responseText;
+		        alert(errorMessage);
+		    }
 		});
 	}
 </script>

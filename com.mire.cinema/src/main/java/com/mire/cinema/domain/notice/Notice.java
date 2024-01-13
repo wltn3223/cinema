@@ -18,6 +18,5 @@ public class Notice {
 	private String boardType = "notice";
 	private Integer boardViews;
 	private LocalDate boardDate;
-//	private String id ="admin";  
-//	private List<Image> image;
+	private String imageUuid;
 }

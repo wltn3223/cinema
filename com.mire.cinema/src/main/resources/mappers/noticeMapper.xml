@@ -5,9 +5,9 @@
 	<!-- 보드번호 보드제목 보드내용 -->
 	<insert id="insertNotice">
 		insert into
-		board(board_no,board_title,board_content,board_type)
+		board(board_no,board_title,board_content,board_type,image_uuid)
 		values
-		(board_no_seq.nextval,#{boardTitle},#{boardContent},#{boardType})
+		(board_seq.nextval,#{boardTitle},#{boardContent},#{boardType},#{imageUuid})
 	</insert>
 
 	<!-- 보드리스트 보기 -->

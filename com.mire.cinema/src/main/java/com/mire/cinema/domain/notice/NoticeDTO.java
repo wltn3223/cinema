@@ -29,6 +29,7 @@ public class NoticeDTO {
 		private String boardType = "notice";
 		private Integer boardViews;
 		private LocalDate boardDate;
+		private String imageUuid;
 	}
 
 	@Data

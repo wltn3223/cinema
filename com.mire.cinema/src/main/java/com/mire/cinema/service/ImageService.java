@@ -15,7 +15,6 @@ public interface ImageService {
 	
 	public String saveImage(MultipartFile file);
 
-
 	public Image findImage(int lmageNo);
 
 	public void modifyImage(Image image);
