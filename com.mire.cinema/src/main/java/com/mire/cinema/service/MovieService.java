@@ -13,8 +13,8 @@ public interface MovieService {
 	public Movie findMovie(int movieNo);
 	public void modifyMovie(Movie movie);
 	public void removeMovie(int movieNo);
-	
+	public int getTotalCount();
 	public List<Movie> getTotalList();
 	public List<Movie> getPartList(int start, int end);
-	public Map<String,Object> getPageMap(int pageNum);
+	public Map<String,Object> getPageMap(Integer pageNum);
 }

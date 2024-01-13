@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.mire.cinema.domain.movie.Movie;
-import com.mire.cinema.domain.movie.Page;
-import com.mire.cinema.domain.movie.PageCreate;
+import com.mire.cinema.domain.page.Page;
+import com.mire.cinema.domain.page.PageCreate;
 import com.mire.cinema.repository.ImageMapper;
 import com.mire.cinema.repository.MovieMapper;
 
@@ -45,6 +45,11 @@ public class MovieServiceImpl implements MovieService {
 
 	}
 	@Override
+	public int getTotalCount() {
+		
+		return movieMapper.countMovie();
+	}
+	@Override
 	public List<Movie> getTotalList(){
 		
 		
@@ -62,23 +67,24 @@ public class MovieServiceImpl implements MovieService {
 	};
 	
 	@Override
-	public Map<String,Object> getPageMap(int pageNum){
+	public Map<String,Object> getPageMap(Integer pageNum){
 		Page page = new Page();
-		if(pageNum != 1) {
-			page.setPageNum(pageNum);
-		}
+		page.setPageNum(pageNum);
+		
 		
 		PageCreate pc = new PageCreate();
 		pc.setPaging(page);
-		pc.setArticleTotalCount(getTotalList().size());
+		pc.setArticleTotalCount(getTotalCount());
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("page", pc);
+		map.put("list",movieMapper.getPartList(page.getStartNum(), page.getEndNum())); 
 		
 		
 		
-		return	null;
+		
+		return	map;
 		
 	}
 }

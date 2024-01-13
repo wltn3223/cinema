@@ -113,6 +113,7 @@ a {
 		    })
 		    .then(data => {
 		      alert(JSON.stringify(data));
+		      console.log(JSON.stringify(data));
 		    })
 		    .catch(error => {
 		      console.error('Fetch error:', error.message);

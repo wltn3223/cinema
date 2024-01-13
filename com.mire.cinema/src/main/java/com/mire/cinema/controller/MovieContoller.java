@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mire.cinema.domain.movie.Movie;
 import com.mire.cinema.domain.movie.MovieDTO;
-import com.mire.cinema.domain.movie.Page;
-import com.mire.cinema.domain.movie.PageCreate;
+import com.mire.cinema.domain.page.Page;
+import com.mire.cinema.domain.page.PageCreate;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.ImageService;
@@ -73,14 +73,16 @@ public class MovieContoller {
 	}
 	@GetMapping("/list")
 	public ResponseEntity<Map<String,Object>> getMovieList(@RequestParam(required = false) Integer pageNum){
-		
-		movieService.getPageMap(pageNum);
-		Page page = new Page();
-		
-		
+		if(pageNum == null) {
+			pageNum = 1;
+		}	
 		
 		
-		return new ResponseEntity<>(null,HttpStatus.OK);
+		
+		
+		
+		
+		return new ResponseEntity<>(movieService.getPageMap(pageNum),HttpStatus.OK);
 		
 	}
 	

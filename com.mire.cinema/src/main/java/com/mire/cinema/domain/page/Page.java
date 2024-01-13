@@ -1,4 +1,4 @@
-package com.mire.cinema.domain.movie;
+package com.mire.cinema.domain.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
