@@ -27,6 +27,7 @@
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				<h1 class="text-center mb-4">영화등록</h1>
+
 				<form id="movie" enctype="application/x-www-form-urlencoded">
 					<div class="form-group">
 						<label for="movieTitle">영화제목</label> <input type="text"
@@ -81,10 +82,8 @@
 <script>
 function submit() {
 	
-	
 	var movieDate = new Date(document.getElementById('movieDate').value);
 
-	
     var formData = new FormData();
     formData.append('movieTitle', document.getElementById('movieTitle').value);
     formData.append('movieGenre', document.getElementById('movieGenre').value);
@@ -101,7 +100,6 @@ function submit() {
     if (fileInput.files.length > 0) {
         formData.append('file', fileInput.files[0]);
     }
-   
 
     $.ajax({
         url: '/movie',

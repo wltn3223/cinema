@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mire.cinema.domain.notice.Notice;
 import com.mire.cinema.domain.notice.NoticeDTO;
+import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
+import com.mire.cinema.service.ImageService;
 import com.mire.cinema.service.NoticeService;
 
 import jakarta.validation.Valid;
@@ -29,18 +33,24 @@ import lombok.extern.java.Log;
 @RequiredArgsConstructor
 public class NoticeController {
 	private final NoticeService noticeService;
+	private final ImageService imageService;
 
 	// 공지사항 등록
 	@PostMapping
-	public ResponseEntity<String> saveNotice(@Valid @RequestBody NoticeDTO.NoticeWriteDTO noticeDTO,
+	public ResponseEntity<String> saveNotice(@Valid NoticeDTO.NoticeWriteDTO noticeDTO,@RequestParam(name = "file",required = false) MultipartFile noticeImage,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
 					HttpStatus.BAD_REQUEST);
 		}
-
+		
+		if(noticeImage == null) {
+			throw new NullPointerException(ErrorMsg.IMAGENOTFOUND);
+		}
+		String uuidName = imageService.saveImage(noticeImage);
+		
 		Notice notice = Notice.builder().boardNo(noticeDTO.getBoardNo()).boardTitle(noticeDTO.getBoardTitle())
-				.boardContent(noticeDTO.getBoardContent()).boardType(noticeDTO.getBoardType()).build();
+				.boardContent(noticeDTO.getBoardContent()).boardType(noticeDTO.getBoardType()).imageUuid(uuidName).build();
 
 		noticeService.saveNotice(notice);
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);

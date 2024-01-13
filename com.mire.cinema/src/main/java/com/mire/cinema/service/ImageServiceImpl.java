@@ -43,7 +43,6 @@ public class ImageServiceImpl implements ImageService {
 			try {
 				file.transferTo(new File((path)));
 			} catch (IllegalStateException | IOException e) {
-				// TODO Auto-generated catch block
 				log.info("파일 입출력에러");
 			}
 			imageMapper.insertImage(img);

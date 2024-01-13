@@ -35,7 +35,6 @@ public class MovieContoller {
 			throw new IllegalArgumentException(bindingResult.getFieldErrors().get(0).getDefaultMessage());
 		}
 		
-
 		if(movieImage == null) {
 			throw new NullPointerException(ErrorMsg.IMAGENOTFOUND);
 		}
@@ -48,21 +47,17 @@ public class MovieContoller {
 				.movieGenre(dto.getMovieGenre())
 				.moviePlayTime(Integer.parseInt(dto.getMoviePlayTime()))
 				.movieLimit(Integer.parseInt(dto.getMovieLimit()))
-			
 				.movieDate(dto.getMovieDate())
 				.imageUuid(uuidName)
 				.build();
-				
-		
-		
 		
 		movieService.saveMovie(movie);
 	
 		log.info(dto.toString());
 		
-		
 		return new ResponseEntity<>(SucessMsg.INSERT,HttpStatus.OK);
 	}
+	
 	@GetMapping("movieList")
 	public ResponseEntity<String> getMovieList(){
 		

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<html>
+
 <head>
 <title>MIRE MOVIE</title>
 <link
@@ -20,7 +22,6 @@
 </style>
 </head>
 
-
 <body>
 	<!-- 헤더 -->
 	<header>
@@ -32,15 +33,15 @@
 			<h2>공지사항</h2>
 			<a href="/noticewrite.jsp"><button class="btn btn-dark mb-2">공지사항
 					작성</button></a>
-			<table class="table table-bordered">
+			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
-						<th>일련번호</th>
-						<th>작성자</th>
-						<th>제목</th>
-						<th>내용</th>
-						<th>조회수</th>
-						<th>등록일</th>
+						<th scope="col">일련번호</th>
+						<th scope="col">작성자</th>
+						<th scope="col">제목</th>
+						<th scope="col">내용</th>
+						<th scope="col">조회수</th>
+						<th scope="col">등록일</th>
 					</tr>
 				</thead>
 				<tbody id="table tbody">
@@ -56,7 +57,6 @@
 </body>
 <script>
 	$(document).ready(function() {
-		
 		// noticelist에 boardNo 를 가져와서 
 		var boardNo = sessionStorage.getItem('BoardNo');
 
@@ -81,13 +81,12 @@
 		tbody.empty(); // 기존 데이터 삭제
 
 		var row = "<tr>" + "<td>" + notice.boardNo + "</td>" + "<td>관리자</td>"
-				+ "<td><a href='/notice/" + notice.boardNo + "'>"
-				+ notice.boardTitle + "</a></td>" + "<td>"
+				+ "<td>" + notice.boardTitle + "</td>" + "<td>"
 				+ notice.boardContent + "</td>" + "<td>" + notice.boardViews
 				+ "</td>" + "<td>" + notice.boardDate + "</td>" + "</tr>";
 
 		tbody.append(row);
-
 	}
 </script>
+
 </html>
