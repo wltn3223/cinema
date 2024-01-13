@@ -10,6 +10,7 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>정보조회</title>
+<link rel="stylesheet" type="text/css" href="/css/common.css">
 </head>
 
 <body>

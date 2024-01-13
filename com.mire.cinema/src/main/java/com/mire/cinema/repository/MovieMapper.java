@@ -18,11 +18,15 @@ public interface MovieMapper {
 	void insertMovie(Movie Movie);
 	Image selectMovie(int movieNo);
 
-    List<Movie> getMovieList();
+    List<Movie> getTotalList();
     
     void deleteMovie(int movieNo);
 
     void updateMovie(Movie movie);
+    
+    int countMovie();
+    
+    List<Movie> getPartList(int start,int end);
 
 
 

@@ -15,8 +15,7 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </head>
-
-
+<link rel="stylesheet" type="text/css" href="/css/common.css">
 <body>
 	<!-- 헤더 -->
 	<header>
@@ -69,6 +68,9 @@
 				<div class="text-center">
 					<button class="bg-dark text-light my-3" type="button"
 						onclick="submit()">영화등록</button>
+				</div>
+					<div class="text-center">
+					<a href="/movie/list">영화조회</a>
 				</div>
 			</div>
 		</div>

@@ -22,6 +22,7 @@ class ApplicationTests {
 	 @Test
 	    void testSelectItemGiftCard() {
 	       
-	        movieService.getList();
+	       
+	        
 	    }
 }

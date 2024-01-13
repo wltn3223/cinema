@@ -47,7 +47,7 @@
 					class="nav-link text-light" href="#" role="button"
 					data-bs-toggle="dropdown">영화</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="#">전체영화</a></li>
+						<li><a class="dropdown-item" href="/movie/movieList.jsp">전체영화</a></li>
 						<li><a class="dropdown-item" href="#">큐레이션</a></li>
 						<li><a class="dropdown-item" href="#">무비포스트</a></li>
 					</ul></li>

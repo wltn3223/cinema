@@ -1,10 +1,16 @@
 package com.mire.cinema.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mire.cinema.domain.movie.Movie;
 import com.mire.cinema.domain.movie.MovieDTO;
+import com.mire.cinema.domain.movie.Page;
+import com.mire.cinema.domain.movie.PageCreate;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.ImageService;
@@ -63,12 +71,16 @@ public class MovieContoller {
 		
 		return new ResponseEntity<>(SucessMsg.INSERT,HttpStatus.OK);
 	}
-	@GetMapping("movieList")
-	public ResponseEntity<String> getMovieList(){
+	@GetMapping("/list")
+	public ResponseEntity<Map<String,Object>> getMovieList(@RequestParam(required = false) Integer pageNum){
 		
-			movieService.getList().forEach(s -> System.out.println(s));
+		movieService.getPageMap(pageNum);
+		Page page = new Page();
 		
-		return new ResponseEntity<>(SucessMsg.INSERT,HttpStatus.OK);
+		
+		
+		
+		return new ResponseEntity<>(null,HttpStatus.OK);
 		
 	}
 	
