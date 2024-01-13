@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.MovieMapper">
+
+	<insert id="insertMovie">
+    insert into movie (
+        movie_no, movie_title, movie_intro, movie_actors, movie_genre, movie_playTime, movie_limit, movie_date,  image_uuid
+    )
+    values (
+        movie_seq.nextval, #{movieTitle}, #{movieIntro}, #{movieActors}, #{movieGenre}, #{moviePlayTime}, #{movieLimit}, #{movieDate},
+       #{imgUuid}
+    )
+</insert>
+
+	<select id="selectMovie" resultType="Movie">
+		SELECT * FROM movie WHERE movie_no = #{movieNo}
+	</select>
+	
+	<select id="getMovieList" resultType="Movie">
+		SELECT * FROM movie
+	</select>
+
+	<delete id="deleteMovie">
+		delete from movie where movie_no = #{movieNo}
+	</delete>
+
+	<update id="updateMovie">
+		
+	</update>
+
+</mapper>

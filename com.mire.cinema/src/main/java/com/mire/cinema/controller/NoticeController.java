@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.mire.cinema.domain.notice.Notice;
 import com.mire.cinema.domain.notice.NoticeDTO;
-import com.mire.cinema.response.SucessMessage;
+import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.NoticeService;
 
 import jakarta.validation.Valid;
@@ -44,21 +43,21 @@ public class NoticeController {
 				.boardContent(noticeDTO.getBoardContent()).boardType(noticeDTO.getBoardType()).build();
 
 		noticeService.saveNotice(notice);
-		return new ResponseEntity<>(SucessMessage.INSERT, SucessMessage.statusOK);
+		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
 	}
 
 	// 공지사항 리스트
 	@GetMapping("/list")
 	public ResponseEntity<List<Notice>> NoticeList() {
 		List<Notice> noticeList = noticeService.seeNotice();
-		return new ResponseEntity<>(noticeList, SucessMessage.statusOK);
+		return new ResponseEntity<>(noticeList,SucessMsg.statusOK);
 	}
 
 	// 공지사항 내용보기
 	@GetMapping("/{boardNo}")
 	public ResponseEntity<Notice> findNotice(@PathVariable long boardNo) {
 		Notice foundNotice = noticeService.findNotice(boardNo);
-		return new ResponseEntity<>(foundNotice, SucessMessage.statusOK);
+		return new ResponseEntity<>(foundNotice, SucessMsg.statusOK);
 	}
 	//공지사항 데이터를 출력
 	@GetMapping("/info/{boardNo}")
@@ -73,7 +72,7 @@ public class NoticeController {
 	    		.boardDate(info.getBoardDate())
 	            .build();
 
-	    return new ResponseEntity<>(notice, SucessMessage.statusOK);
+	    return new ResponseEntity<>(notice, SucessMsg.statusOK);
 	}
 
 	
@@ -81,14 +80,14 @@ public class NoticeController {
 	@PutMapping
 	public ResponseEntity<String> modifyNotice(@RequestBody NoticeDTO.NoticeUpdate notice) {
 		noticeService.modifyNotice(notice);
-		return new ResponseEntity<>(SucessMessage.UPDATE, SucessMessage.statusOK);
+		return new ResponseEntity<>(SucessMsg.UPDATE, SucessMsg.statusOK);
 	}
 	
 	//공지사항 삭제하기
 	@DeleteMapping("/{boardNo}")
 	public ResponseEntity<String> removeNotice(@PathVariable Long boardNo) {
 		noticeService.removeNotice(boardNo);
-		return new ResponseEntity<>(SucessMessage.DELETE, SucessMessage.statusOK);
+		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
 	}
 
 }

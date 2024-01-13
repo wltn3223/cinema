@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import io.jsonwebtoken.io.IOException;
 import lombok.extern.java.Log;
 
 @Log
@@ -24,5 +25,16 @@ public class CommonAdvice {
 		
 		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler({IOException.class ,IllegalStateException.class})
+	public ResponseEntity<String> fileHandler(Exception e){
+		
+		return new ResponseEntity<>(ErrorMsg.FILESAVE,HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(NumberFormatException.class)
+	public ResponseEntity<String> fileHandler(NumberFormatException e){
+		
+		return new ResponseEntity<>(ErrorMsg.BADTYPE,HttpStatus.BAD_REQUEST);
+	}
+
 
 }
