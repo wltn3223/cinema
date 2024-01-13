@@ -42,11 +42,13 @@
 						<th scope="col">내용</th>
 						<th scope="col">조회수</th>
 						<th scope="col">등록일</th>
+						<th scope="col">이미지</th>
 					</tr>
 				</thead>
 				<tbody id="table tbody">
 
 				</tbody>
+				
 			</table>
 		</div>
 	</main>
@@ -74,7 +76,7 @@
 			}
 		});
 	});
-
+	
 	function appendNoticeToTable(notice) {
 		// 테이블에 공지사항 목록을 추가하는 로직
 		var tbody = $("table tbody");
@@ -83,7 +85,7 @@
 		var row = "<tr>" + "<td>" + notice.boardNo + "</td>" + "<td>관리자</td>"
 				+ "<td>" + notice.boardTitle + "</td>" + "<td>"
 				+ notice.boardContent + "</td>" + "<td>" + notice.boardViews
-				+ "</td>" + "<td>" + notice.boardDate + "</td>" + "</tr>";
+				+ "</td>" + "<td>" + notice.boardDate + "</td>" + "</tr>" +"<td>"+"<img src=''" ">" + "<td>";
 
 		tbody.append(row);
 	}
