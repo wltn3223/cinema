@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<title>회원가입</title>
+	<link rel="stylesheet" type="text/css" href="/css/common.css">
 </head>
 
 <body style="background-color: black;">
@@ -92,16 +93,13 @@
 			url: urlPath,
 			contentType: "application/json",
 			success: function (data) {
-				if (data === null || data === "") {
-					alert("이 아이디는 사용 가능합니다.");
-				} else {
-					console.log(data);
+				if (data !== null || data !== '') {
 					alert("이 아이디는 사용 불가능합니다.");
 				}
 			},
 			error: function (error) {
 				// 에러가 발생했을 때의 처리
-				console.error(error);
+				alert("이 아이디는 사용 가능합니다.");
 			}
 
 		});

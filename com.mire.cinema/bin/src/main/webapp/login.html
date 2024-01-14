@@ -4,8 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<title>로그인 및 회원가입</title>
+	<link rel="stylesheet" type="text/css" href="/css/common.css">
 </head>
 
 <body style="background-color: black;">
@@ -82,10 +82,9 @@
 				location.href = "/index.jsp";
 			},
 			error: function (error) {
-				// 에러가 발생했을 때의 처리
-				var result = error.responseText;
-				alert(result);
-			}
+		        // 서버에서의 오류 처리
+		       alert(error.responseText);
+		    }
 
 		});
 
