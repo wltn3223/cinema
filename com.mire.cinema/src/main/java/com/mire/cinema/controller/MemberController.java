@@ -1,6 +1,7 @@
 package com.mire.cinema.controller;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.mire.cinema.domain.member.DiscountGrade;
 import com.mire.cinema.domain.member.Member;
@@ -29,7 +29,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -130,6 +129,17 @@ public class MemberController {
 				.memberGrade(info.getMemberGrade()).memberDate(info.getMemberDate()).build();
 
 		return new ResponseEntity<>(member, SucessMsg.statusOK);
+
+	}
+	
+	
+	@GetMapping("/list/{pageNum}")
+	public ResponseEntity<Map<String,Object>> getMemberList(@PathVariable Integer pageNum) {
+		
+
+	
+
+		return new ResponseEntity<>(memberService.getMemberMap(pageNum),HttpStatus.OK);
 
 	}
 

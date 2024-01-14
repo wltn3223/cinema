@@ -10,6 +10,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
 <style>
 .tab p {
 	font-size: 30px;
@@ -33,21 +34,21 @@
 	justify-content: space-around;
 }
 
-.movie {
-	box-sizing: border-box;
-	text-align: center;
-	background-color: #ffffff;
-	padding: 10px;
+.movie-card {
+	border: 1px solid #ccc;
 	border-radius: 8px;
+	margin: 10px;
+	padding: 15px;
+	width: calc(33.33% - 20px); /* 변경된 부분 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	height: 100%;
+	text-align: left;
 }
 
-.movie img {
-	max-width: 80%;
-	height: 80%;
-	margin-bottom: 10px;
+.movie-card img {
+	max-width: 100%;
+	height: auto;
 	border-radius: 8px;
+	margin-bottom: 10px;
 }
 
 #movieContainer>a {
@@ -59,6 +60,28 @@
 
 a {
 	text-decoration: none;
+}
+
+#prev>button {
+	border: none;
+	font-size: 30px;
+	background-color: white;
+}
+
+#pageNum>button {
+	border: none;
+	font-size: 30px;
+	background-color: white;
+}
+
+#pageNum>button:active {
+	color: red;
+}
+
+#next>button {
+	border: none;
+	font-size: 30px;
+	background-color: white;
 }
 </style>
 </head>
@@ -76,14 +99,16 @@ a {
 				<li><a href="#tab02">인기순</a></li>
 			</ul>
 
-
 			<div class="movie-container d-flex justify-content-between"
 				id="movieContainer">
 				<!-- Data will be appended here using JavaScript -->
 			</div>
 
-
-
+			<div id="paging" class="d-flex container justify-content-center mt-5">
+				<div id="prev" class="mx-4"></div>
+				<div id="pageNum"></div>
+				<div id="next" class="mx-4"></div>
+			</div>
 		</div>
 	</div>
 
@@ -91,39 +116,84 @@ a {
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		  fetch('/movie/list', {
-		    method: 'GET',
-		    headers: {
-		      'Content-Type': 'application/json'
-		    },
-		  })
-		    .then(response => {
-		      if (!response.ok) {
-		        return response.json().then(errorData => {
-		          alert("서버내부 오류: " + errorData.message);
-		          throw new Error('Server error');
-		        });
-		      }
-		      return response.json();
-		    })
-		    .then(data => {
-		      alert(JSON.stringify(data));
-		      console.log(JSON.stringify(data));
-		    })
-		    .catch(error => {
-		      console.error('Fetch error:', error.message);
-		    });
-		});
-	
-		
-	</script>
-</body>
 
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchMovies(1); // Initial fetch with page 1
+        });
+
+        function fetchMovies(pageNum) {
+            fetch('/movie/list/' + pageNum, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                            alert("서버내부 오류: " + errorData.message);
+                            throw new Error('Server error');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+              
+                    let movies = data.list;
+                    let paginationData = data.page;
+                    createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next);
+                    displayMovies(movies);
+     
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error.message);
+                });
+        }
+
+        function displayMovies(movies) {
+        
+
+            $('#movieContainer').empty();
+			
+          
+            for (var movie of movies) {
+   				console.log(movie.movieDate);
+            
+              let movieCard = '<div class="movie-card" onclick="getMovie(' + movie.movieNo + ')" style ="cursor:pointer"  >' +
+    		'<h3>' + movie.movieNo + '</h3>' +
+    		'<p>제목:' + movie.movieTitle + '</p>' +
+    		'<p>연령대: ' + movie.movieLimit + '</p>' +
+    		'<p>개봉일: ' + movie.movieDate + '</p>' +
+    		'</div>';
+                $('#movieContainer').append(movieCard);
+                
+            }
+            
+        }
+        function createPaginationButtons(begin, end, prev, next) {
+            let prevPage = begin - 1;
+            let nextPage = end + 1
+            $('#prev').html(prev ? '<button onclick="fetchMovies(' + prevPage + ')">이전</button>' : '');
+            $('#next').html(next ? '<button onclick="fetchMovies(' + nextPage + ')">다음</button>' : '');
+
+            $('#pageNum').empty();
+            for (let i = begin; i <= end; i++) {
+                $('#pageNum').append('<button onclick="fetchMovies(' + i + ')" class="mx-2">' + i + '</button>');
+            }
+        };
+        function getMovie(movieNo){
+        	console.log(movieNo);
+        	localStorage.setItem('movieNo',movieNo);
+        	location.href = '/movie/movieInfo.jsp';
+        };
+        
+       
+    </script>
 
 
 </html>

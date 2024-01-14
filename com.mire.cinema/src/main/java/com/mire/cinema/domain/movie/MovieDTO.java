@@ -33,4 +33,17 @@ public class MovieDTO {
 		private Date movieDate;
 		
 	}
+	
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Movies{
+		private String movieNo;
+	 	private String movieTitle;
+	    private String movieLimit;
+	    private String imageUuid;
+		private String movieDate;
+		
+	}
+	
 }

@@ -69,10 +69,8 @@
 				<div class="text-center">
 					<button class="bg-dark text-light my-3" type="button"
 						onclick="submit()">영화등록</button>
-				</div>
-					<div class="text-center">
-					<a href="/movie/list">영화조회</a>
-				</div>
+						<a href="/"><button class="bg-dark text-light">홈으로</button></a>
+			
 			</div>
 		</div>
 	</div>

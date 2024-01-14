@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
+
     <meta charset="UTF-8">
     <title>MyBatis 게시판 - 영화관 수정</title>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-=======
+
 <meta charset="UTF-8">
 <title>MyBatis 게시판 - 영화관 수정</title>
 <link
@@ -15,7 +15,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
->>>>>>> 985f168e80a2518111b8ca4bb5f9de99357bfbe7
+
 </head>
 <body>
    <header>
@@ -69,45 +69,15 @@
       <%@ include file="../WEB-INF/footer.jsp"%>
    </footer>
 
-<<<<<<< HEAD
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   <script>
-      $(document).ready(function() {
-         // Load cinema information from sessionStorage
-         var cinemaString = sessionStorage.getItem('cinema');
-         var cinema = JSON.parse(cinemaString);
-
-         // Populate form fields with cinema information
-         $('#cinemaNo').val(cinema.cinemaNo);
-         $('#cinemaName').val(cinema.cinemaName);
-         $('#cinemaIntro').val(cinema.cinemaIntro);
-         $('#cinemaTotalScreen').val(cinema.cinemaTotalScreen);
-         $('#cinemaPhone').val(cinema.cinemaPhone);
-         $('#cinemaLocation').val(cinema.cinemaLocation);
-      });
-
-      function updateInfo() {
-         var cinemaNo = $("#cinemaNo").val();
-         var cinemaName = $("#cinemaName").val();
-         var cinemaIntro = $("#cinemaIntro").val();
-         var cinemaTotalScreen = $("#cinemaTotalScreen").val();
-         var cinemaPhone = $("#cinemaPhone").val();
-         var cinemaLocation = $("#cinemaLocation").val();
-
-         // Implement your logic for updating cinema information
-         // ...
-
-         // Redirect to cinema list page after updating
-         location.href = "/cinema/list.jsp";
-      }
-   </script>
+  
    
-=======
 
 	<footer class="container mt-5">
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
->>>>>>> 985f168e80a2518111b8ca4bb5f9de99357bfbe7
+
 </body>
 <script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

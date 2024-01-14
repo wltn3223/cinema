@@ -51,19 +51,17 @@
 
 					</div>
 					<div class="d-flex justify-content-center">
-						<div class="text-center">
+						
 							<button class="btn btn-light bg-dark" type="button">
-
-
 								<a href="/member/memberEditForm.jsp" class="text-light">비밀번호변경</a>
 							</button>
-						</div>
-						<div class="text-center">
-							<a href="/index.jsp"><button
-									class="btn btn-light bg-dark text-light" type="button">
-									홈으로</button></a>
-
-						</div>
+							<button class="btn btn-light bg-dark" type="button">
+								<a class="text-light">회원탈퇴</a>
+							</button>
+							<button class="btn btn-light bg-dark" type="button">
+								<a href="/" class="text-light">홈으로</a>
+							</buttton>	
+				
 					</div>
 				</form>
 			</div>
