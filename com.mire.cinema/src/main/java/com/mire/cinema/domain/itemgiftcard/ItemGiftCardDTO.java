@@ -1,5 +1,7 @@
 package com.mire.cinema.domain.itemgiftcard;
 
+import java.util.List;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +27,8 @@ public class ItemGiftCardDTO {
 		private String itemSize;
 		@NotBlank(message = "상품정보를 입력하세요")
 		private String itemInfo;
+		private String imageUuid;
+		private String cinemaNo;
 	}
 	
 	
@@ -38,6 +42,8 @@ public class ItemGiftCardDTO {
 		private Integer itemPrice;
 		private String itemSize;
 		private String itemInfo;
+		private String imageUuid;
+		private String cinemaNo;
 		
 	}
 	
