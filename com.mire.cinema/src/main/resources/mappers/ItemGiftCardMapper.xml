@@ -3,7 +3,7 @@
 <mapper namespace="com.mire.cinema.repository.ItemGiftCardMapper">
 
 	<insert id="insertItemGiftCard">
-		insert into itemgiftcard(item_no, item_name, item_type, item_price, item_size, item_info) values (item_no_seq.nextval, #{itemName}, #{itemType}, #{itemPrice}, #{itemSize}, #{itemInfo})
+		insert into itemgiftcard(item_no, item_name, item_type, item_price, item_size, item_info) values (item_seq.nextval, #{itemName}, #{itemType}, #{itemPrice}, #{itemSize}, #{itemInfo})
 	</insert>
 
 	<select id="selectItemGiftCard" resultType="ItemGiftCard">

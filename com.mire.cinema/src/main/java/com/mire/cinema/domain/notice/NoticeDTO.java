@@ -36,7 +36,7 @@ public class NoticeDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class NoticeUpdate {
-		private Long boadNo;
+		private Long boardNo;
 		@NotBlank(message = "제목을 입력하세요")
 		private String boardTitle;
 		@NotBlank(message = "공지사항을 입력하세요")
@@ -47,7 +47,7 @@ public class NoticeDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Delete {
-		private Long boadNo;
+		private Long boardNo;
 	}
 
 }

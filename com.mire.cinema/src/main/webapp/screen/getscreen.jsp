@@ -30,19 +30,17 @@
 	<!-- 메인 -->
 	<main class="container">
 		<div class="container mt-3">
-			<h2>공지사항</h2>
-			<a href="/noticewrite.jsp"><button class="btn btn-dark mb-2">공지사항
+			<h2>상영관 내용</h2>
+			<a href="/screenwrite.jsp"><button class="btn btn-dark mb-2">상영관
 					작성</button></a>
 			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
-						<th scope="col">일련번호</th>
-						<th scope="col">작성자</th>
-						<th scope="col">제목</th>
-						<th scope="col">내용</th>
-						<th scope="col">조회수</th>
-						<th scope="col">등록일</th>
-						<th scope="col">이미지</th>
+						<th>상영관 일련번호</th>
+						<th>상영관 층</th>
+						<th>상영관 관</th>
+						<th>상영관 총 좌석</th>
+						<th>영화관 일련번호</th>
 					</tr>
 				</thead>
 				<tbody id="table tbody">
@@ -59,14 +57,14 @@
 </body>
 <script>
 	$(document).ready(function() {
-		var boardNo = sessionStorage.getItem('BoardNo');
+		var screenNo = sessionStorage.getItem('ScreenNo');
 
 		$.ajax({
 			type : 'GET',
-			url : '/notice/' + boardNo, // 실제 URL은 서버의 컨트롤러 매핑에 따라 달라질 수 있음
+			url : '/screen/' + screenNo,
 			contentType : 'application/json',
-			success : function(notice) {
-				appendNoticeToTable(notice);
+			success : function(screen) {
+				appendScreenToTable(screen);
 			},
 			error : function(error) {
 				// 에러 처리
@@ -76,20 +74,18 @@
 		});
 	});
 	
-	function appendNoticeToTable(notice) {
+	function appendScreenToTable(screen) {
 		// 테이블에 공지사항 목록을 추가하는 로직
 		var tbody = $("table tbody");
 		tbody.empty(); // 기존 데이터 삭제
 
-		var row = "<tr>" +
-		  "<td>" + notice.boardNo + "</td>" +
-		  "<td>관리자</td>" +
-		  "<td>" + notice.boardTitle + "</td>" +
-		  "<td>" + notice.boardContent + "</td>" +
-		  "<td>" + notice.boardViews + "</td>" +
-		  "<td>" + notice.boardDate + "</td>" +
-		  "<td>" + "<img src='/path/to/your/image.jpg'>" + "</td>" +
-		  "</tr>";
+		var row = "<tr>"
+			+ "<td>"
+			+ screen.screenNo + "</td>" + "<td>"
+			+ screen.screenFloor + "</td>" + "<td>"
+			+ screen.screenHall + "</td>" + "<td>"
+			+ screen.screenTotalSeat + "</td>" + "<td>"
+			+ screen.cinemaNo + "</td>" + "</tr>";
 
 		tbody.append(row);
 	}

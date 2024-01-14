@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mire.cinema.domain.notice.Notice;
 import com.mire.cinema.domain.notice.NoticeDTO;
-import com.mire.cinema.repository.ImageMapper;
 import com.mire.cinema.repository.NoticeMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class NoticeServiceImpl implements NoticeService {
 	private final NoticeMapper noticeMapper;
-	private final ImageMapper imageMapper;
 
 	// 공지사항 등록
 	@Override

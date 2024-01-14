@@ -30,18 +30,21 @@
 	<!-- 메인 -->
 	<main class="container">
 		<div class="container mt-3">
-			<h2>공지사항</h2>
-			<a href="/notice/noticewrite.jsp">
-				<button class="btn btn-dark mb-2">공지사항 작성</button>
+			<h2>상영관</h2>
+			<a href="/screen/screenwrite.jsp">
+				<button class="btn btn-dark mb-2">상영관 추가</button>
+			</a>
+			<a href="/screen/screenmodify.jsp">
+				<button class="btn btn-dark mb-2">상영관 수정</button>
 			</a>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>일련번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>조회수</th>
-						<th>등록일</th>
+						<th>상영관 일련번호</th>
+						<th>상영관 층</th>
+						<th>상영관 관</th>
+						<th>상영관 총 좌석</th>
+						<th>영화관 일련번호</th>
 					</tr>
 				</thead>
 				<tbody id="table tbody">
@@ -59,10 +62,10 @@
 		$(document).ready(function() {
 			$.ajax({
 				type : 'GET',
-				url : '/notice/list',
+				url : '/screen/list',
 				contentType : 'application/json',
-				success : function(notices) {
-					appendNoticesToTable(notices);
+				success : function(screens) {
+					appendScreenToTable(screens);
 				},
 				error : function(error) {
 					var errorMessage = error.responseText;
@@ -71,31 +74,31 @@
 			});
 		});
 
-		function appendNoticesToTable(notices) {
+		function appendScreenToTable(screens) {
 			var tbody = $("table tbody");
 			tbody.empty();
 
-			for (var i = 0; i < notices.length; i++) {
-				var notice = notices[i];
+			for (var i = 0; i < screens.length; i++) {
+				var screen = screens[i];
 				var row = "<tr>"
-						+ "<td>"
-						+ notice.boardNo
-						+ "</td>"
-						+ "<td><a href='#' class='notice-title' data-board-no='" + notice.boardNo + "'>"
-						+ notice.boardTitle + "</a></td>" + "<td>관리자</td>"
-						+ "<td>" + notice.boardViews + "</td>" + "<td>"
-						+ notice.boardDate + "</td>" + "</tr>";
+						+ "<td><a href='#' class='screen-no' data-screen-no='" + screen.screenNo + "'>"
+						+ screen.screenNo + "</a></td>" + "<td>"
+						+ screen.screenFloor + "</td>" + "<td>"
+						+ screen.screenHall + "</td>" + "<td>"
+						+ screen.screenTotalSeat + "</td>" + "<td>"
+						+ screen.cinemaNo + "</td>" + "</tr>";
 				tbody.append(row);
 			}
 
-			$(".notice-title").on("click", function() {
-				
-				var boardNo = $(this).data("board-no");
+			$(".screen-no").on("click", function() {
 
-				sessionStorage.setItem("BoardNo", boardNo);
-				location.href="/notice/getnotice.jsp";
+				var screenNo = $(this).data("screen-no");
+
+				sessionStorage.setItem("ScreenNo", screenNo);
+				location.href = "/screen/getscreen.jsp";
 
 			});
+
 		}
 	</script>
 
