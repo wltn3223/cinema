@@ -69,7 +69,7 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public Map<String,Object> getPageMap(Integer pageNum){
 		Page page = new Page();
-		page.setPageNum(pageNum);
+		page.setPageNum(pageNum, 18);  // 현재 페이지와 페이지 몇개 보여줄지 설정
 		
 		
 		PageCreate pc = new PageCreate();

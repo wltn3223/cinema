@@ -67,9 +67,8 @@ public class MovieContoller {
 	}
 	@GetMapping("/list")
 	public ResponseEntity<Map<String,Object>> getMovieList(@RequestParam(required = false) Integer pageNum){
-		if(pageNum == null) {
-			pageNum = 1;
-		}	
+		log.info(pageNum.toString());
+		
 		
 		
 		
