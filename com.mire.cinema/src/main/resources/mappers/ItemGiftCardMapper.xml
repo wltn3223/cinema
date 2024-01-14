@@ -2,11 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mire.cinema.repository.ItemGiftCardMapper">
 
+<<<<<<< HEAD
+	<insert id="insertItemGiftCard">
+		insert into itemgiftcard(item_no, item_name, item_type, item_price, item_size, item_info) values (item_seq.nextval, #{itemName}, #{itemType}, #{itemPrice}, #{itemSize}, #{itemInfo})
+	</insert>
+=======
 	<insert id="insertItemGiftCard" parameterType="com.mire.cinema.domain.itemgiftcard.ItemGiftCard">
     insert into itemgiftcard(item_no, item_name, item_type, item_price, item_size, item_info, image_uuid, cinema_no)
     values (item_seq.nextval, #{itemName}, #{itemType}, #{itemPrice}, #{itemSize}, #{itemInfo}, #{imageUuid}, #{cinemaNo})
 </insert>
 
+>>>>>>> bf60f9ee42488dcecb94782ba4c3febb05033fd8
 
 	<select id="selectItemGiftCard" resultType="ItemGiftCard">
 		select * from
