@@ -128,74 +128,76 @@ p {
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
-	<script>
-		$(document).ready(function() {
-			$.ajax({
-				type : 'GET',
-				url : '/item/list',
-				contentType : 'application/json',
-				success : function(itemGiftCards) {
-					console.log(itemGiftCards);
-					appendItemGiftCardToTable(itemGiftCards);
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		});
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: '/item/list',
+            contentType: 'application/json',
+            success: function(itemGiftCards) {
+                console.log(itemGiftCards);
+                appendItemGiftCardToTable(itemGiftCards);
+            },
+            error: function(error) {
+                var errorMessage = error.responseText;
+                alert(errorMessage);
+            }
+        });
+    });
 
-		// 가격을 1000단위로 콤마(,)를 추가하는 함수
-		function addCommaToPrice(price) {
-			return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
+    // 가격을 1000단위로 콤마(,)를 추가하는 함수
+    function addCommaToPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
-		function appendItemGiftCardToTable(itemGiftCards) {
-			var div = $(".item-container");
-			div.empty();
+    function appendItemGiftCardToTable(itemGiftCards) {
+        var div = $(".item-container");
+        div.empty();
 
-			for (var i = 0; i < itemGiftCards.length; i++) {
-				var itemGiftCard = itemGiftCards[i];
-				// 가격에 1000단위로 콤마 추가
-				var formattedPrice = addCommaToPrice(itemGiftCard.itemPrice);
-				var row = '<a href="#" onclick="loadItemInfo(\''
-						+ itemGiftCard.itemName
-						+ '\')">'
-						+ '<div class="item">'
-						+ '<img src="' + itemGiftCard.image + '" alt="' + itemGiftCard.itemName + ' 이미지" width="220" height="220">'
-						+ '<p style="color: black; font-weight: bold;">'
-						+ itemGiftCard.itemName
-						+ '</p>'
-						+ '<p style="color: black; font-size: 13px;">'
-						+ itemGiftCard.itemInfo
-						+ '</p>'
-						+ '<p style="color: #9d00f7; font-size: 25px; font-weight: 400;">'
-						+ formattedPrice + '원</p>' + '</div>' + '</a>';
-				div.append(row);
-			}
-		}
+        for (var i = 0; i < itemGiftCards.length; i++) {
+            var itemGiftCard = itemGiftCards[i];
+            // 가격에 1000단위로 콤마 추가
+            var formattedPrice = addCommaToPrice(itemGiftCard.itemPrice);
+            var row = '<div class="item">' +
+                '<a href="#" onclick="loadItemInfo(\'' + itemGiftCard.itemName + '\')">' +
+                '<img src="' + itemGiftCard.image + '" alt="' + itemGiftCard.itemName + ' 이미지" width="220" height="220">' +
+                '<p style="color: black; font-weight: bold;">' + itemGiftCard.itemName + '</p>' +
+                '<p style="color: black; font-size: 13px;">' + itemGiftCard.itemInfo + '</p>' +
+                '<p style="color: #9d00f7; font-size: 25px; font-weight: 400;">' + formattedPrice + '원</p>' +
+                '</a>' +
+                '<button class="btn btn-primary" onclick="editItem(\'' + itemGiftCard.itemName + '\')">수정/삭제</button>' +
+                '</div>';
+            div.append(row);
+        }
+    }
 
-		// 클릭 시 호출되는 함수로 선택한 아이템의 정보를 가져와서 sessionStorage에 저장
-		function loadItemInfo(itemName) {
-			$.ajax({
-				type : 'GET',
-				url : '/item/info/' + itemName,
-				contentType : 'application/json',
-				success : function(response) {
-					console.log(response);
-					// 선택한 아이템의 정보를 sessionStorage에 저장
-					sessionStorage.setItem('selectedItem', JSON
-							.stringify(response));
-					// itemEditForm.jsp로 이동
-					location.href = '/itemgiftcard/itemEditForm.jsp';
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		}
-	</script>
+    // 클릭 시 호출되는 함수로 선택한 아이템의 정보를 가져와서 sessionStorage에 저장
+    function loadItemInfo(itemName) {
+        $.ajax({
+            type: 'GET',
+            url: '/item/info/' + itemName,
+            contentType: 'application/json',
+            success: function(response) {
+                console.log(response);
+                // 선택한 아이템의 정보를 sessionStorage에 저장
+                sessionStorage.setItem('selectedItem', JSON.stringify(response));
+                // itemEditForm.jsp로 이동
+                location.href = '/itemgiftcard/itemdetailinfo.jsp';
+            },
+            error: function(error) {
+                var errorMessage = error.responseText;
+                alert(errorMessage);
+            }
+        });
+    }
+
+    // 추가된 수정하기 함수
+    function editItem(itemName) {
+        // 수정 페이지로 이동하는 코드
+        location.href = '/itemgiftcard/itemEditForm.jsp?itemName=' + encodeURIComponent(itemName);
+    }
+</script>
+
 
 </body>
 
