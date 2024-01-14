@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.mire.cinema.domain.image.Image;
 import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.movie.Movie;
+import com.mire.cinema.domain.movie.MovieDTO;
 
 @Mapper
 @Repository
@@ -16,7 +17,7 @@ public interface MovieMapper {
 
 
 	void insertMovie(Movie Movie);
-	Image selectMovie(int movieNo);
+	Movie selectMovie(int movieNo);
 
     List<Movie> getTotalList();
     
@@ -26,7 +27,7 @@ public interface MovieMapper {
     
     int countMovie();
     
-    List<Movie> getPartList(int start,int end);
+    List<MovieDTO.Movies> getPartList(int start,int end);
 
 
 

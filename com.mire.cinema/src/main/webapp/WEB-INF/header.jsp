@@ -102,14 +102,13 @@
 						data-bs-toggle="dropdown">영화관리</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="/movie/movieList.jsp">전체영화조회</a></li>
-							<li><a class="dropdown-item" href="#">영화등록</a></li>
+							<li><a class="dropdown-item" href="/movie/movieInsertForm.jsp">영화등록</a></li>
 							<li><a class="dropdown-item" href="#">무비포스트</a></li>
 						</ul></li>
 					<li class="nav-item dropdown mx-2"><a
-						class="nav-link text-light" href="#" role="button"
-						data-bs-toggle="dropdown">회원관리</a>
+						class="nav-link text-light" href="#" role="button"data-bs-toggle="dropdown">회원관리</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/cinema/list.jsp">전체회원목록조회</a></li>
+							<li><a class="dropdown-item" href="/member/list.jsp">전체회원목록조회</a></li>
 						</ul></li>
 					<li class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="/itemgiftcard/itemlist.jsp"

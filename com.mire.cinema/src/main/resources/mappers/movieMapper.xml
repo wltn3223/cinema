@@ -3,7 +3,7 @@
 <mapper namespace="com.mire.cinema.repository.MovieMapper">
 
 
-	<resultMap id="movieResultMap"
+	<resultMap id="movieAllResultMap"
 		type="Movie">
 		<id property="movieNo" column="movie_no" />
 		<result property="movieTitle" column="movie_title" />
@@ -15,6 +15,9 @@
 		<result property="movieDate" column="movie_date" />
 		<result property="imageUuid" column="image_uuid" />
 	</resultMap>
+	
+	
+	
 
 	<insert id="insertMovie">
 		insert into movie (
@@ -40,14 +43,23 @@
 	<select id="getTotalList" resultType="Movie">
 		SELECT * FROM movie
 	</select>
+	
+	
+	
 
-	<select id="getPartList" resultType="Movie" parameterType="int">
+	<select id="getPartList" resultType="com.mire.cinema.domain.movie.MovieDTO$Movies" parameterType="int">
 		 <![CDATA[
- SELECT a.* from 
-(SELECT a.*, rownum rn from 
-    ( SELECT * from movie order by movie_no desc) a 
-    where rownum <= #{end} ) a
-where rn >= #{start}    
+SELECT a.movie_no, a.movie_title, a.movie_limit, a.image_uuid, a.movie_date
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT movie_no, movie_title, movie_limit, image_uuid, movie_date
+        FROM movie
+        ORDER BY movie_no DESC
+    ) a
+    WHERE rownum <= #{end}
+) a
+WHERE rn >= #{start}  
 
   ]]>
 	</select>

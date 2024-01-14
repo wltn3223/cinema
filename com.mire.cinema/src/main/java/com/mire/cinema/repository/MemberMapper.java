@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.member.MemberDTO;
+import com.mire.cinema.domain.movie.Movie;
 
 
 
@@ -22,4 +23,8 @@ public interface MemberMapper {
     void deleteMember(String id);
 
     void updateMember(MemberDTO.Update dto);
+    
+    int countMember();
+    List<Member> getPartList(int start,int end);
+
 }

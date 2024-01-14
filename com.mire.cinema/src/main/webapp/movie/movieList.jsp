@@ -10,6 +10,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
 <style>
 .tab p {
 	font-size: 30px;
@@ -34,13 +35,13 @@
 }
 
 .movie-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 15px;
-    width: calc(33.33% - 20px); /* 변경된 부분 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	margin: 10px;
+	padding: 15px;
+	width: calc(33.33% - 20px); /* 변경된 부분 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	text-align: left;
 }
 
 .movie-card img {
@@ -126,7 +127,7 @@ a {
         });
 
         function fetchMovies(pageNum) {
-            fetch('/movie/list?pageNum=' + pageNum, {
+            fetch('/movie/list/' + pageNum, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -142,7 +143,7 @@ a {
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data.page)
+              
                     let movies = data.list;
                     let paginationData = data.page;
                     createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next);
@@ -155,19 +156,20 @@ a {
         }
 
         function displayMovies(movies) {
-            console.log('Received movies:', movies); // Log received movies to the console
+        
 
             $('#movieContainer').empty();
 			
           
             for (var movie of movies) {
-            	console.log(movie.length)
+   				console.log(movie.movieDate);
             
-                let movieCard = '<div class="movie-card">' +
-                    '<h3>' + movie.movieNo + '</h3>' +
-                    '<p>' + movie.movieTitle + '</p>' +
-                    '<p>Genre: ' + movie.movieGenre + '</p>' +
-                    '</div>';
+              let movieCard = '<div class="movie-card" onclick="getMovie(' + movie.movieNo + ')" style ="cursor:pointer"  >' +
+    		'<h3>' + movie.movieNo + '</h3>' +
+    		'<p>제목:' + movie.movieTitle + '</p>' +
+    		'<p>연령대: ' + movie.movieLimit + '</p>' +
+    		'<p>개봉일: ' + movie.movieDate + '</p>' +
+    		'</div>';
                 $('#movieContainer').append(movieCard);
                 
             }
@@ -183,7 +185,14 @@ a {
             for (let i = begin; i <= end; i++) {
                 $('#pageNum').append('<button onclick="fetchMovies(' + i + ')" class="mx-2">' + i + '</button>');
             }
-        }
+        };
+        function getMovie(movieNo){
+        	console.log(movieNo);
+        	localStorage.setItem('movieNo',movieNo);
+        	location.href = '/movie/movieInfo.jsp';
+        };
+        
+       
     </script>
 
 

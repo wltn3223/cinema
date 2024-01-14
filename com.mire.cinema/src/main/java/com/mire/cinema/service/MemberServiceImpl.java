@@ -1,5 +1,9 @@
 package com.mire.cinema.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -9,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.member.MemberDTO;
 import com.mire.cinema.domain.member.TokenDTO;
+import com.mire.cinema.domain.page.Page;
+import com.mire.cinema.domain.page.PageCreate;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.repository.MemberMapper;
 import com.mire.cinema.security.JwtTokenProvider;
@@ -85,6 +91,38 @@ public class MemberServiceImpl implements MemberService {
 
 		return tokenDTO;
 
+	}
+
+	@Override
+	public int getTotalMember() {
+		int num = memberMapper.countMember();
+		if(num == 0) {
+			throw new NullPointerException(ErrorMsg.DataNOTFOUND);
+		}
+		
+		
+		return num;
+	}
+
+	@Override
+	public Map<String,Object> getMemberMap(Integer pageNum) {
+		if(pageNum == null) {
+			throw new IllegalArgumentException(ErrorMsg.BADTYPE);
+		}
+		Page page = new Page();
+		page.setPageNum(pageNum, 20);  // 현재 페이지와 페이지 몇개 보여줄지 설정
+		
+		
+		PageCreate pc = new PageCreate();
+		pc.setPaging(page);
+		pc.setArticleTotalCount(getTotalMember());
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("page", pc);
+		map.put("list",memberMapper.getPartList(page.getStartNum(), page.getEndNum())); 
+		
+		return map;
 	}
 
 }
