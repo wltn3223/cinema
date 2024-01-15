@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,7 @@
 					<th>회원이름</th>
 					<th>회원아이디</th>
 					<th>회원이메일</th>
-					<th>회원비밀번호</th>
+					<th>회원전화번호</th>
 					<th>회원등급</th>
 					<th>가입일</th>
 				</tr>
@@ -49,6 +50,9 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 document.addEventListener('DOMContentLoaded', function () {
+    var dir = "${pageContext.request.contextPath}";
+    console.log(dir);
+    sessionStorage.setItem("dir",dir);
     fetchMovies(1); // Initial fetch with page 1
 });
 
@@ -96,7 +100,6 @@ function displayMovies(members) {
             '<td>' + member.memberId + '</td>' +
             '<td>' + member.memberEmail + '</td>' +
             '<td>' + member.memberPhone + '</td>' +
-            '<td>' + member.memberRole + '</td>' +
             '<td>' + member.memberGrade + '</td>' +
             '<td>' + member.memberDate + '</td>' +
             '</tr>';

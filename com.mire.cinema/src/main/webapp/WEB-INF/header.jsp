@@ -101,7 +101,7 @@
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">영화관리</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/movie/movieList.jsp">전체영화조회</a></li>
+							<li><a class="dropdown-item" href="/movie/adminMovieList.jsp">전체영화조회</a></li>
 							<li><a class="dropdown-item" href="/movie/movieInsertForm.jsp">영화등록</a></li>
 							<li><a class="dropdown-item" href="#">무비포스트</a></li>
 						</ul></li>

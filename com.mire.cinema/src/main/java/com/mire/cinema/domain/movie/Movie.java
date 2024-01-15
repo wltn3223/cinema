@@ -1,8 +1,10 @@
 package com.mire.cinema.domain.movie;
 
-import java.util.Date;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;	
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +23,6 @@ public class Movie {
 	    private String movieGenre;
 	    private int moviePlayTime;
 	    private int movieLimit;
-	    private Date movieDate;
+	    private LocalDate movieDate;
 	    private String imageUuid;
 }

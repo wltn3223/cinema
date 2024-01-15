@@ -51,6 +51,7 @@ public class MemberServiceImpl implements MemberService {
 		Member member = memberMapper.selectMember(dto.getMemberId());
 
 		if (member == null || !member.getMemberPasswd().equals(dto.getMemberPasswd())) {
+			
 			throw new IllegalArgumentException(ErrorMsg.USERINFO);
 
 		}
@@ -78,6 +79,7 @@ public class MemberServiceImpl implements MemberService {
 		Member member = memberMapper.selectMember(dto.getMemberId());
 
 		if (member == null || !member.getMemberPasswd().equals(dto.getMemberPasswd())) {
+			log.info("member" + member.getMemberId() + " " + member.getMemberPasswd());
 			throw new IllegalArgumentException(ErrorMsg.USERINFO);
 
 		}

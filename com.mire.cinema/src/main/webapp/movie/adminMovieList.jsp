@@ -191,7 +191,7 @@ a {
         function getMovie(movieNo){
         	console.log(movieNo);
         	localStorage.setItem('movieNo',movieNo);
-        	location.href = '/movie/movieInfo.jsp';
+        	location.href = '/movie/adminMovieInfo.jsp';
         };
         
        

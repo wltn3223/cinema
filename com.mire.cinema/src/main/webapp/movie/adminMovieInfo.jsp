@@ -85,7 +85,13 @@
              
             </tbody>
         </table>
+        
     </div>
+    <div class="container mt-4">
+        <a href="/movie/adminMovieInfoEdit.jsp"><button>수정하기</button></a>
+        <button>삭제하기</button>
+        
+        </div>
     <!-- itemTab -->
 
     <!-- 푸터-->
