@@ -107,11 +107,39 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 		
 	}
 	@PostMapping("/update")
-	 public String updateMovie(MovieDTO.update movie ,  MultipartFile file){
-		log.info("name"+movie.getMovieTitle());
-		log.info(file.toString());
-		log.info(file.getOriginalFilename());
-	
+	 public String updateMovie(@Valid MovieDTO.update movie ,MultipartFile file){
+		String uuid = null;
+		Movie findMovie = null;
+		
+		try {
+			int a = Integer.parseInt(movie.getMovieLimit());
+			int b = Integer.parseInt(movie.getMoviePlayTime());
+		} catch (Exception e) {
+			throw new NumberFormatException(ErrorMsg.BADTYPE);
+		}
+		
+		findMovie = movieService.findMovie(movie.getMovieNo());
+		
+		if(file != null) {
+			if(	imageService.findImage(findMovie.getImageUuid()) != null) {
+				imageService.removeImage(findMovie.getImageUuid());
+			}
+			uuid = imageService.saveImage(file);
+			movie.setImageUuid(uuid);
+			
+		}
+		
+		
+		
+		
+		System.out.println("영화수정시작");
+		movieService.modifyMovie(findMovie,movie);
+		
+		
+
+		
+		
+		
 	
 		return "성공";
 	}

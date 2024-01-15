@@ -32,15 +32,13 @@
 
 
 					<tr style="border-top: 1px solid black;">
-						<td rowspan="8" id="movieImg" class="w-50"><img
-							src="/img/item02.PNG"
-							style="height: 700px; border-right: 1px solid black; margin-right: 30px;">
+						<td rowspan="8" id="movieImg" class="w-50">
 						</td>
 					</tr>
 					<tr>
 						<td>영화번호</td>
 						<td id="movieNo"><input type="text" class="form-control"
-							placeholder="수정할 내용을 입력하세요" name="movieNo"></td>
+							placeholder="수정할 내용을 입력하세요" name="movieNo" readonly></td>
 					</tr>
 
 					<tr>
@@ -65,13 +63,13 @@
 						<td>영화나이제한</td>
 
 						<td id="movieLimit"><input type="text" class="form-control"
-							placeholder="수정할 내용을 입력하세요" name="movieLimit"></td>
+							placeholder="수정할 내용을 입력하세요(숫자입력)" name="movieLimit"></td>
 					</tr>
 					<tr>
 						<td>영화상영시간</td>
 
 						<td id="moviePlayTime"><input type="text"
-							class="form-control" placeholder="수정할 내용을 입력하세요" name="moviePlayTime"></td>
+							class="form-control" placeholder="수정할 내용을 입력하세요(숫자만입력)" name="moviePlayTime"></td>
 					</tr>
 
 					<tr>
@@ -122,9 +120,10 @@
 
 			const data = await response.json();
 			console.log(data);
+			console.log(data.responsetext)
 			$('#movieImg')
 					.html(
-							'<img src="../upload/' + data.imageUuid + '" style=" height: 700px; border-right: 1px solid black; margin-right: 30px;">');
+							'<img src="../upload/' + data.imageUuid + '"class="w-100" style=" height: 700px; border-right: 1px solid black; margin-right: 30px;">');
 			
 			$('#movieNo input').val(data.movieNo);
 			$('#movieTitle input').val(data.movieTitle);
@@ -135,8 +134,8 @@
 			$('#movieIntro input').val(data.movieIntro);
 
 		} catch (error) {
-
-			console.error('Error fetching data:', error.message);
+			alert(error);
+			
 		}
 	}
 </script>

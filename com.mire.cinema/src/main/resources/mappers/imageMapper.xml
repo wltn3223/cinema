@@ -11,17 +11,15 @@
 		)
 	</insert>
 
-	<select id="selectImage" resultType="Image">
+	<select id="selectImage" resultType="Image" parameterType="java.lang.String">
 		SELECT * FROM image WHERE
-		image_no = #{imageNo}
+		image_uuid = #{uuid}
 	</select>
 
-	<delete id="deleteImage">
-		delete from image where image_no = #{imageNo}
-	</delete>
-
-	<update id="updateMovie">
-
-	</update>
+	 <delete id="deleteImage" parameterType="String">
+        DELETE FROM image
+        WHERE image_uuid = #{uuid}
+    </delete>
+	
 
 </mapper>

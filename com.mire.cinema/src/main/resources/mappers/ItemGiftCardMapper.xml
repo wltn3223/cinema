@@ -12,27 +12,16 @@
 		#{itemSize}, #{itemInfo}, #{imageUuid}, #{cinemaNo})
 	</insert>
 
-	<insert id="insertItemGiftCard"
-		parameterType="com.mire.cinema.domain.itemgiftcard.ItemGiftCard">
-		insert into itemgiftcard(item_no, item_name, item_type, item_price,
-		item_size, item_info, image_uuid, cinema_no)
-		values (item_seq.nextval, #{itemName}, #{itemType}, #{itemPrice},
-		#{itemSize}, #{itemInfo}, #{imageUuid}, #{cinemaNo})
-	</insert>
+	
 
 	<select id="selectItemGiftCard" resultType="ItemGiftCard">
-		select * from
-		itemgiftcard where item_name = #{itemName}
+		select * from itemgiftcard where item_name = #{itemName}
 	</select>
 
-	<select id="selectAllItemGiftCard" resultType="ItemGiftCard">
-		select * from
-		itemgiftcard
-	</select>
+	
 
 	<delete id="deleteItemGiftCard">
-		delete from itemgiftcard where item_name =
-		#{itemName}
+		delete from itemgiftcard where item_name = #{itemName}
 	</delete>
 
 	<update id="updateItemGiftCard">
