@@ -88,7 +88,6 @@
 				tbody.append(row);
 			}
 
-		
 			$(".notice-title").on("click", function() {
 				
 				var boardNo = $(this).data("board-no");

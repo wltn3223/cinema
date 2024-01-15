@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mire.cinema.repository.mapper.MemberMapper">
-   
+<mapper namespace="com.mire.cinema.repository.MemberMapper">
+
 	<insert id="insertMember">
-        insert into MEMBER(member_no,member_id,member_passwd,member_name,member_email,member_phone,member_grade)
-        values (member_seq.nextval,#{memberId},#{memberPasswd},#{memberName},#{memberEmail},#{memberPhone},#{memberGrade})
-    </insert>
-    
-    <select id="selectMember" resultType="Member">
-		select * from member where member_id = #{memberId}
-		
+		insert into
+		MEMBER(member_no,member_id,member_passwd,member_name,member_email,member_phone,member_role,member_grade)
+		values
+		(member_seq.nextval,#{memberId},#{memberPasswd},#{memberName},#{memberEmail},#{memberPhone},#{memberRole},#{memberGrade})
+	</insert>
+
+	<select id="selectMember" resultType="Member"
+		parameterType="java.lang.String">
+		SELECT * FROM member WHERE member_id = #{memberId}
 	</select>
-    
-    <delete id="deleteMember">
+
+	<delete id="deleteMember">
 		delete from member where member_id = #{memberId}
 	</delete>
-    
-    <update id="updateMember">
-		update set member(member_passwd = #{memberPasswd}) 
+
+	<update id="updateMember" parameterType="com.mire.cinema.domain.member.MemberDTO$Update">
+		update member set
+		member_passwd = #{memberEditPasswd}
 		where member_id = #{memberId}
 	</update>
-	
+
 </mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.ImageMapper">
+
+	<insert id="insertImage" >
+		insert into image (
+		image_no, image_uuid, image_name, image_path
+		)
+		values (
+		IMAGE_SEQ.NEXTVAL, #{imageUuid}, #{imageName}, #{imagePath}
+		)
+	</insert>
+
+	<select id="selectImage" resultType="Image">
+		SELECT * FROM image WHERE
+		image_no = #{imageNo}
+	</select>
+
+	<delete id="deleteImage">
+		delete from image where image_no = #{imageNo}
+	</delete>
+
+	<update id="updateMovie">
+
+	</update>
+
+</mapper>

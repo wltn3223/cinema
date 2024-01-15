@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mire.cinema.domain.notice.Notice;
 import com.mire.cinema.domain.notice.NoticeDTO;
-import com.mire.cinema.response.SucessMessage;
+import com.mire.cinema.exception.ErrorMsg;
+import com.mire.cinema.exception.SucessMsg;
+import com.mire.cinema.service.ImageService;
 import com.mire.cinema.service.NoticeService;
 
 import jakarta.validation.Valid;
@@ -30,35 +33,41 @@ import lombok.extern.java.Log;
 @RequiredArgsConstructor
 public class NoticeController {
 	private final NoticeService noticeService;
+	private final ImageService imageService;
 
 	// 공지사항 등록
 	@PostMapping
-	public ResponseEntity<String> saveNotice(@Valid @RequestBody NoticeDTO.NoticeWriteDTO noticeDTO,
+	public ResponseEntity<String> saveNotice(@Valid NoticeDTO.NoticeWriteDTO noticeDTO,@RequestParam(name = "file",required = false) MultipartFile noticeImage,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
 					HttpStatus.BAD_REQUEST);
 		}
-
+		
+		if(noticeImage == null) {
+			throw new NullPointerException(ErrorMsg.IMAGENOTFOUND);
+		}
+		String uuidName = imageService.saveImage(noticeImage);
+		
 		Notice notice = Notice.builder().boardNo(noticeDTO.getBoardNo()).boardTitle(noticeDTO.getBoardTitle())
-				.boardContent(noticeDTO.getBoardContent()).boardType(noticeDTO.getBoardType()).build();
+				.boardContent(noticeDTO.getBoardContent()).boardType(noticeDTO.getBoardType()).imageUuid(uuidName).build();
 
 		noticeService.saveNotice(notice);
-		return new ResponseEntity<>(SucessMessage.INSERT, SucessMessage.statusOK);
+		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
 	}
 
 	// 공지사항 리스트
 	@GetMapping("/list")
 	public ResponseEntity<List<Notice>> NoticeList() {
 		List<Notice> noticeList = noticeService.seeNotice();
-		return new ResponseEntity<>(noticeList, SucessMessage.statusOK);
+		return new ResponseEntity<>(noticeList,SucessMsg.statusOK);
 	}
 
 	// 공지사항 내용보기
 	@GetMapping("/{boardNo}")
 	public ResponseEntity<Notice> findNotice(@PathVariable long boardNo) {
 		Notice foundNotice = noticeService.findNotice(boardNo);
-		return new ResponseEntity<>(foundNotice, SucessMessage.statusOK);
+		return new ResponseEntity<>(foundNotice, SucessMsg.statusOK);
 	}
 	//공지사항 데이터를 출력
 	@GetMapping("/info/{boardNo}")
@@ -73,7 +82,7 @@ public class NoticeController {
 	    		.boardDate(info.getBoardDate())
 	            .build();
 
-	    return new ResponseEntity<>(notice, SucessMessage.statusOK);
+	    return new ResponseEntity<>(notice, SucessMsg.statusOK);
 	}
 
 	
@@ -81,14 +90,14 @@ public class NoticeController {
 	@PutMapping
 	public ResponseEntity<String> modifyNotice(@RequestBody NoticeDTO.NoticeUpdate notice) {
 		noticeService.modifyNotice(notice);
-		return new ResponseEntity<>(SucessMessage.UPDATE, SucessMessage.statusOK);
+		return new ResponseEntity<>(SucessMsg.UPDATE, SucessMsg.statusOK);
 	}
 	
 	//공지사항 삭제하기
 	@DeleteMapping("/{boardNo}")
 	public ResponseEntity<String> removeNotice(@PathVariable Long boardNo) {
 		noticeService.removeNotice(boardNo);
-		return new ResponseEntity<>(SucessMessage.DELETE, SucessMessage.statusOK);
+		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
 	}
 
 }
