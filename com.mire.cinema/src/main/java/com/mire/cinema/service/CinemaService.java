@@ -3,6 +3,8 @@ package com.mire.cinema.service;
 import java.util.List;
 
 import com.mire.cinema.domain.cinema.Cinema;
+import com.mire.cinema.domain.cinema.CinemaDTO;
+import com.mire.cinema.domain.cinema.CinemaDTO.CinemaUpdate;
 
 
 
@@ -11,8 +13,10 @@ import com.mire.cinema.domain.cinema.Cinema;
 public interface CinemaService {
 
 
-	public void modify(Cinema cinema) throws Exception;
+	public void modifyCinema(Cinema cinema)throws Exception;
 
 
 	public List<Cinema> list() throws Exception;
+
+
 }
