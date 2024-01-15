@@ -14,5 +14,4 @@ public class Cinema {
 	private String cinemaTotalScreen;
 	private String cinemaPhone;
 	private String cinemaLocation;
-	private String cinemaLocawdation;
 }
