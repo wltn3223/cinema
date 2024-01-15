@@ -17,8 +17,8 @@ public interface ScreenMapper {
 	List<Screen> selectScreen();
 	//상영관 정보 보기
 	Screen getScreen(long screenNo);
+	//영화관 상영관 정보 보기
+	Screen getCinemaScreen(String cinemaName);
 	//상영관 정보수정 하기
 	void updateScreen(ScreenDTO.Update screen);
-	//상영관 정보 삭제
-	void deleteScreen(long screenNo);
 }

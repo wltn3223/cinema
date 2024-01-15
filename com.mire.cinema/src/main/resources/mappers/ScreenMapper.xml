@@ -5,8 +5,8 @@
 	<!-- 상영관 번호 ,상영관 몇층 몇관 총좌석 상영할 -->
 	<insert id="insertScreen">
 		insert into
-		screen(screen_no,screen_floor,screen_hall,screen_totalseat,cinema_no)
-		values(screen_seq.nextval,#{screenFloor},#{screenHall},#{screenTotalSeat},#{cinemaNo})
+		screen(screen_no,screen_floor,screen_hall,screen_totalseat,cinema_name)
+		values(screen_seq.nextval,#{screenFloor},#{screenHall},#{screenTotalSeat},#{cinemaName})
 	</insert>
 
 	<!-- 상영관 리스트보기 -->
@@ -19,6 +19,12 @@
 		select * from screen where
 		screen_no = #{screenNo}
 	</select>
+	
+	<!-- 영화관 에있는 상영관 보기 -->
+	<select id="getCinemaScreen" resultType="Screen">
+		select * from screen where
+		cinema_name = #{cinemaName}
+	</select>
 
 	<!-- 층,관,총좌석 업데이트 -->
 	<update id="updateScreen"
@@ -28,10 +34,5 @@
 		screen_totalseat = #{screenTotalSeat}
 		WHERE screen_no = #{screenNo}
 	</update>
-
-	<!-- 상영관 삭제 -->
-	<delete id="deleteNotice">
-		delete from screen where Screen_no = #{screenNo}
-	</delete>
 
 </mapper>
