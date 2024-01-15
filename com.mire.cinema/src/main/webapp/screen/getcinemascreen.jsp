@@ -58,11 +58,11 @@
 </body>
 <script>
 	$(document).ready(function() {
-		var screenNo = sessionStorage.getItem('ScreenNo');
+		var screenName = sessionStorage.getItem('CinemaName');
 
 		$.ajax({
 			type : 'GET',
-			url : '/screen/' + screenNo,
+			url : '/screen/cinema/' + cinemaName,
 			contentType : 'application/json',
 			success : function(screen) {
 				appendScreenToTable(screen);

@@ -27,6 +27,6 @@ public class ScreenDTO {
 		private String screenFloor;
 		private String screenHall;
 		private Integer screenTotalSeat;
-		private long cinemaNo;
+		private String cinemaName;
 	}
 }
