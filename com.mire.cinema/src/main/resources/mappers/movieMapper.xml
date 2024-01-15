@@ -24,19 +24,30 @@
 		movie_no, movie_title,
 		movie_intro, movie_actors, movie_genre, movie_playTime,
 		movie_limit,
-		movie_date, image_uuid
+		movie_date, 
+		image_uuid
 		)
 		values (
 		movie_seq.nextval, #{movieTitle},
 		#{movieIntro}, #{movieActors}, #{movieGenre},
 		#{moviePlayTime},
-		#{movieLimit}, #{movieDate},
-		#{imgUuid}
+		#{movieLimit}, 
+		#{movieDate},
+		#{imageUuid}
 		)
 	</insert>
 
 	<select id="selectMovie" resultType="Movie">
-		SELECT * FROM movie WHERE
+		SELECT  movie_no,
+        movie_title,
+        movie_intro,
+        movie_actors,
+        movie_genre,
+        movie_PlayTime,
+        movie_limit,
+        to_char(movie_date, 'YYYY-MM-DD') as movie_date,
+        image_uuid
+        FROM movie WHERE
 		movie_no = #{movieNo}
 	</select>
 
@@ -49,7 +60,7 @@
 
 	<select id="getPartList" resultType="com.mire.cinema.domain.movie.MovieDTO$Movies" parameterType="int">
 		 <![CDATA[
-SELECT a.movie_no, a.movie_title, a.movie_limit, a.image_uuid, a.movie_date
+SELECT a.movie_no, a.movie_title, a.movie_limit, a.image_uuid, to_char(a.movie_date, 'YYYY-MM-DD') as movie_date
 FROM (
     SELECT a.*, rownum rn
     FROM (
@@ -59,7 +70,7 @@ FROM (
     ) a
     WHERE rownum <= #{end}
 ) a
-WHERE rn >= #{start}  
+WHERE rn >= #{start}
 
   ]]>
 	</select>

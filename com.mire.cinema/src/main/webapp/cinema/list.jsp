@@ -43,11 +43,7 @@ $(document).ready(function () {
         type: "GET",
         dataType: "json", // 추가: 서버에서 받아오는 데이터 타입을 명시
         success: function (data) {
-<<<<<<< HEAD
            var tbody = $("#cinema-list tbody");
-=======
-        	var tbody = $("#cinema-list tbody");
->>>>>>> 985f168e80a2518111b8ca4bb5f9de99357bfbe7
             if (data.length === 0) {
                 tbody.append("<tr><td colspan='6'>게시글이 없습니다.</td></tr>");
             } else {
@@ -61,11 +57,7 @@ $(document).ready(function () {
                         .append("<td>" + cinema.cinemaTotalScreen + "</td>")
                         .append("<td>" + cinema.cinemaPhone + "</td>")
                         .append("<td>" + cinema.cinemaLocation + "</td>")
-                        .click(function () {
-                            // 수정: 클릭 이벤트 핸들러에서 cinema 매개변수를 사용하지 않도록 수정
-                            sessionStorage.setItem('cinema', JSON.stringify(cinema));
-                            window.location.href = "/cinema/modify.jsp";
-                        });
+                        .click(createClickHandler(cinema));
 
                     tbody.append(row);
                 }
@@ -77,6 +69,14 @@ $(document).ready(function () {
             alert("영화관 목록을 가져오는 데 실패했습니다.");
         }
     });
+
+    // 클릭 이벤트 핸들러를 생성하는 함수
+    function createClickHandler(cinema) {
+        return function () {
+            sessionStorage.setItem('cinema', JSON.stringify(cinema));
+            window.location.href = "/cinema/modify.jsp";
+        };
+    }
 });
 </script>
 

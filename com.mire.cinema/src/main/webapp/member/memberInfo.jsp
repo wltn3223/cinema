@@ -23,7 +23,7 @@
 			<div class="col-md-6">
 
 
-				<h1 class="text-center mb-4">정보 수정</h1>
+				<h1 class="text-center mb-4">내 정보</h1>
 				<form>
 					<div class="form-group">
 						<label for="memberId">아이디</label> <input type="text"

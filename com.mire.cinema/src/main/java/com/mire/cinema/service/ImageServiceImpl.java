@@ -29,25 +29,31 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public String saveImage(MultipartFile file) {
-		
+		String uuid = null;
 		String fileName = file.getOriginalFilename();
-		String uuidName = UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf("."));
-		String path = getPath(uuidName);
+		String[] uuidNames = UUID.randomUUID().toString().split("-");
 		
+		for(String data : uuidNames ) {
+			uuid += data;
+		}
+		uuid += fileName.substring(fileName.lastIndexOf("."));
+		
+		String path = getPath(uuid);
 		Image img = Image.builder()
 		.imageName(fileName)
-		.imageUuid(uuidName)
+		.imageUuid(uuid)
 		.imagePath(path).build();
 		
 	
 			try {
-				file.transferTo(new File((path)));
+				
+				file.transferTo(new File(path));
 			} catch (IllegalStateException | IOException e) {
-				log.info("파일 입출력에러");
+				log.info(e.getMessage());
 			}
 			imageMapper.insertImage(img);
 		
-			return uuidName;
+			return uuid;
 
 	}
 
@@ -71,7 +77,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	public String getPath(String uuidName) {
-		String fullPath = uploadPath + uuidName;
+		String fullPath = "c:/team/com.mire.cinema/src/main/webapp/upload/" + uuidName;
 		return fullPath;
 	}
 	
