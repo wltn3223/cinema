@@ -32,6 +32,7 @@ public class NoticeServiceImpl implements NoticeService {
 	// 공지사항 내용 출력
 	@Override
 	public Notice findNotice(long boardNo) {
+		noticeMapper.updateNoticeViews(boardNo);
 		return noticeMapper.getNotice(boardNo);
 	}
 

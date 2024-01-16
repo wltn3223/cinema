@@ -139,32 +139,8 @@
 			
 		}
 	}
-	async function remove() {
-	    try {
-	        let movieNo = localStorage.getItem('movieNo');
+	
 
-	     
 
-	        const response = await fetch('/movie/' + movieNo, {
-	            method: 'DELETE',
-	            headers: {
-	                'Content-Type': 'application/json',
-	            
-	            },
-	    
-	        });
-
-	        if (response.ok) {
-	            console.log('Movie deleted successfully');
-	        } else {
-	            console.error('Failed to delete movie');
-	        }
-	    } catch (error) {
-	        console.error('Error:', error.message);
-	    }
-	}
-
-	// Call the remove function
-	remove();
 </script>
 </html>

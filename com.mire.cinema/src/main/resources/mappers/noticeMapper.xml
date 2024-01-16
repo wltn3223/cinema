@@ -33,7 +33,7 @@
 	</delete>
 
 	<!-- 조회수 증가 -->
-	<update id="updateNoticeViews">
+	<update id="updateNoticeViews" parameterType="long">
 		update board
 		set board_views = board_views + 1
 		where
