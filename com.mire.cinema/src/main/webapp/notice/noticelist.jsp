@@ -33,10 +33,6 @@
 			<h2>공지사항</h2>
 			<a href="/notice/noticewrite.jsp">
 				<button class="btn btn-dark mb-2">공지사항 작성</button>
-			</a> <a href="/notice/noticemodify.jsp">
-				<button class="btn btn-dark mb-2">공지사항 수정</button>
-			</a> <a href="/notice/deletenotice.jsp">
-				<button class="btn btn-dark mb-2">공지사항 삭제</button>
 			</a>
 			<table class="table table-bordered">
 				<thead>
@@ -91,28 +87,14 @@
 						+ notice.boardDate + "</td>" + "</tr>";
 				tbody.append(row);
 			}
+
 			$(".notice-title").on("click", function() {
-			    var boardNo = $(this).data("board-no");
+				
+				var boardNo = $(this).data("board-no");
 
-			    // Ajax 요청을 통해 조회수 업데이트 API 호출
-			    $.ajax({
-			        type: 'PATCH',
-			        url: '/notice/' + boardNo + '/updateViews',
-			        contentType: 'application/json',
-			        success: function(updatedNotice) {
-			            // 성공 시 필요한 작업 수행
-			            console.log("Views updated:", updatedNotice);
-			        },
-			        error: function(error) {
-			            // 에러 처리
-			            var errorMessage = error.responseText;
-			            alert(errorMessage);
-			        }
-			    });
+				sessionStorage.setItem("BoardNo", boardNo);
+				location.href="/notice/getnotice.jsp";
 
-			    // 세션 스토리지에 공지사항 번호 저장 및 페이지 이동
-			    sessionStorage.setItem("BoardNo", boardNo);
-			    location.href = "/notice/getnotice.jsp";
 			});
 		}
 	</script>

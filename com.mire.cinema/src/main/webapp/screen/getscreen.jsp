@@ -31,9 +31,6 @@
 	<main class="container">
 		<div class="container mt-3">
 			<h2>상영관 내용</h2>
-			<a href="/screenwrite.jsp"><button class="btn btn-dark mb-2">상영관
-					작성</button></a>
-			<a href="/getcinemascreen.jsp"><button class="btn btn-dark mb-2">상영관 검색</button></a>
 			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
@@ -41,7 +38,7 @@
 						<th>상영관 층</th>
 						<th>상영관 관</th>
 						<th>상영관 총 좌석</th>
-						<th>영화관 일련번호</th>
+						<th>영화관</th>
 					</tr>
 				</thead>
 				<tbody id="table tbody">
@@ -49,6 +46,9 @@
 				</tbody>
 				
 			</table>
+			<a href="/screen/screenlist.jsp">
+				<button class="btn btn-dark mb-2">상영관 리스트로 돌아가기</button>
+			</a>
 		</div>
 	</main>
 	<!-- 푸터-->
