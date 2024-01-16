@@ -3,7 +3,6 @@ package com.mire.cinema.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,10 +23,8 @@ import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.ImageService;
 import com.mire.cinema.service.ItemGiftCardService;
 
-import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.java.Log;
 
 @Log
@@ -41,10 +38,10 @@ public class ItemGiftCardController {
 
 	@PostMapping
 	public ResponseEntity<String> saveItemGiftCard(@Valid ItemGiftCardDTO.Insert insert,
-			@RequestParam("itemImage") MultipartFile itemImage, BindingResult bindingResult) {
+			@RequestParam(name = "file", required =false) MultipartFile itemImage, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
-					HttpStatus.BAD_REQUEST);
+			throw new IllegalArgumentException(bindingResult.getFieldErrors().get(0).getDefaultMessage());
+					
 		}
 		if(itemImage == null) {
 			throw new NullPointerException(ErrorMsg.IMAGENOTFOUND);
@@ -55,7 +52,7 @@ public class ItemGiftCardController {
 		// ItemGiftCard 객체 생성
 		ItemGiftCard itemGiftCard = ItemGiftCard.builder().itemName(insert.getItemName()).itemType(insert.getItemType())
 				.itemPrice(insert.getItemPrice()).itemSize(insert.getItemSize()).itemInfo(insert.getItemInfo())
-				.imageUuid(imageUuid).cinemaNo(insert.getCinemaNo()).build();
+				.imageUuid(imageUuid).cinemaName(insert.getCinemaName()).build();
 
 		// 서비스를 통해 ItemGiftCard 저장
 		itemGiftCardService.saveItemGiftCard(itemGiftCard);
@@ -71,10 +68,21 @@ public class ItemGiftCardController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Void> modifyItemGiftCard(@RequestBody ItemGiftCard item) {
-		itemGiftCardService.modifyItemGiftCard(item);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<Void> modifyItemGiftCard(@RequestBody ItemGiftCard item, @RequestParam(value = "file", required = false) MultipartFile file) {
+	    itemGiftCardService.modifyItemGiftCard(item);
+	    
+	    if (file != null && !file.isEmpty()) {
+	        // 새 파일이 제공된 경우에만 이미지 업데이트 처리
+	        String uuid = imageService.saveImage(file);
+	        item.setImageUuid(uuid);
+	        itemGiftCardService.updateItemImage(item); // 이미지 UUID 업데이트 추가
+	    }
+
+	    return ResponseEntity.ok().build();
 	}
+
+
+
 
 	@DeleteMapping("/{itemName}")
 	public ResponseEntity<Void> removeItemGiftCard(@PathVariable String itemName) {
@@ -93,7 +101,7 @@ public class ItemGiftCardController {
 		ItemGiftCard info = itemGiftCardService.findItemGiftCard(itemName);
 		ItemGiftCardDTO.Info item = ItemGiftCardDTO.Info.builder().itemName(info.getItemName())
 				.itemType(info.getItemType()).itemPrice(info.getItemPrice()).itemSize(info.getItemSize())
-				.itemInfo(info.getItemInfo()).build();
+				.itemInfo(info.getItemInfo()).imageUuid(info.getImageUuid()).cinemaName(info.getCinemaName()).build();
 
 		return new ResponseEntity<>(item, SucessMsg.statusOK);
 	}
