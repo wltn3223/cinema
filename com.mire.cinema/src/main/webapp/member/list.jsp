@@ -24,8 +24,8 @@
 	<div class="container mt-5">
 	<div class= "container-fluid  d-flex justify-content-between">
 		<h2 class="mb-4">회원목록</h2>
-		<div><input type="text" placeholder="아이디로 검색하세요">
-		<div class="btn btn-dark ms-1">회원검색</div>
+		<div><input type="text" placeholder="아이디로 검색하세요" id = "id">
+		<div class="btn btn-dark ms-1" onclick="fetchMembers(1,document.getElementById('id').value)">회원검색</div>
 		</div>
 		</div>
 		<table id="cinema-list" class="table table-striped container">
@@ -51,18 +51,26 @@
 		</div>
 	</div>
 
+
+	<footer class="container mt-5">
+		<%@ include file="../WEB-INF/footer.jsp"%>
+	</footer>
+</body>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 document.addEventListener('DOMContentLoaded', function () {
-    var dir = "${pageContext.request.contextPath}";
-    console.log(dir);
-    sessionStorage.setItem("dir",dir);
-    fetchMovies(1); // Initial fetch with page 1
+   
+    fetchMembers(1); // Initial fetch with page 1
 });
 
-function fetchMovies(pageNum) {
-    fetch('/member/list/' + pageNum, {
+function fetchMembers(pageNum,memberId) {
+	
+	
+	var url = (memberId === null || memberId === '' || memberId === undefined)?
+			'/member/list/' + pageNum:'/member/list/' + pageNum +'/member/' +memberId;
+	console.log(url);
+    fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -78,11 +86,14 @@ function fetchMovies(pageNum) {
             return response.json();
         })
         .then(data => {
-            console.log(data.page)
-            console.log(data.list)
-            let members = data.list;
+           
+            console.log(data.list);
+            console.log(data.searchList);
+            console.log(data.page);
+          
+            let members = (data.list === undefined)?data.searchList:data.list;
             let paginationData = data.page;
-            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next);
+            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next,data);
             displayMovies(members);
 
         })
@@ -114,21 +125,30 @@ function displayMovies(members) {
     }
     
 }
-function createPaginationButtons(begin, end, prev, next) {
+function createPaginationButtons(begin, end, prev, next,data) {
     let prevPage = begin - 1;
     let nextPage = end + 1
-    $('#prev').html(prev ? '<button onclick="fetchMovies(' + prevPage + ')">이전</button>' : '');
-    $('#next').html(next ? '<button onclick="fetchMovies(' + nextPage + ')">다음</button>' : '');
-
     $('#pageNum').empty();
-    for (let i = begin; i <= end; i++) {
-        $('#pageNum').append('<button onclick="fetchMovies(' + i + ')" class="mx-2">' + i + '</button>');
+    
+    if(data.list !== undefined){
+   	 	$('#prev').html(prev ? '<button onclick="fetchMembers(' + prevPage + ')">이전</button>' : '');
+    	$('#next').html(next ? '<button onclick="fetchMembers(' + nextPage + ')">다음</button>' : '');
+    	  for (let i = begin; i <= end; i++) {
+    	        $('#pageNum').append('<button onclick="fetchMembers(' + i + ')" class="mx-2">' + i + '</button>');
+    	    }
     }
+    else{	
+    	console.log(data.keyword);
+    		$('#prev').html(prev ? '<button onclick="fetchMembers(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
+    		$('#next').html(next ? '<button onclick="fetchMembers(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
+    		 for (let i = begin; i <= end; i++) {
+    		        $('#pageNum').append('<button onclick="fetchMembers(' + i + ', \'' + data.keyword + '\')"lass="mx-2">' + i + '</button>');
+    		    }
+    }
+   
+    
+   
+   
 }
 </script>
-
-	<footer class="container mt-5">
-		<%@ include file="../WEB-INF/footer.jsp"%>
-	</footer>
-</body>
 </html>

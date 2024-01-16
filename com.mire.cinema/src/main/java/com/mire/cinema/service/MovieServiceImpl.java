@@ -37,8 +37,9 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public void modifyMovie(Movie movie1, MovieDTO.update update) {
+	public void modifyMovie(MovieDTO.update update) {
 		log.info(update.getImageUuid());
+		
 		Movie movie = Movie.builder()
 			    .movieNo(update.getMovieNo())
 			    .movieTitle(update.getMovieTitle())
@@ -78,6 +79,8 @@ public class MovieServiceImpl implements MovieService {
 		return movieMapper.getTotalList();
 		
 	};
+	
+	
 	
 	
 	@Override
