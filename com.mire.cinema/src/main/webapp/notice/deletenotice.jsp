@@ -23,26 +23,17 @@
 	</header>
 
 	<div class="container">
-		<h2 class="mt-3">공지사항 업데이트</h2>
+		<h2 class="mt-3">공지사항 삭제</h2>
 		<div class="form-container">
 			<form id="screenForm">
 				<div class="mb-3">
 					<label for="boardNo" class="form-label">공지사항 일련번호</label> <input
 						type="text" class="form-control" id="boardNo"
-						placeholder="수정할 공지사항 일련번호번호를 입력하세요" required>
+						placeholder="삭제할 공지사항 일련번호번호를 입력하세요" required>
 				</div>
-				<div class="mb-3">
-					<label for="boardTitle" class="form-label">제목</label> <input
-						type="text" class="form-control" id="boardTitle"
-						placeholder="수정할 제목을 입력하세요" required>
-				</div>
-				<div class="mb-3">
-					<label for="boardContent" class="form-label">공지사항</label> <input
-						type="text" class="form-control" id="boardContent"
-						placeholder="수정할 공지사항을 입력하세요" required>
-				</div>
+				
 				<button type="button" class="btn btn-primary"
-					onclick="writeNotice()">상영관 업데이트</button>
+					onclick="writeNotice()">상영관 삭제</button>
 			</form>
 		</div>
 	</div>
@@ -55,18 +46,14 @@
 	<script>
 		function writeNotice() {
 			var boardNo = $('#boardNo').val();
-			var boardTitle = $('#boardTitle').val();
-			var boardContent = $('#boardContent').val();
 
 			var data = {
 				boardNo : boardNo,
-				boardTitle : boardTitle,
-				boardContent : boardContent,
 			};
 
 			$.ajax({
-				type : 'put',
-				url : '/notice',
+				type : 'Delete',
+				url : '/notice/'+boardNo,
 				contentType : "application/json;charset=UTF-8",
 				data : JSON.stringify(data),
 				success : function(response) {
