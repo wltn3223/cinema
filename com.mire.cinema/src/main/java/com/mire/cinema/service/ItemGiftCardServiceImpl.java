@@ -44,9 +44,14 @@ public class ItemGiftCardServiceImpl implements ItemGiftCardService {
 	}
 
 	@Override
-	public List<ItemGiftCard> selectAllItemGiftCard(){
-		
+	public List<ItemGiftCard> selectAllItemGiftCard() {
+
 		return itemGiftCardMapper.selectAllItemGiftCard();
 	}
 
+	@Override
+	public void updateItemImage(ItemGiftCard item) {
+		
+		itemGiftCardMapper.updateItemImage(item);
+	}
 }

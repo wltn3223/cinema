@@ -17,6 +17,6 @@ public interface ItemGiftCardService {
 
 	public List<ItemGiftCard> selectAllItemGiftCard();
 	    
-	
+	void updateItemImage(ItemGiftCard item);
 
 }
