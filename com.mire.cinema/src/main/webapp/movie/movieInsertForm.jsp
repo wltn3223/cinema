@@ -109,7 +109,6 @@ function submit() {
         contentType: false,  
         success: function(response) {
             alert(response)
-            location.href = "/movie/adminMovieList.jsp";
         },
         error: function(error) {
             alert(error.responseText);

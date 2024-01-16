@@ -17,11 +17,11 @@ public interface MovieMapper {
 
 
 	void insertMovie(Movie Movie);
-	Movie selectMovie(long movieNo);
+	Movie selectMovie(int movieNo);
 
     List<Movie> getTotalList();
     
-    void deleteMovie(long movieNo);
+    void deleteMovie(int movieNo);
 
     void updateMovie(Movie movie);
     

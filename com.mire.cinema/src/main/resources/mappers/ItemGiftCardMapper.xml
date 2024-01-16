@@ -12,16 +12,19 @@
 		#{itemSize}, #{itemInfo}, #{imageUuid}, #{cinemaNo})
 	</insert>
 
-	
-
 	<select id="selectItemGiftCard" resultType="ItemGiftCard">
-		select * from itemgiftcard where item_name = #{itemName}
+		select * from
+		itemgiftcard where item_name = #{itemName}
 	</select>
 
-	
+	<select id="selectAllItemGiftCard" resultType="ItemGiftCard">
+		select * from
+		itemgiftcard
+	</select>
 
 	<delete id="deleteItemGiftCard">
-		delete from itemgiftcard where item_name = #{itemName}
+		delete from itemgiftcard where item_name =
+		#{itemName}
 	</delete>
 
 	<update id="updateItemGiftCard">

@@ -6,11 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Map;
 
-import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -109,60 +107,15 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 		
 	}
 	@PostMapping("/update")
-	 public ResponseEntity<String> updateMovie(@Valid MovieDTO.update movie ,MultipartFile file){
-		String uuid = null;
-		Movie findMovie = null;
-		
-		try {
-			int a = Integer.parseInt(movie.getMovieLimit());
-			int b = Integer.parseInt(movie.getMoviePlayTime());
-		} catch (Exception e) {
-			throw new NumberFormatException(ErrorMsg.BADTYPE);
-		}
-		
-		findMovie = movieService.findMovie(movie.getMovieNo());
-		
-		if(file != null) {
-			if(	imageService.findImage(findMovie.getImageUuid()) != null) {
-				imageService.removeImage(findMovie.getImageUuid());
-			}
-			uuid = imageService.saveImage(file);
-			movie.setImageUuid(uuid);
-			
-		}
-		
-		
-		
-		
-		System.out.println("영화수정시작");
-		movieService.modifyMovie(findMovie,movie);
-		
-		
-
-		
-		return new ResponseEntity<>(SucessMsg.UPDATE,HttpStatus.OK);
+	 public String updateMovie(MovieDTO.update movie ,  MultipartFile file){
+		log.info("name"+movie.getMovieTitle());
+		log.info(file.toString());
+		log.info(file.getOriginalFilename());
+	
+	
+		return "성공";
 	}
 	
-	@DeleteMapping("/{movieNo}")
-	public ResponseEntity<String> deleteMovie(@PathVariable Integer movieNo) {
-		if(movieNo == null) {
-			throw new NullPointerException(ErrorMsg.BADTYPE);
-		}
-		Movie movie  = movieService.findMovie(movieNo);
-		
-		if(movie == null) {
-			throw new NullPointerException(ErrorMsg.DataNOTFOUND);
-		}
-		String uuid  = movie.getImageUuid();
-		if(uuid != null) {
-			imageService.removeImage(uuid);
-		}
-		movieService.removeMovie(movieNo);
-		
-		
-		
-		return   new ResponseEntity<>(SucessMsg.DELETE,HttpStatus.OK); 
-	}
 	
 	
 	

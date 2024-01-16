@@ -19,7 +19,7 @@
     </header>
 
     <div class="container">
-        <h2 class="mt-3">상영관 수정</h2>
+        <h2 class="mt-3">상영관 업데이트</h2>
         <div class="form-container">
             <form id="screenForm">
                 <div class="mb-3">

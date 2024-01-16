@@ -29,5 +29,5 @@ public interface NoticeMapper {
 	void deleteNotice(Long boardNo);
 
 	//공지사항 조회수 증가 
-	void updateNoticeViews(Notice notice);
+	Notice updateNoticeViews(Long boardNo);
 }

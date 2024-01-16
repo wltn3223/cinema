@@ -84,15 +84,7 @@ WHERE rn >= #{start}
 	</delete>
 
 	<update id="updateMovie">
-			update  movie set movie_title = #{movieTitle},
-			movie_intro = #{movieIntro},
-			movie_actors = #{movieActors},
-			movie_genre =  #{movieGenre},
-			movie_playTime = #{moviePlayTime},
-			movie_limit = #{movieLimit}, 
-			image_uuid = #{imageUuid}
-			where movie_no = #{movieNo}
-	
+
 	</update>
 
 </mapper>
