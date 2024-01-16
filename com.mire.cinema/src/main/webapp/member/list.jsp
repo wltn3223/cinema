@@ -22,7 +22,12 @@
 		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
 	<div class="container mt-5">
+	<div class= "container-fluid  d-flex justify-content-between">
 		<h2 class="mb-4">회원목록</h2>
+		<div><input type="text" placeholder="아이디로 검색하세요">
+		<div class="btn btn-dark ms-1">회원검색</div>
+		</div>
+		</div>
 		<table id="cinema-list" class="table table-striped container">
 			<thead>
 				<tr>
