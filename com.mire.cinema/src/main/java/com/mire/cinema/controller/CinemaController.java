@@ -47,7 +47,12 @@ public class CinemaController {
 		return new ResponseEntity<>(cinemaList, SucessMsg.statusOK);
 	}
 
-	
+	// 영화관 내용보기
+		@GetMapping("/{cinemaNo}")
+		public ResponseEntity<Cinema> findCinema(@PathVariable long cinemaNo) {
+			Cinema foundCinema = cinemaService.findCinema(cinemaNo);
+			return new ResponseEntity<>(foundCinema, SucessMsg.statusOK);
+		}
 
 	// 영화관 리스트 수정하기
 	@PutMapping
