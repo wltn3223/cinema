@@ -60,7 +60,7 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public void removeMovie(long movieNo) {
-		// TODO Auto-generated method stub
+		movieMapper.deleteMovie(movieNo);
 
 	}
 	@Override

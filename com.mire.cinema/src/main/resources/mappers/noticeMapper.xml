@@ -25,7 +25,7 @@
 
 	<!-- 보드번호로 제목,내용 업데이트 -->
 	<update id="updateNotice" parameterType="com.mire.cinema.domain.notice.NoticeDTO$NoticeUpdate">
-		update board set board_title = #{boardTitle},board_content=#{boardContent} where board_no = #{boardNo};
+		update board set board_title = #{boardTitle},board_content=#{boardContent} where board_no = #{boardNo}
 	</update>
 
 	<delete id="deleteNotice">
@@ -33,7 +33,7 @@
 	</delete>
 
 	<!-- 조회수 증가 -->
-	<update id="updateNoticeViews">
+	<update id="updateNoticeViews" parameterType="long">
 		update board
 		set board_views = board_views + 1
 		where

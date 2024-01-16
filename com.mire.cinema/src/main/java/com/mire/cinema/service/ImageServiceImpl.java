@@ -68,9 +68,9 @@ public class ImageServiceImpl implements ImageService {
 		File file = new File(path);
 		file.delete();
 		
-		System.out.println("이미지이름" + uuid);
+		
 		imageMapper.deleteImage(uuid);
-		System.out.println("확인" + uuid);
+	
 
 	}
 

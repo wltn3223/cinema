@@ -87,6 +87,7 @@
 			</table>
 			<div class="container d-flex justify-content-center mt-3 ">
 				<button onclick="edit()">영화수정</button>
+				<button onclick="remove()">삭제하기</button>
 				<button onclick="goback()" type="button">뒤로가기</button>
 			</div>
 		</form>
@@ -138,5 +139,8 @@
 			
 		}
 	}
+	
+
+
 </script>
 </html>
