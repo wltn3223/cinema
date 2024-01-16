@@ -89,7 +89,7 @@
     </div>
     <div class="container mt-4">
         <a href="/movie/adminMovieInfoEdit.jsp"><button>수정하기</button></a>
-        <button>삭제하기</button>
+        <button onclick="remove()">삭제하기</button>
         
         </div>
     <!-- itemTab -->
@@ -140,6 +140,40 @@ async function getMovie() {
 	    console.error('Error fetching data:', error.message);
 	  }
 	}
+async function remove() {
+    try {
+        // Prompt the user for confirmation
+        const userConfirmed = window.confirm('정말 이영화를 삭제하시겠습니까?');
+
+        if (!userConfirmed) {
+            alert("다시시도해주세요");
+            return;
+        }
+
+        let movieNo = localStorage.getItem('movieNo');
+
+        const response = await fetch('/movie/' + movieNo, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        
+        });
+
+        if (response.ok) {
+          
+            const responseText = await response.text();
+            alert(responseText); 
+            location.href = "/movie/movieList.jsp";
+        } else {
+            console.error('Failed to delete movie');
+        }
+    } catch (error) {
+       
+        alert(error.message);
+    }
+}
+
 
 </script>
 </html>

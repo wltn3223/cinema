@@ -12,10 +12,8 @@ public interface ScreenService {
 	public List<Screen> seeScreen();
 	//상영관 정보 보기
 	public Screen findScreen(long screenNo);
-	//상영관 정보 보기
-	public List<Screen> findCinemaScreen(String cinemaName);
+	//영화관 상영관 정보 
+	public Screen findCinemaScreen(String cinemaName);
 	//상영관 정보 수정
 	public void modifyScreen(ScreenDTO.Update screen);
-	//상영관 정보 삭제
-	public void removeScreen(long screenNo);
 }

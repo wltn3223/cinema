@@ -33,19 +33,13 @@ public class ScreenServiceImpl implements ScreenService{
 	}
 
 	@Override
-	public List<Screen> findCinemaScreen(String cinemaName) {
+	public Screen findCinemaScreen(String cinemaName) {
 		return screenMapper.getCinemaScreen(cinemaName);
 	}
-
+	
 	@Override
 	public void modifyScreen(Update screen) {
 		screenMapper.updateScreen(screen);
 	}
-
-	@Override
-	public void removeScreen(long screenNo) {
-		screenMapper.deleteScreen(screenNo);
-	}
-	
 	
 }

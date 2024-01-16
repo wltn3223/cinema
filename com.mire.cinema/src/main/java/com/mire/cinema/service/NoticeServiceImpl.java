@@ -47,16 +47,19 @@ public class NoticeServiceImpl implements NoticeService {
 		noticeMapper.deleteNotice(boardNO);
 	}
 
-	// 공지사항 조회수 업데이트
-	@Override
-	@Transactional
-	public Notice boardViewNotice(Long boardNo) {
-		Notice notice = noticeMapper.getNotice(boardNo);
-		if (notice != null) {
-			noticeMapper.updateNoticeViews(boardNo);
-			return noticeMapper.getNotice(boardNo);
-		}
-		return null;
-	}
+//	@Override
+//	public NoticeResponseDTO writeNotice(NoticeDTO.NoticeWriteDTO noticeWriteDTO) {
+//		Notice notice = noticeMapper.getNotice(noticeWriteDTO.getBoardNo());
+//
+//		if (notice == null) {
+//			return new NoticeResponseDTO(false, "아이디를 잘못 입력하셨습니다");
+//		}
+//
+//		if (!noticeWriteDTO.getBoardContent().equals(null)) {
+//			return new NoticeResponseDTO(false, "내용을 입력해주세요");
+//		}
+//
+//		return new NoticeResponseDTO(true, "공지사항 등록 성공");
+//	}
 
 }

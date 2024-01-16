@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,11 +60,11 @@ public class ScreenController {
 		return new ResponseEntity<>(foundScreen, SucessMsg.statusOK);
 	}
 
-	// 상영관 내용보기
-	@GetMapping("/cinema /{cinemaName}")
-	public ResponseEntity<List<Screen>> findCinemaScreen(@PathVariable String cinemaName) {
-		List<Screen>  foundScreen = screenService.findCinemaScreen(cinemaName);
-		return new ResponseEntity<>(foundScreen, SucessMsg.statusOK);
+	// 영화관 상영관 내용보기
+	@GetMapping("/cinema/{cinemaName}")
+	public ResponseEntity<Screen> findCinemaScreen(@PathVariable String cinemaName) {
+		Screen foundCinemaScreen = screenService.findCinemaScreen(cinemaName);
+		return new ResponseEntity<>(foundCinemaScreen, SucessMsg.statusOK);
 	}
 
 	// 상영관 내용 수정하기
@@ -75,10 +74,4 @@ public class ScreenController {
 		return new ResponseEntity<>(SucessMsg.UPDATE, SucessMsg.statusOK);
 	}
 
-	// 상영관 삭제하기
-	@DeleteMapping("/{screenNo}")
-	public ResponseEntity<String> removeNotice(@PathVariable Long screenNo) {
-		screenService.removeScreen(screenNo);
-		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
-	}
 }

@@ -15,9 +15,9 @@ public interface ImageService {
 	
 	public String saveImage(MultipartFile file);
 
-	public Image findImage(int lmageNo);
+	public Image findImage(String uuid);
 
 	public void modifyImage(Image image);
 	
-	public void removeImage(int lmageNo);
+	public void removeImage(String uuid);
 }

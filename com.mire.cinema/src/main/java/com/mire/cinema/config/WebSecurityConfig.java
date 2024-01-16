@@ -16,37 +16,49 @@ import com.mire.cinema.security.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-
+	
 	private final JwtTokenProvider jwtTokenProvider;
+	
+	@SuppressWarnings("deprecation")
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+		
+		http
+        .httpBasic().disable()
+        .csrf().disable()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .formLogin().loginPage("/login.html")
+        .and()
+        .authorizeRequests(authorizeRequests -> {
+        	authorizeRequests
+        	.requestMatchers("/member/memberInfo.jsp").authenticated()
+        	.requestMatchers("/index.jsp").permitAll()
+        	.requestMatchers("/login.html").permitAll()
+        	.requestMatchers("/WEB-INF/header.jsp").permitAll()
+        	.requestMatchers("/WEB-INF/footer.jsp").permitAll()
+        	.requestMatchers("/member/login").permitAll()
+        	.requestMatchers("/join.html").permitAll()
+        	.requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
+        	.requestMatchers(HttpMethod.POST,"/member").permitAll();
 
-    @SuppressWarnings("deprecation")
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-		http.httpBasic().disable().csrf().disable().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().formLogin().loginPage("/login.html").and()
-				.authorizeRequests(authorizeRequests -> {
-					authorizeRequests.requestMatchers("/member/memberInfo.jsp").authenticated()
-							.requestMatchers("/index.jsp").permitAll().requestMatchers("/login.html").permitAll()
-							.requestMatchers("/WEB-INF/header.jsp").permitAll().requestMatchers("/WEB-INF/footer.jsp")
-							.permitAll().requestMatchers("/member/login").permitAll().requestMatchers("/join.html")
-							.permitAll().requestMatchers(HttpMethod.GET, "/member/*").permitAll()
-							.requestMatchers(HttpMethod.POST, "/member").permitAll();
-
-				}).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-						UsernamePasswordAuthenticationFilter.class);
+        	
+        })
+		 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 //		   .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-
+		
+		
 		return http.build();
-
+		
+	
 	}
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
+	@Bean
+	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 }

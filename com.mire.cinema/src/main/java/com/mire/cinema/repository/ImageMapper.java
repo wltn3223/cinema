@@ -1,6 +1,6 @@
 package com.mire.cinema.repository;
 
-import java.util.List;
+import java.util.List;	
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -13,12 +13,12 @@ import com.mire.cinema.domain.member.Member;
 public interface ImageMapper {
 
 	void insertImage(Image Image);
-	Image selectImage(int imageNo);
+	Image selectImage(String uuid);
 
     List<Member> getMemberList();
-    void deleteImage(int imageNo);
+    void deleteImage(String uuid);
 
-    void updateImage(Image dto);
+  
 }
 
 

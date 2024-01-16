@@ -50,15 +50,22 @@ public class MovieDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class update {
-	
+			
 			private long movieNo;
+			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
 			private String movieTitle;
+			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
 			private String movieIntro;
+			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
 			private String movieActors;
+			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
 			private String movieGenre;
-			private Integer moviePlayTime;
-			private Integer movieLimit;
+			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
+			private String moviePlayTime;
+			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
+			private String movieLimit;
 			private String imageUuid;
+			
 	
 	}
 
