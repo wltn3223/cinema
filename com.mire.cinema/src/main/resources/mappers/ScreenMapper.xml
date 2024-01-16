@@ -14,13 +14,13 @@
 		SELECT * FROM Screen
 	</select>
 
-	<!-- 상영관 정보 보기 -->
+	<!-- 선택한 상영관 정보 보기 -->
 	<select id="getScreen" resultType="Screen">
 		select * from screen where
 		screen_no = #{screenNo}
 	</select>
 	
-	<!-- 영화관 에있는 상영관 보기 -->
+	<!-- 영화관 상영관 정보 보기 -->
 	<select id="getCinemaScreen" resultType="Screen">
 		select * from screen where
 		cinema_name = #{cinemaName}
@@ -32,7 +32,7 @@
 		UPDATE screen
 		SET screen_floor = #{screenFloor}, screen_hall = #{screenHall},
 		screen_totalseat = #{screenTotalSeat}
-		WHERE screen_no = #{screenNo}
+		WHERE screen_name = #{screenName}
 	</update>
 
 </mapper>

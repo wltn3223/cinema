@@ -15,8 +15,7 @@ import com.mire.cinema.repository.ImageMapper;
 import com.mire.cinema.repository.MovieMapper;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-@Log
+
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
@@ -31,36 +30,20 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public Movie findMovie(long movieNo) {
+	public Movie findMovie(int movieNo) {
 		// TODO Auto-generated method stub
 		return movieMapper.selectMovie(movieNo);
 	}
 
 	@Override
-	public void modifyMovie(Movie movie1, MovieDTO.update update) {
-		log.info(update.getImageUuid());
-		Movie movie = Movie.builder()
-			    .movieNo(update.getMovieNo())
-			    .movieTitle(update.getMovieTitle())
-			    .movieGenre(update.getMovieGenre())
-			    .movieIntro(update.getMovieIntro())
-			    .movieActors(update.getMovieActors())
-			    .moviePlayTime(Integer.parseInt(update.getMoviePlayTime()))
-			    .movieLimit(Integer.parseInt(update.getMovieLimit()))
-			    .imageUuid(update.getImageUuid())
-			    .build();
-		
-		log.info("영화정보" + movie);
-		
-		movieMapper.updateMovie(movie);
-		
-		
+	public void modifyMovie(Movie movie) {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void removeMovie(long movieNo) {
-		movieMapper.deleteMovie(movieNo);
+	public void removeMovie(int movieNo) {
+		// TODO Auto-generated method stub
 
 	}
 	@Override

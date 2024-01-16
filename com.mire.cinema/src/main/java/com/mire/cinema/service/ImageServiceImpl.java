@@ -29,29 +29,39 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public String saveImage(MultipartFile file) {
-		String uuid = "";
+		String uuid = null;
 		String fileName = file.getOriginalFilename();
-		uuid = getUuid(fileName);
-
-		String path = getPath(uuid);
-		Image img = Image.builder().imageName(fileName).imageUuid(uuid).imagePath(path).build();
-
-		try {
-
-			file.transferTo(new File(path));
-		} catch (IllegalStateException | IOException e) {
-			log.info(e.getMessage());
+		String[] uuidNames = UUID.randomUUID().toString().split("-");
+		
+		for(String data : uuidNames ) {
+			uuid += data;
 		}
-		imageMapper.insertImage(img);
-
-		return uuid;
+		uuid += fileName.substring(fileName.lastIndexOf("."));
+		
+		String path = getPath(uuid);
+		Image img = Image.builder()
+		.imageName(fileName)
+		.imageUuid(uuid)
+		.imagePath(path).build();
+		
+	
+			try {
+				
+				file.transferTo(new File(path));
+			} catch (IllegalStateException | IOException e) {
+				log.info(e.getMessage());
+			}
+			imageMapper.insertImage(img);
+		
+			return uuid;
 
 	}
 
-	@Override
-	public Image findImage(String uuid) {
 
-		return imageMapper.selectImage(uuid);
+	@Override
+	public Image findImage(int lmageNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -61,16 +71,8 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public void removeImage(String uuid) {
-		
-		String path = getPath(uuid);
-		
-		File file = new File(path);
-		file.delete();
-		
-		
-		imageMapper.deleteImage(uuid);
-	
+	public void removeImage(int lmageNo) {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -78,17 +80,6 @@ public class ImageServiceImpl implements ImageService {
 		String fullPath = "c:/team/com.mire.cinema/src/main/webapp/upload/" + uuidName;
 		return fullPath;
 	}
-
-	public String getUuid(String fileName) {
-		String uuid = "";
-		String[] uuidNames = UUID.randomUUID().toString().split("-");
-
-		for (String data : uuidNames) {
-			uuid += data;
-		}
-		uuid += fileName.substring(fileName.lastIndexOf("."));
-		
-		return uuid;
-	}
-
+	
+	
 }

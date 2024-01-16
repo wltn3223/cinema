@@ -22,7 +22,7 @@
 		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
 	<div class="container">
-		<h2 class="mt-3">상영관 추가</h2>
+		<h2 class="mt-3">상영관</h2>
 		<div class="form-container">
 			<form id="screen">
 				<div class="mb-3">
@@ -41,9 +41,9 @@
 						placeholder="상영관 총좌석수를 숫자로 입력해주세요.(ex:50)" required>
 				</div>
 				<div class="mb-3">
-					<label for="cinemaName" class="form-label">영화관 번호</label> <input
-						type="text" class="form-control" id="cinemaName"
-						placeholder="목록중 하나를 입력(강남,강남대로(씨티),강동,군자,동대문)" required>
+					<label for="cinemaNo" class="form-label">영화관 번호</label> <input
+						type="text" class="form-control" id="cinemaNo"
+						placeholder="목록중 하나를 입력(1.강남 2.강남대로(씨티) 3.강동 4.군자 5.동대문)" required>
 				</div>
 				<button type="button" class="btn btn-primary"
 					onclick="writeScreen()">작성하기</button>
@@ -61,13 +61,13 @@
 		var screenFloor = $('#screenFloor').val();
 		var screenHall = $('#screenHall').val();
 		var screenTotalSeat = $('#screenTotalSeat').val();
-		var cinemaName = $('#cinemaName').val();
+		var cinemaNo = $('#cinemaNo').val();
 
 		var data = {
 				screenFloor: screenFloor,
 				screenHall: screenHall,
 				screenTotalSeat: screenTotalSeat,
-				cinemaName: cinemaName,
+				cinemaNo: cinemaNo,
 		    };
 
 		$.ajax({

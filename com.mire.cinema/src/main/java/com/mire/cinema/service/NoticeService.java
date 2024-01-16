@@ -17,5 +17,6 @@ public interface NoticeService {
 	//공지사항 삭제
 	public void removeNotice(Long boardNo);
 	//공지사항 boardViews+1 하는 로직
-//	public NoticeResponseDTO writeNotice(NoticeDTO.NoticeWriteDTO noticeWriteDTO);
+	public Notice boardViewNotice(Long boardNo);
+	
 }
