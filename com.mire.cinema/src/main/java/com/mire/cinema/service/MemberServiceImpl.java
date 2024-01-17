@@ -77,9 +77,15 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public TokenDTO loginMember(MemberDTO.Login dto) {
+		
+		if(memberMapper.countMemberId(dto.getMemberId()) == 0) {
+			throw new NullPointerException(ErrorMsg.USERNOTFOUND);
+		}
+	
 		Member member = memberMapper.selectMember(dto.getMemberId());
+	
 
-		if (member == null || !member.getMemberPasswd().equals(dto.getMemberPasswd())) {
+		if (!member.getMemberPasswd().equals(dto.getMemberPasswd())) {
 			log.info("member" + member.getMemberId() + " " + member.getMemberPasswd());
 			throw new IllegalArgumentException(ErrorMsg.USERINFO);
 
@@ -125,11 +131,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 		if(memberId == null || "".equals(memberId.trim())) {
-			pc = getPage(pageNum, getTotalMember());
+			pc = pc.getPage(pageNum, getTotalMember());
 			map.put("list",memberMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));
 		}
+		
 		else {
-			pc = getPage(pageNum, getTotalMember(memberId));
+			pc = pc.getPage(pageNum, getTotalMember(memberId));
 			MemberDTO.search dto = new search();
 			dto.setMemberId(memberId);
 			dto.setStartNum(pc.getPaging().getStartNum());
@@ -144,15 +151,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		return map;
 	}
-	public PageCreate getPage(int pageNum, int totalCount) {
-		Page page = new Page();
-		page.setPageNum(pageNum, 5);  // 현재 페이지와 페이지 몇개 보여줄지 설정
-		
-		PageCreate pc = new PageCreate();
-		pc.setPaging(page);
-		pc.setArticleTotalCount(totalCount);
-		
-		return pc;
-	}
+	
 
 }

@@ -41,6 +41,7 @@ public class NoticeDTO {
 		private String boardTitle;
 		@NotBlank(message = "공지사항을 입력하세요")
 		private String boardContent;
+		private String imageUuid;
 	}
 	
 	@Data

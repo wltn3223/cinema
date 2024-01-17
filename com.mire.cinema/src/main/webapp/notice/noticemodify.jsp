@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>상영관 업데이트</title>
+<title>공지사항 업데이트</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -25,24 +25,30 @@
 	<div class="container">
 		<h2 class="mt-3">공지사항 업데이트</h2>
 		<div class="form-container">
-			<form id="screenForm">
+			<form id="screenForm" action="/notice/update"
+				enctype="multipart/form-data" method="post">
 				<div class="mb-3">
 					<label for="boardNo" class="form-label">공지사항 일련번호</label> <input
-						type="text" class="form-control" id="boardNo"
+						type="text" class="form-control" id="boardNo" name="boardNo"
 						placeholder="수정할 공지사항 일련번호번호를 입력하세요" required>
 				</div>
 				<div class="mb-3">
 					<label for="boardTitle" class="form-label">제목</label> <input
-						type="text" class="form-control" id="boardTitle"
+						type="text" class="form-control" id="boardTitle" name="boardTitle"
 						placeholder="수정할 제목을 입력하세요" required>
 				</div>
 				<div class="mb-3">
 					<label for="boardContent" class="form-label">공지사항</label> <input
-						type="text" class="form-control" id="boardContent"
+						type="text" class="form-control" id="boardContent" name="boardContent"
 						placeholder="수정할 공지사항을 입력하세요" required>
 				</div>
-				<button type="button" class="btn btn-primary"
-					onclick="writeNotice()">상영관 업데이트</button>
+				<div class="mb-3">
+					<label for="imageUuid" class="form-label">이미지</label> <input
+						type="file" class="form-control" id="imageUuid" name="file"
+						placeholder="수정할 이미지을 넣으세요">
+				</div>
+
+				<button class="btn btn-primary">상영관 업데이트</button>
 			</form>
 		</div>
 	</div>
@@ -57,18 +63,20 @@
 			var boardNo = $('#boardNo').val();
 			var boardTitle = $('#boardTitle').val();
 			var boardContent = $('#boardContent').val();
+			var fileInput = $('#imageUuid').val();
 
-			var data = {
-				boardNo : boardNo,
-				boardTitle : boardTitle,
-				boardContent : boardContent,
-			};
+			var formData = new FormData();
+			formData.append('boardNo', boardNo);
+			formData.append('boardTitle', boardTitle);
+			formData.append('boardContent', boardContent);
+			formData.append('file', fileInput);
 
 			$.ajax({
-				type : 'put',
-				url : '/notice',
-				contentType : "application/json;charset=UTF-8",
-				data : JSON.stringify(data),
+				type : 'POST',
+				url : '/notice/update',
+				contentType : false,
+				processData : false,
+				data : formData,
 				success : function(response) {
 					alert(response);
 					location.href = "/notice/noticelist.jsp";

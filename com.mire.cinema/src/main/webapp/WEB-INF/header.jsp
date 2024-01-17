@@ -61,7 +61,7 @@
 						role="button" data-bs-toggle="dropdown">상품</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item"
-								href="/itemgiftcard/itemlist.jsp">상품목록</a></li>
+								href="/itemgiftcard/itemgiftcardlist.jsp">상품목록</a></li>
 						</ul></li>
 					<li class="nav-item dropdown"><a class="nav-link text-light"
 						href="#" role="button" data-bs-toggle="dropdown">공지사항</a>

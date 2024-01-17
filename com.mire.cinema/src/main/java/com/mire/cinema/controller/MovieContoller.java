@@ -111,9 +111,10 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 		
 	}
 	@PostMapping("/update")
-	 public ResponseEntity<String> updateMovie(@Valid MovieDTO.update movie ,MultipartFile file){
+	 public ResponseEntity<String> updateMovie(@Valid MovieDTO.update movie ,@RequestParam(required = false) MultipartFile file){
 		String uuid = null;
 		Movie findMovie = null;
+	
 		
 		try {
 			int a = Integer.parseInt(movie.getMovieLimit());
@@ -124,7 +125,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 		
 		findMovie = movieService.findMovie(movie.getMovieNo());
 		
-		if(file != null) {
+		if(file != null && !file.getOriginalFilename().equals("") ) {
 			if(	imageService.findImage(findMovie.getImageUuid()) != null) {
 				imageService.removeImage(findMovie.getImageUuid());
 			}
@@ -132,6 +133,8 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 			uuid = imageService.saveImage(file);
 			movie.setImageUuid(uuid);
 			
+		}else {
+			movie.setImageUuid(findMovie.getImageUuid());
 		}
 		
 		
