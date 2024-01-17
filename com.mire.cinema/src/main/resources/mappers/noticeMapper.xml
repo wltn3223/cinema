@@ -59,7 +59,7 @@ WHERE rn >= #{startNum}
 	</select>
 
 	<select id="countNotice" resultType="int">
-		SELECT COUNT(*) FROM your_table_name;
+		SELECT COUNT(*) FROM board
 	</select>
 
 
