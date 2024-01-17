@@ -62,107 +62,101 @@ p {
 
 <body>
 	<!-- 헤더 -->
-	<header>
-		<%@ include file="../WEB-INF/header.jsp"%>
-	</header>
+<header>
+    <%@ include file="../WEB-INF/header.jsp"%>
+</header>
 
-	<!-- itemTab -->
-	<div
-		style="display: flex; justify-content: space-between; align-items: center;"
-		class="container">
-		<table>
-			<tbody>
+<!-- itemTab -->
+<div
+    style="display: flex; justify-content: space-between; align-items: center;"
+    class="container">
+    <table>
+        <tbody>
 
-				<tr>
-					<td colspan="2" style="font-weight: 500; font-size: 25px;"
-						id="itemName"></td>
-				</tr>
-				<tr>
-					<td colspan="2" id="itemSize"></td>
-				</tr>
+            <tr>
+                <td colspan="2" style="font-weight: 500; font-size: 25px;"
+                    id="itemName"></td>
+            </tr>
+            <tr>
+                <td colspan="2" id="itemSize"></td>
+            </tr>
 
-				<tr style="border-top: 1px solid black;">
-					<td rowspan="8"><img src="../upload" id="itemImage"
-						style="width: 500px; height: 500px; border-right: 1px solid black; margin-right: 30px;">
-					</td>
-				</tr>
+            <tr style="border-top: 1px solid black;">
+                <td rowspan="8"><img src="" id="itemImage"
+                    style="width: 500px; height: 500px; border-right: 1px solid black; margin-right: 30px;">
+                </td>
+            </tr>
 
-				<tr>
-					<td id="hd">사용극장</td>
-					<td id="cinemaName"></td>
-				</tr>
-				<tr>
-					<td id="hd">유효기간</td>
+            <tr>
+                <td id="hd">사용극장</td>
+                <td id="cinemaName"></td>
+            </tr>
+            <tr>
+                <td id="hd">유효기간</td>
 
-					<td id="itemType">구매일로부터 24개월 이내</td>
-				</tr>
-				<tr>
-					<td id="hd">판매수량</td>
+                <td id="itemType">구매일로부터 24개월 이내</td>
+            </tr>
+            <tr>
+                <td id="hd">판매수량</td>
 
-					<td>1회 8개 구매가능</td>
-				</tr>
-				<tr>
-					<td id="hd">구매 후 취소&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>1회 8개 구매가능</td>
+            </tr>
+            <tr>
+                <td id="hd">구매 후 취소&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
-					<td>구매일로부터 10일 이내 취소 가능</td>
-				</tr>
-				<tr>
-					<td id="hd">수량/금액</td>
+                <td>구매일로부터 10일 이내 취소 가능</td>
+            </tr>
+            <tr>
+                <td id="hd">수량/금액</td>
 
-					<td><button id="decreaseBtn">-</button> <span id="quantity"
-						style="color: black;"></span> 개
-						<button id="increaseBtn">+</button>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-						style="color: black; font-size: 30px; font-weight: 600;"
-						id="itemPrice"></span></td>
+                <td><button id="decreaseBtn">-</button> <span id="quantity"
+                    style="color: black;"></span> 개
+                    <button id="increaseBtn">+</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: black; font-size: 30px; font-weight: 600;"
+                    id="itemPrice"></span></td>
 
-				</tr>
-				<tr>
-					<td id="hd">원산지</td>
-					<td id="itemInfo"></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<button id="purchaseBtn">구매하기</button>
-					</td>
-				</tr>
+            </tr>
+            <tr>
+                <td id="hd">원산지</td>
+                <td id="itemInfo"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="purchaseBtn">구매하기</button>
+                </td>
+            </tr>
 
-			</tbody>
-		</table>
-	</div>
-	<!-- itemTab -->
+        </tbody>
+    </table>
+</div>
+<!-- itemTab -->
 
-	<!-- 푸터-->
-	<footer class="py-3 my-4" style="background-color: rgb(17, 17, 17);">
-		<%@ include file="../WEB-INF/footer.jsp"%>
-	</footer>
+<!-- 푸터-->
+<footer class="py-3 my-4" style="background-color: rgb(17, 17, 17);">
+    <%@ include file="../WEB-INF/footer.jsp"%>
+</footer>
 
-	<script type="text/javascript">
-   $(document).ready(function() {
-	   
-	   getItem();
-	   });
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 페이지 로드 시 sessionStorage에서 선택한 상품 정보를 가져와서 폼에 표시
+        var selectedItem = sessionStorage.getItem('selectedItem');
 
-	   async function getItem() {
-	   	  try {
-	   		let itemName = localStorage.getItem('itemName');
-	   	    const response = await fetch('/item/'+ itemName);
-	   	
-	   	    const data = await response.json();
-	   	    console.log(data);
-	   	    $('#itemImage').html('<img src="../upload/' + data.imageUuid + '" style="width: 500px; height: 500px;">');
-	   	    $('#itemName').text(data.itemName);
-	   	     $('#itemSize').text(data.itemSize);
-	   	     $('#itemInfo').text(data.itemInfo);
-	   	     $('#cinemaName').text(data.cinemaName);
-	   	     $('#itemPrice').text(data.itemPrice);
-	   	     $('#itemType').text(data.itemType);
-	   	     	   	   
-	   	  } catch (error) {
-	   	    
-	   	    console.error('Error fetching data:', error.message);
-	   	  }
-	   	}
+        if (selectedItem) {
+            selectedItem = JSON.parse(selectedItem);
+
+            // 상품 정보 표시
+            $('#itemName').text(selectedItem.itemName);
+            $('#itemType').text(selectedItem.itemType);
+            $('#itemPrice').text(selectedItem.itemPrice);
+            $('#itemSize').text(selectedItem.itemSize);
+            $('#itemInfo').text(selectedItem.itemInfo);
+            $('#cinemaName').text(selectedItem.cinemaName);
+
+            // 이미지 정보 표시
+            $('#itemImage').attr('src', '../upload/' + selectedItem.imageUuid);
+
+            console.log(selectedItem);
 
             // 개당 가격 설정
             var unitPrice = selectedItem.itemPrice;
@@ -201,7 +195,6 @@ p {
         }
     });
 </script>
-
 
 </body>
 

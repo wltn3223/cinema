@@ -27,25 +27,16 @@
 	</delete>
 
 	<update id="updateItemGiftCard">
-		UPDATE itemgiftcard
-		SET
-		item_type = #{itemType},
-		item_price =
-		#{itemPrice},
+		update itemgiftcard set item_type = #{itemType},
+		item_price = #{itemPrice},
 		item_size = #{itemSize},
 		item_info = #{itemInfo},
-		cinema_name = #{cinemaName}
-		<if test="imageUuid != null">
-			,image_uuid = #{imageUuid},
-		</if>
-		WHERE item_name = #{itemName}
+		cinema_name = #{cinemaName},
+		image_uuid = #{imageUuid}
+		where item_name = #{itemName}
+
 	</update>
 
-	<update id="updateItemImage">
-		UPDATE itemgiftcard
-		SET image_uuid = #{imageUuid}
-		WHERE item_name = #{itemName}
-	</update>
 
 
 </mapper>
