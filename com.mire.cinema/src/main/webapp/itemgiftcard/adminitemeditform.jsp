@@ -82,7 +82,7 @@
                                     onclick="removeItem()">삭제하기</button>
                             </div>
                             <div class="text-center">
-                                <a href="/itemgiftcard/itemlist.jsp">
+                                <a href="/itemgiftcard/adminitemlist.jsp">
                                     <button class="btn btn-light bg-dark text-light" type="button">목록으로</button>
                                 </a>
                             </div>
@@ -161,7 +161,7 @@
 						// 수정 후 세션 스토리지에서 선택한 상품 정보 삭제
 						sessionStorage.removeItem('selectedItem');
 
-						location.href = "/itemgiftcard/itemlist.jsp";
+						location.href = "/itemgiftcard/adminitemlist.jsp";
 					},
 					error : function(error) {
 						var errorMessage = error.responseText;
@@ -186,7 +186,7 @@
 						alert("상품이 삭제되었습니다.");
 						// 삭제 후 세션 스토리지에서 선택한 상품 정보 삭제
 						sessionStorage.removeItem('selectedItem');
-						location.href = "/itemgiftcard/itemlist.jsp";
+						location.href = "/itemgiftcard/adminitemlist.jsp";
 					},
 					error : function(error) {
 						var errorMessage = error.responseText;

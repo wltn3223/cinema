@@ -129,6 +129,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 		PageCreate pc = new PageCreate();
 		
+		
 		if(memberId == null || "".equals(memberId.trim())) {
 			pc = pc.getPage(pageNum, getTotalMember());
 			map.put("list",memberMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));

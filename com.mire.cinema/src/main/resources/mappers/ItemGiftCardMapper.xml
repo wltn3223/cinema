@@ -30,13 +30,52 @@
 		update itemgiftcard set item_type = #{itemType},
 		item_price = #{itemPrice},
 		item_size = #{itemSize},
-		item_info = #{itemInfo},
+		item_info =
+		#{itemInfo},
 		cinema_name = #{cinemaName},
 		image_uuid = #{imageUuid}
 		where item_name = #{itemName}
 
 	</update>
 
+	<select id="getPartList" resultType="ItemGiftCard"
+		parameterType="int">
+		 <![CDATA[
+ SELECT a.* from 
+(SELECT a.*, rownum rn from 
+    ( SELECT * from itemgiftcard order by item_no desc) a 
+    where rownum <= #{end} ) a
+where rn >= #{start}    
 
+  ]]>
+	</select>
+
+	<select id="getPartList"
+		resultType="com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO$items"
+		parameterType="int">
+		 <![CDATA[
+SELECT a.item_no, a.item_name, a.item_size, a.item_price ,a.image_uuid
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT item_no, item_name, item_size, item_price, image_uuid
+        FROM itemgiftcard
+        ORDER BY item_no DESC
+    ) a
+    WHERE rownum <= #{end}
+) a
+WHERE rn >= #{start}
+
+  ]]>
+	</select>
+	<select id="countItem" resultType="int">
+		SELECT count(*) FROM itemgiftcard
+	</select>
+
+	<select id="countItemName" resultType="int"
+		parameterType="String">
+		SELECT count(*) FROM itemgiftcard where item_name =
+		#{itemName}
+	</select>
 
 </mapper>

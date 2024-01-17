@@ -2,6 +2,7 @@
 package com.mire.cinema.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -113,6 +114,23 @@ public class ItemGiftCardController {
 				.itemInfo(info.getItemInfo()).imageUuid(info.getImageUuid()).cinemaName(info.getCinemaName()).build();
 
 		return new ResponseEntity<>(item, SucessMsg.statusOK);
+	}
+	
+	@GetMapping("/list/{pageNum}")
+	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum) {
+		
+
+	
+
+		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum,null),HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/list/{pageNum}/item/{itemName}")
+	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum, @PathVariable String itemName) {
+		
+		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum, itemName),HttpStatus.OK);
+
 	}
 
 }

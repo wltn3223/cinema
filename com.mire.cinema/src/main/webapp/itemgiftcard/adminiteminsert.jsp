@@ -97,7 +97,7 @@
             data: formData,
             success: function (response) {
                 alert(response);
-                location.href = "/itemgiftcard/itemlist.jsp";
+                location.href = "/itemgiftcard/adminitemlist.jsp";
             },
             error: function (error) {
                 var errorMessage = error.responseText;

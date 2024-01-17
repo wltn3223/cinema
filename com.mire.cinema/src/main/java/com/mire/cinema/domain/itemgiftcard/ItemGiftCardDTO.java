@@ -2,6 +2,7 @@ package com.mire.cinema.domain.itemgiftcard;
 
 import java.util.List;
 
+import com.mire.cinema.domain.member.MemberDTO;
 import com.mire.cinema.domain.movie.MovieDTO;
 
 import jakarta.validation.constraints.Min;
@@ -60,6 +61,28 @@ public class ItemGiftCardDTO {
 		private String imageUuid;
 		private String cinemaName;
 
+	}
+	
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class items {
+		private String itemNo;
+		private String itemName;
+		private String itemSize;
+		private String itemPrice;
+		private String imageUuid;
+
+	}
+	
+	@Builder
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class search{
+		private String itemName;
+		private int startNum;
+		private int endNum;
 	}
 
 }
