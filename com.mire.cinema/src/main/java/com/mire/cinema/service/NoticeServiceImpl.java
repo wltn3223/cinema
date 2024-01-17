@@ -3,6 +3,7 @@ package com.mire.cinema.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,28 +45,29 @@ public class NoticeServiceImpl implements NoticeService {
 	// 공지사항 페이징처리 및 검색기능
 	@Override
 	public Map<String, Object> getNoticeMap(Integer pageNum, String boardTitle) {
-		Map<String, Object> map = new HashMap<>();
-		if (pageNum == null) {// 페이지번호가 null 일때 오류를 발생 시킴.
-			throw new IllegalArgumentException(ErrorMsg.BADTYPE);
-		}
-		PageCreate pc = new PageCreate(); // domain.page 에있는거 쓰는거임.
+	    Map<String, Object> map = new HashMap<>();
+	    
+	    Objects.requireNonNull(pageNum, "pageNum should not be null");
 
-		if (boardTitle == null || "".equals(boardTitle.trim())) {// 검색할때 안에 아무것도 입력을 안하거나 전체목록이 표시됨.
-			pc.getPage(pageNum, getTotalNotice());
-			map.put("list", noticeMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));
-		}else {
-			pc = pc.getPage(pageNum, getTotalNotice(boardTitle));
-			NoticeDTO.Search noticeDTO = new Search();
-			noticeDTO.setBoardTitle(boardTitle);
-			noticeDTO.setStartNum(pc.getPaging().getStartNum());
-			noticeDTO.setEndNum(pc.getPaging().getEndNum());
-			map.put("Keyword", boardTitle);
-			map.put("searchList", noticeMapper.searchNoticeList(noticeDTO));
-		}
-		map.put("page",pc);
-		
-		return map;
+	    PageCreate pc = new PageCreate().getPage(pageNum, getTotalNotice(boardTitle));
+	    
+	    if (boardTitle == null || boardTitle.trim().isEmpty()) {
+	        map.put("list", noticeMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));
+	    } else {
+	        NoticeDTO.Search noticeDTO = new Search();
+	        noticeDTO.setBoardTitle(boardTitle);
+	        noticeDTO.setStartNum(pc.getPaging().getStartNum());
+	        noticeDTO.setEndNum(pc.getPaging().getEndNum());
+	        
+	        map.put("Keyword", boardTitle);
+	        map.put("searchList", noticeMapper.searchNoticeList(noticeDTO));
+	    }
+	    
+	    map.put("page", pc);
+	    
+	    return map;
 	}
+
 
 	@Override
 	public int getTotalNotice() {
@@ -78,7 +80,11 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public int getTotalNotice(String boardTitle) {
-		return noticeMapper.countNoticeTitle(boardTitle);
+	    if (boardTitle == null) {
+	        return noticeMapper.countNotice();
+	    } else {
+	        return noticeMapper.countNoticeTitle(boardTitle);
+	    }
 	}
 	
 	@Override

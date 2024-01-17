@@ -38,6 +38,8 @@
 		where board_no = #{boardNo}
 	</update>
 
+
+
 	<!-- 보드 검색기능(서브쿼리) -->
 	<select id="searchNoticeList" resultType="Notice"
 		parameterType="com.mire.cinema.domain.notice.NoticeDTO$Search">
@@ -62,6 +64,22 @@ WHERE rn >= #{startNum}
 		SELECT COUNT(*) FROM board
 	</select>
 
+	<select id="getPartList" resultType="Notice" parameterType="int">
+		 <![CDATA[
+ SELECT a.* from 
+(SELECT a.*, rownum rn from 
+    ( SELECT * from board order by board_no desc) a 
+    where rownum <= #{end} ) a
+where rn >= #{start}    
+
+  ]]>
+	</select>
+
+	<select id="countNoticeTitle" resultType="int"
+		parameterType="String">
+		SELECT count(*) FROM board where boardTitle =
+		#{boardTitle}
+	</select>
 
 	<!-- 보드번호로 삭제 -->
 	<delete id="deleteNotice">

@@ -93,7 +93,7 @@ public class NoticeController {
 		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
 	}
 
-	// 공지사항 검색기능
+	// 공지사항 검색기능,페이징기능 
 	@GetMapping("/info/{boardTitle}")
 	public ResponseEntity<NoticeDTO.Info> findNoticeInfo(@PathVariable String boardTitle) {
 		Notice info = noticeService.findSearchNotice(boardTitle);
@@ -117,8 +117,7 @@ public class NoticeController {
 	}
 
 	@GetMapping("/list/{pageNum}/notice/{boardTitle}")
-	public ResponseEntity<Map<String, Object>> getNoticeList(@PathVariable Integer pageNum,
-			@PathVariable String boardTitle) {
+	public ResponseEntity<Map<String, Object>> getNoticeList(@PathVariable Integer pageNum, String boardTitle) {
 		return new ResponseEntity<>(noticeService.getNoticeMap(pageNum, boardTitle), HttpStatus.OK);
 	}
 

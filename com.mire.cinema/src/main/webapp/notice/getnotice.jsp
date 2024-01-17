@@ -60,7 +60,6 @@
 			contentType : 'application/json',
 			success : function(notice) {
 				appendNoticeToTable(notice);
-				consol.log(notice);
 			},
 			error : function(error) {
 				var errorMessage = error.responseText;

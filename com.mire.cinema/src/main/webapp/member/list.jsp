@@ -51,7 +51,7 @@
 			<div id="pageNum"></div>
 			<div id="next" class="mx-4"></div>
 		</div>
-		
+
 	</div>
 
 
@@ -67,12 +67,10 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchMembers(1); // Initial fetch with page 1
 });
 
-function fetchMembers(pageNum,memberId) {
-	
-	
-	var url = (memberId === null || memberId === '' || memberId === undefined)?
-			'/member/list/' + pageNum:'/member/list/' + pageNum +'/member/' +memberId;
-	console.log(url);
+function fetchNotice(pageNum, boardTitle) {
+    var url = (boardTitle === null || boardTitle === '' || boardTitle === undefined) ?
+        '/notice/list/' + pageNum : '/notice/list/' + pageNum + '/notice/' + boardTitle;
+    console.log(url);
     fetch(url, {
         method: 'GET',
         headers: {
@@ -89,21 +87,20 @@ function fetchMembers(pageNum,memberId) {
             return response.json();
         })
         .then(data => {
-           
             console.log(data.list);
             console.log(data.searchList);
             console.log(data.page);
-          
-            let members = (data.list === undefined)?data.searchList:data.list;
-            let paginationData = data.page;
-            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next,data);
-            displayMovies(members);
 
+            let notices = (data.list === undefined) ? data.searchList : data.list;
+            let paginationData = data.page;
+            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next, data);
+            displayMovies(notices);
         })
         .catch(error => {
             console.error('Fetch error:', error.message);
         });
 }
+
 
 function displayMovies(members) {
    
