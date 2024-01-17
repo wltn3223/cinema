@@ -22,6 +22,6 @@ public interface ItemGiftCardMapper {
 	    void deleteItemGiftCard(String name);
 
 	    void updateItemGiftCard(ItemGiftCard itemgiftcard);
-	    
+	    void updateItemImage(ItemGiftCard item);
 	    
 }

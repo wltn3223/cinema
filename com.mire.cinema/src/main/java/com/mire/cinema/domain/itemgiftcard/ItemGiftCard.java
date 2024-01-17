@@ -1,13 +1,13 @@
 package com.mire.cinema.domain.itemgiftcard;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @Builder
@@ -19,5 +19,5 @@ public class ItemGiftCard {
 		private String itemSize;
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaNo;
+		private String cinemaName;
 }

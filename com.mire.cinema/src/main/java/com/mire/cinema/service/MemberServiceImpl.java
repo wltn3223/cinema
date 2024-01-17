@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.member.MemberDTO;
+import com.mire.cinema.domain.member.MemberDTO.search;
 import com.mire.cinema.domain.member.TokenDTO;
 import com.mire.cinema.domain.page.Page;
 import com.mire.cinema.domain.page.PageCreate;
@@ -105,26 +106,52 @@ public class MemberServiceImpl implements MemberService {
 		
 		return num;
 	}
+	@Override
+	public int getTotalMember(String id) {
+		
+
+		
+		
+		return 	memberMapper.countsearchMember(id);
+	}
 
 	@Override
-	public Map<String,Object> getMemberMap(Integer pageNum) {
+	public Map<String,Object> getMemberMap(Integer pageNum, String memberId) {
+		Map<String, Object> map = new HashMap<>();
 		if(pageNum == null) {
 			throw new IllegalArgumentException(ErrorMsg.BADTYPE);
 		}
-		Page page = new Page();
-		page.setPageNum(pageNum, 20);  // 현재 페이지와 페이지 몇개 보여줄지 설정
+		PageCreate pc = new PageCreate();
 		
+		if(memberId == null || "".equals(memberId.trim())) {
+			pc = getPage(pageNum, getTotalMember());
+			map.put("list",memberMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));
+		}
+		else {
+			pc = getPage(pageNum, getTotalMember(memberId));
+			MemberDTO.search dto = new search();
+			dto.setMemberId(memberId);
+			dto.setStartNum(pc.getPaging().getStartNum());
+			dto.setEndNum(pc.getPaging().getEndNum());
+			map.put("keyword", memberId);
+			map.put("searchList",memberMapper.searchPartList(dto));
+		}	
+		
+		map.put("page", pc);
+		
+	 
+		
+		return map;
+	}
+	public PageCreate getPage(int pageNum, int totalCount) {
+		Page page = new Page();
+		page.setPageNum(pageNum, 5);  // 현재 페이지와 페이지 몇개 보여줄지 설정
 		
 		PageCreate pc = new PageCreate();
 		pc.setPaging(page);
-		pc.setArticleTotalCount(getTotalMember());
+		pc.setArticleTotalCount(totalCount);
 		
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("page", pc);
-		map.put("list",memberMapper.getPartList(page.getStartNum(), page.getEndNum())); 
-		
-		return map;
+		return pc;
 	}
 
 }
