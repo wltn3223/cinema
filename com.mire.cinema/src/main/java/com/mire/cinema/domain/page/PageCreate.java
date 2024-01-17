@@ -35,7 +35,16 @@ public class PageCreate {
 		this.totalBoardCount = totalBoardCount;
 		calcDataOfPage();
 	}
-	
+	public PageCreate getPage(int pageNum, int totalCount) {
+		Page page = new Page();
+		page.setPageNum(pageNum, 5);  // 현재 페이지와 페이지 몇개 보여줄지 설정
+		
+		PageCreate pc = new PageCreate();
+		pc.setPaging(page);
+		pc.setArticleTotalCount(totalCount);
+		
+		return pc;
+	}
 	
 
 }
