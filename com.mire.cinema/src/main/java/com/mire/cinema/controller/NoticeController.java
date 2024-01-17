@@ -1,6 +1,6 @@
 package com.mire.cinema.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,13 +55,6 @@ public class NoticeController {
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
 	}
 
-	// 공지사항 리스트
-	@GetMapping("/list")
-	public ResponseEntity<List<Notice>> NoticeList() {
-		List<Notice> noticeList = noticeService.seeNotice();
-		return new ResponseEntity<>(noticeList, SucessMsg.statusOK);
-	}
-
 	// 공지사항 내용보기
 	@GetMapping("/{boardNo}")
 	public ResponseEntity<Notice> findNotice(@PathVariable long boardNo) {
@@ -88,7 +81,7 @@ public class NoticeController {
 		} else {
 			noticeDTO.setImageUuid(notice.getImageUuid());
 		}
-		System.out.println("가나"+noticeDTO.toString());
+		System.out.println("가나" + noticeDTO.toString());
 		noticeService.modifyNotice(noticeDTO);
 		return new ResponseEntity<>(SucessMsg.UPDATE, SucessMsg.statusOK);
 	}
@@ -98,6 +91,35 @@ public class NoticeController {
 	public ResponseEntity<String> removeNotice(@PathVariable Long boardNo) {
 		noticeService.removeNotice(boardNo);
 		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
+	}
+
+	// 공지사항 검색기능
+	@GetMapping("/info/{boardTitle}")
+	public ResponseEntity<NoticeDTO.Info> findNoticeInfo(@PathVariable String boardTitle) {
+		Notice info = noticeService.findSearchNotice(boardTitle);
+		if (info == null) {
+			throw new IllegalArgumentException(ErrorMsg.USERINFO);
+		}
+		NoticeDTO.Info notice = NoticeDTO.Info.builder().boardNo(info.getBoardNo()).boardTitle(info.getBoardTitle())
+				.boardContent(info.getBoardContent()).boardViews(info.getBoardViews()).boardDate(info.getBoardDate())
+				.build();
+		return new ResponseEntity<>(notice, SucessMsg.statusOK);
+	}
+
+	@GetMapping("/list/{pageNum}")
+	public ResponseEntity<Map<String, Object>> getNoticeList(@PathVariable Integer pageNum) {
+		try {
+			return new ResponseEntity<>(noticeService.getNoticeMap(pageNum, null), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/list/{pageNum}/notice/{boardTitle}")
+	public ResponseEntity<Map<String, Object>> getNoticeList(@PathVariable Integer pageNum,
+			@PathVariable String boardTitle) {
+		return new ResponseEntity<>(noticeService.getNoticeMap(pageNum, boardTitle), HttpStatus.OK);
 	}
 
 }

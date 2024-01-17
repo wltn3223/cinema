@@ -23,11 +23,47 @@
 		board_no = #{boardNo}
 	</select>
 
-	<!-- 보드번호로 제목,내용 업데이트 -->
-	<update id="updateNotice" parameterType="com.mire.cinema.domain.notice.NoticeDTO$NoticeUpdate">
-		update board set board_title = #{boardTitle},board_content=#{boardContent},image_uuid=#{imageUuid} where board_no = #{boardNo}
+	<!-- 보드제목로 해당 보드정보 보기 -->
+	<select id="getSearchNotice" resultType="Notice">
+		select * from board
+		where
+		board_title = #{boardTitle}
+	</select>
+
+	<!-- 보드번호로 제목,내용,이미지 업데이트 -->
+	<update id="updateNotice"
+		parameterType="com.mire.cinema.domain.notice.NoticeDTO$NoticeUpdate">
+		update board set board_title =
+		#{boardTitle},board_content=#{boardContent},image_uuid=#{imageUuid}
+		where board_no = #{boardNo}
 	</update>
 
+	<!-- 보드 검색기능(서브쿼리) -->
+	<select id="searchNoticeList" resultType="Notice"
+		parameterType="com.mire.cinema.domain.notice.NoticeDTO$Search">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT *
+        FROM board
+        WHERE LOWER(board_title) LIKE '%' || #{boardTitle} || '%'
+        ORDER BY board_no DESC
+    ) a
+    WHERE rownum <= #{endNum}
+) a
+WHERE rn >= #{startNum}   
+
+  ]]>
+	</select>
+
+	<select id="countNotice" resultType="int">
+		SELECT COUNT(*) FROM your_table_name;
+	</select>
+
+
+	<!-- 보드번호로 삭제 -->
 	<delete id="deleteNotice">
 		delete from board where board_no = #{boardNo}
 	</delete>
@@ -35,7 +71,8 @@
 	<!-- 조회수 증가 -->
 	<update id="updateNoticeViews" parameterType="long">
 		update board
-		set board_views = board_views + 1
+		set
+		board_views = board_views + 1
 		where
 		board_no = #{boardNo}
 	</update>

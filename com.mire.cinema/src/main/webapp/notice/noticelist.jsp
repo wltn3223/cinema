@@ -30,15 +30,20 @@
 	<!-- 메인 -->
 	<main class="container">
 		<div class="container mt-3">
-			<h2>공지사항</h2>
-			<a href="/notice/noticewrite.jsp">
-				<button class="btn btn-dark mb-2">공지사항 작성</button>
-			</a> <a href="/notice/noticemodify.jsp">
-				<button class="btn btn-dark mb-2">공지사항 수정</button>
-			</a> <a href="/notice/deletenotice.jsp">
-				<button class="btn btn-dark mb-2">공지사항 삭제</button>
-			</a>
+			<h2 class="mb-4">공지사항</h2>
+			<input type="text" placeholder="제목으로 검색하세요" id="boardTitle">
+			<div class="btn btn-dark "
+				onclick="fetchMembers(1,document.getElementById('boardTitle').value)">검색</div>
 			<table class="table table-bordered">
+				<a href="/notice/noticewrite.jsp">
+					<button class="btn btn-dark mb-2">공지사항 작성</button>
+				</a>
+				<a href="/notice/noticemodify.jsp">
+					<button class="btn btn-dark mb-2">공지사항 수정</button>
+				</a>
+				<a href="/notice/deletenotice.jsp">
+					<button class="btn btn-dark mb-2">공지사항 삭제</button>
+				</a>
 				<thead>
 					<tr>
 						<th>일련번호</th>
@@ -48,10 +53,15 @@
 						<th>등록일</th>
 					</tr>
 				</thead>
-				<tbody id="table tbody">
+				<tbody id="noticeList">
 
 				</tbody>
 			</table>
+			<div id="paging" class="d-flex container justify-content-center mt-5">
+				<div id="prev" class="mx-4"></div>
+				<div id="pageNum"></div>
+				<div id="next" class="mx-4"></div>
+			</div>
 		</div>
 	</main>
 	<!-- 푸터-->
@@ -59,48 +69,83 @@
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
-	<script>
-		$(document).ready(function() {
-			$.ajax({
-				type : 'GET',
-				url : '/notice/list',
-				contentType : 'application/json',
-				success : function(notices) {
-					appendNoticesToTable(notices);
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		});
+	<script>	   
+	document.addEventListener('DOMContentLoaded', function () {
+	    fetchNotice(1);
+	});
 
-		function appendNoticesToTable(notices) {
-			var tbody = $("table tbody");
-			tbody.empty();
+	function fetchNotice(pageNum, boardTitle) {
+	    var url = (boardTitle === null || boardTitle === '' || boardTitle === undefined) ?
+	        '/notice/list/' + pageNum : '/notice/list/' + pageNum + '/notice/' + boardTitle;
+	    console.log(url);
+	    fetch(url, {
+	        method: 'GET',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        },
+	    })
+	        .then(response => {
+	            if (!response.ok) {
+	                return response.json().then(errorData => {
+	                    alert("서버내부 오류: " + errorData.message);
+	                    throw new Error('Server error');
+	                });
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            console.log(data.list);
+	            console.log(data.searchList);
+	            console.log(data.page);
 
-			for (var i = 0; i < notices.length; i++) {
-				var notice = notices[i];
-				var row = "<tr>"
-						+ "<td>"
-						+ notice.boardNo
-						+ "</td>"
-						+ "<td><a href='#' class='notice-title' data-board-no='" + notice.boardNo + "'>"
-						+ notice.boardTitle + "</a></td>" + "<td>관리자</td>"
-						+ "<td>" + notice.boardViews + "</td>" + "<td>"
-						+ notice.boardDate + "</td>" + "</tr>";
-				tbody.append(row);
-			}
+	            let notices = (data.list === undefined) ? data.searchList : data.list;
+	            let paginationData = data.page;
+	            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next, data);
+	            displayMovies(notices);
+	        })
+	        .catch(error => {
+	            console.error('Fetch error:', error.message);
+	        });
+	}
 
-			$(".notice-title").on("click", function() {
+	function displayMovies(notices) {
+	    $('#noticeList').empty();
 
-				var boardNo = $(this).data("board-no");
+	    for (var notice of notices) {
+	        let noticeInfo =
+	            '<tr>' +
+	            '<td>' + notice.boardNo + '</td>' +
+	            '<td>' + notice.boardTitle + '</td>' +
+	            '<td>관리자</td>' +
+	            '<td>' + notice.boardViews + '</td>' +
+	            '<td>' + notice.boardDate + '</td>' +
+	            '</tr>';
 
-				sessionStorage.setItem("BoardNo", boardNo);
-				location.href = "/notice/getnotice.jsp";
+	        $('#table tbody').append(noticeInfo);
+	    }
+	}
 
-			});
-		}
+	function createPaginationButtons(begin, end, prev, next, data) {
+	    let prevPage = begin - 1;
+	    let nextPage = end + 1;
+	    $('#pageNum').empty();
+
+	    if (data.list !== undefined) {
+	        $('#prev').html(prev ? '<button onclick="fetchNotice(' + prevPage + ')">이전</button>' : '');
+	        $('#next').html(next ? '<button onclick="fetchNotice(' + nextPage + ')">다음</button>' : '');
+	        for (let i = begin; i <= end; i++) {
+	            $('#pageNum').append('<button onclick="fetchNotice(' + i + ')" class="mx-2">' + i + '</button>');
+	        }
+	    } else {
+	        console.log(data.keyword);
+	        $('#prev').html(prev ? '<button onclick="fetchNotice(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
+	        $('#next').html(next ? '<button onclick="fetchNotice(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
+	        for (let i = begin; i <= end; i++) {
+	            $('#pageNum').append('<button onclick="fetchNotice(' + i + ', \'' + data.keyword + '\')" class="mx-2">' + i + '</button>');
+	        }
+	    }
+	}
+
 	</script>
 
 </body>

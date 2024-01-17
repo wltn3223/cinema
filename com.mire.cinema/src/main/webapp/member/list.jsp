@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +22,13 @@
 		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
 	<div class="container mt-5">
-	<div class= "container-fluid  d-flex justify-content-between">
-		<h2 class="mb-4">회원목록</h2>
-		<div><input type="text" placeholder="아이디로 검색하세요" id = "id">
-		<div class="btn btn-dark ms-1" onclick="fetchMembers(1,document.getElementById('id').value)">회원검색</div>
-		</div>
+		<div class="container-fluid  d-flex justify-content-between">
+			<h2 class="mb-4">회원목록</h2>
+			<div>
+				<input type="text" placeholder="아이디로 검색하세요" id="id">
+				<div class="btn btn-dark ms-1"
+					onclick="fetchMembers(1,document.getElementById('id').value)">회원검색</div>
+			</div>
 		</div>
 		<table id="cinema-list" class="table table-striped container">
 			<thead>
@@ -40,7 +42,7 @@
 					<th>가입일</th>
 				</tr>
 			</thead>
-			<tbody id= "memberList">
+			<tbody id="memberList">
 			</tbody>
 		</table>
 
@@ -49,6 +51,7 @@
 			<div id="pageNum"></div>
 			<div id="next" class="mx-4"></div>
 		</div>
+		
 	</div>
 
 
@@ -56,9 +59,9 @@
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 </body>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
    
     fetchMembers(1); // Initial fetch with page 1
