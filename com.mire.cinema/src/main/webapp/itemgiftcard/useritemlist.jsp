@@ -190,12 +190,7 @@ p {
             }
         });
     }
-
-    // 추가된 수정하기 함수
-    function editItem(itemName) {
-        // 수정 페이지로 이동하는 코드
-        location.href = '/itemgiftcard/itemEditForm.jsp?itemName=' + encodeURIComponent(itemName);
-    }
+ 
 </script>
 
 
