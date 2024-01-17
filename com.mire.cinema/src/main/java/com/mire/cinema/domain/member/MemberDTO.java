@@ -60,5 +60,14 @@ public class MemberDTO {
 		private DiscountGrade memberGrade;
 		private String memberDate;
 	}
+	@Builder
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class search{
+		private String memberId;
+		private int startNum;
+		private int endNum;
+	}
 
 }

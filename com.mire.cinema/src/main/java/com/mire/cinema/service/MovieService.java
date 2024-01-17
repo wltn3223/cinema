@@ -12,7 +12,7 @@ public interface MovieService {
 	
 	public void saveMovie(Movie movie);
 	public Movie findMovie(long movieNo);
-	public void modifyMovie(Movie movie, MovieDTO.update update);
+	public void modifyMovie(MovieDTO.update update);
 	public void removeMovie(long movieNo);
 	public int getTotalCount();
 	public List<Movie> getTotalList();

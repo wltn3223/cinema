@@ -35,6 +35,26 @@ where rn >= #{start}
 
   ]]>
 	</select>
+	
+
+	
+	<select id="searchPartList" resultType="Member" parameterType="com.mire.cinema.domain.member.MemberDTO$search">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT *
+        FROM member
+        WHERE LOWER(member_id) LIKE '%' || #{memberId} || '%'
+        ORDER BY member_no DESC
+    ) a
+    WHERE rownum <= #{endNum}
+) a
+WHERE rn >= #{startNum}   
+
+  ]]>
+	</select>
 
 	<select id="selectMember" resultType="Member"
 		parameterType="java.lang.String">
@@ -43,6 +63,10 @@ where rn >= #{start}
 	
 	<select id="countMember" resultType="int">
 		SELECT count(*) FROM member 
+	</select>
+	
+	<select id="countsearchMember" resultType="int" parameterType="String">
+		SELECT count(*) FROM member where member_id like '%'||#{memberId}||'%' 
 	</select>
 
 	<delete id="deleteMember">
