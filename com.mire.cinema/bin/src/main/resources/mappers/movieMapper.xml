@@ -3,7 +3,7 @@
 <mapper namespace="com.mire.cinema.repository.MovieMapper">
 
 
-	<resultMap id="movieResultMap"
+	<resultMap id="movieAllResultMap"
 		type="Movie">
 		<id property="movieNo" column="movie_no" />
 		<result property="movieTitle" column="movie_title" />
@@ -15,39 +15,62 @@
 		<result property="movieDate" column="movie_date" />
 		<result property="imageUuid" column="image_uuid" />
 	</resultMap>
+	
+	
+	
 
 	<insert id="insertMovie">
 		insert into movie (
 		movie_no, movie_title,
 		movie_intro, movie_actors, movie_genre, movie_playTime,
 		movie_limit,
-		movie_date, image_uuid
+		movie_date, 
+		image_uuid
 		)
 		values (
 		movie_seq.nextval, #{movieTitle},
 		#{movieIntro}, #{movieActors}, #{movieGenre},
 		#{moviePlayTime},
-		#{movieLimit}, #{movieDate},
-		#{imgUuid}
+		#{movieLimit}, 
+		#{movieDate},
+		#{imageUuid}
 		)
 	</insert>
 
 	<select id="selectMovie" resultType="Movie">
-		SELECT * FROM movie WHERE
+		SELECT  movie_no,
+        movie_title,
+        movie_intro,
+        movie_actors,
+        movie_genre,
+        movie_PlayTime,
+        movie_limit,
+        to_char(movie_date, 'YYYY-MM-DD') as movie_date,
+        image_uuid
+        FROM movie WHERE
 		movie_no = #{movieNo}
 	</select>
 
 	<select id="getTotalList" resultType="Movie">
 		SELECT * FROM movie
 	</select>
+	
+	
+	
 
-	<select id="getPartList" resultType="Movie" parameterType="int">
+	<select id="getPartList" resultType="com.mire.cinema.domain.movie.MovieDTO$Movies" parameterType="int">
 		 <![CDATA[
- SELECT a.* from 
-(SELECT a.*, rownum rn from 
-    ( SELECT * from movie order by movie_no desc) a 
-    where rownum <= #{end} ) a
-where rn >= #{start}    
+SELECT a.movie_no, a.movie_title, a.movie_limit, a.image_uuid, to_char(a.movie_date, 'YYYY-MM-DD') as movie_date
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT movie_no, movie_title, movie_limit, image_uuid, movie_date
+        FROM movie
+        ORDER BY movie_no DESC
+    ) a
+    WHERE rownum <= #{end}
+) a
+WHERE rn >= #{start}
 
   ]]>
 	</select>
@@ -61,7 +84,15 @@ where rn >= #{start}
 	</delete>
 
 	<update id="updateMovie">
-
+			update  movie set movie_title = #{movieTitle},
+			movie_intro = #{movieIntro},
+			movie_actors = #{movieActors},
+			movie_genre =  #{movieGenre},
+			movie_playTime = #{moviePlayTime},
+			movie_limit = #{movieLimit}, 
+			image_uuid = #{imageUuid}
+			where movie_no = #{movieNo}
+	
 	</update>
 
 </mapper>

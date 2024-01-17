@@ -16,10 +16,10 @@ import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
 public interface ItemGiftCardMapper {
 	  
 		void insertItemGiftCard(ItemGiftCard itemgiftcard);
-		ItemGiftCard selectItemGiftCard(String name);
+		ItemGiftCard selectItemGiftCard(Long itemNo);
 	    List<ItemGiftCard> getItemGiftCardList();
 	    List<ItemGiftCard> selectAllItemGiftCard();
-	    void deleteItemGiftCard(String name);
+	    void deleteItemGiftCard(Long itenNo);
 	    void updateItemGiftCard(ItemGiftCard itemgiftcard);
 	    
 	    int countItemGiftCard();

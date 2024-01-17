@@ -19,6 +19,7 @@ public class ItemGiftCardDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Insert {
+		private Long itemNo;
 		@NotBlank(message = "상품명을 입력하세요")
 		private String itemName;
 		@NotBlank(message = "상품타입을 입력하세요")
@@ -39,6 +40,7 @@ public class ItemGiftCardDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Info {
+		private Long itemNo;
 		private String itemName;
 		private String itemType;
 		private Integer itemPrice;
@@ -53,6 +55,7 @@ public class ItemGiftCardDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class update {
+		private Long itemNo;
 		private String itemName;
 		private String itemType;
 		private Integer itemPrice;

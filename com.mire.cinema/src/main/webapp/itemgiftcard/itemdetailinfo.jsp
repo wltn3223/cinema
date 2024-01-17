@@ -125,6 +125,7 @@ p {
 				</tr>
 				<tr>
 					<td colspan="2">
+					 <input type="hidden" id="itemNo" name="itemNo" value="${item.itemNo}">
 						<button id="purchaseBtn" onclick="requestPay()">구매하기</button>
 					</td>
 				</tr>
@@ -139,67 +140,79 @@ p {
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
-	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					// 페이지 로드 시 sessionStorage에서 선택한 상품 정보를 가져와서 폼에 표시
-					var selectedItem = sessionStorage.getItem('selectedItem');
+	<script>
+	  $(document).ready(function () {
+	        // 페이지 로드 시 localStorage에서 선택한 상품 정보의 상품 번호를 가져옵니다.
+	        var selectedItemNo = localStorage.getItem('selectedItemNo');
 
-					if (selectedItem) {
-						selectedItem = JSON.parse(selectedItem);
+	        // 만약 상품 번호가 있다면, 선택한 상품의 정보를 표시합니다.
+	        if (selectedItemNo) {
+	            // 여기에 선택한 상품 정보를 표시하는 코드를 추가합니다.
+	            console.log('선택한 상품 번호:', selectedItemNo);
 
-						// 상품 정보 표시
-						$('#itemName').text(selectedItem.itemName);
-						$('#itemType').text(selectedItem.itemType);
-						$('#itemPrice').text(selectedItem.itemPrice);
-						$('#itemSize').text(selectedItem.itemSize);
-						$('#itemInfo').text(selectedItem.itemInfo);
-						$('#cinemaName').text(selectedItem.cinemaName);
+	            // 예시: 상품 번호를 사용하여 서버에서 상세 정보를 가져와 화면에 표시할 수 있습니다.
+	            $.ajax({
+	                type: 'GET',
+	                url: '/item/info/' + selectedItemNo,
+	                contentType: 'application/json',
+	                success: function (response) {
+	                    // 서버에서 받아온 상세 정보를 이용하여 화면에 표시하는 코드
+	                    console.log('서버에서 받아온 상세 정보:', response);
 
-						// 이미지 정보 표시
-						$('#itemImage').attr('src',
-								'../upload/' + selectedItem.imageUuid);
+	                    // 예시: 받아온 정보를 화면의 특정 요소에 표시
+	                    $('#itemNo').val(response.itemNo);
+	                    $('#itemName').text(response.itemName);
+	                    $('#itemType').text(response.itemType);
+	                    $('#itemPrice').text(response.itemPrice);
+	                    $('#itemSize').text(response.itemSize);
+	                    $('#itemInfo').text(response.itemInfo);
+	                    $('#cinemaName').text(response.cinemaName);
 
-						console.log(selectedItem);
+	                    // 이미지 정보 표시
+	                    $('#itemImage').attr('src', '../upload/' + response.imageUuid);
 
-						// 개당 가격 설정
-						var unitPrice = selectedItem.itemPrice;
-						// 초기 수량 설정
-						var quantity = 1;
-						// 최대 수량 설정
-						var maxQuantity = 8;
+	                    // 개당 가격 설정
+	                    var unitPrice = response.itemPrice;
+	                    // 초기 수량 설정
+	                    var quantity = 1;
+	                    // 최대 수량 설정
+	                    var maxQuantity = 8;
 
-						// 수량 및 금액 업데이트 함수
-						function updateQuantityAndPrice() {
-							$("#quantity").text(quantity);
-							$("#itemPrice").text(
-									(quantity * unitPrice).toLocaleString()
-											+ "원");
-						}
+	                    // 수량 및 금액 업데이트 함수
+	                    function updateQuantityAndPrice() {
+	                        $("#quantity").text(quantity);
+	                        $("#itemPrice").text((quantity * unitPrice).toLocaleString() + "원");
+	                    }
 
-						// 감소 버튼에 대한 이벤트 리스너
-						$("#decreaseBtn").on("click", function() {
-							if (quantity > 1) {
-								quantity -= 1;
-								updateQuantityAndPrice();
-							}
-						});
+	                    // 감소 버튼에 대한 이벤트 리스너
+	                    $("#decreaseBtn").on("click", function () {
+	                        if (quantity > 1) {
+	                            quantity -= 1;
+	                            updateQuantityAndPrice();
+	                        }
+	                    });
 
-						// 증가 버튼에 대한 이벤트 리스너
-						$("#increaseBtn").on("click", function() {
-							if (quantity < maxQuantity) {
-								quantity += 1;
-								updateQuantityAndPrice();
-							}
-						});
+	                    // 증가 버튼에 대한 이벤트 리스너
+	                    $("#increaseBtn").on("click", function () {
+	                        if (quantity < maxQuantity) {
+	                            quantity += 1;
+	                            updateQuantityAndPrice();
+	                        }
+	                    });
 
-						// 초기 업데이트
-						updateQuantityAndPrice();
-					} else {
-						// 세션 스토리지에 선택한 상품 정보가 없을 경우에 대한 처리
-						console.warn('sessionStorage에서 선택한 상품 정보를 찾을 수 없습니다.');
-					}
-				});
+	                    // 초기 업데이트
+	                    updateQuantityAndPrice();
+	                },
+	                error: function (error) {
+	                    var errorMessage = error.responseText;
+	                    console.error('서버에서 상세 정보를 가져오는 중 에러 발생:', errorMessage);
+	                }
+	            });
+	        } else {
+	            // 만약 상품 번호가 없다면, 경고 메시지를 출력합니다.
+	            console.warn('localStorage에서 선택한 상품 정보를 찾을 수 없습니다.');
+	        }
+	    });
 		function requestPay() {
 			IMP.init('imp27664032');
 			var msg;
