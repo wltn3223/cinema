@@ -75,7 +75,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	public String getPath(String uuidName) {
-		String fullPath = "c:/SpringBootProject/cinema/com.mire.cinema/src/main/webapp/upload/" + uuidName;
+		String fullPath = "c:/team/com.mire.cinema/src/main/webapp/upload/" + uuidName;
 		return fullPath;
 	}
 

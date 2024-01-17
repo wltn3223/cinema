@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
-import com.mire.cinema.domain.movie.Movie;
-import com.mire.cinema.domain.movie.MovieDTO;
 import com.mire.cinema.repository.ItemGiftCardMapper;
 
 import lombok.RequiredArgsConstructor;
