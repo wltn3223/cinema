@@ -65,6 +65,10 @@ WHERE rn >= #{startNum}
 		SELECT count(*) FROM member 
 	</select>
 	
+	<select id="countMemberId" resultType="int" parameterType="String">
+		SELECT count(*) FROM member where member_Id = #{memberId}
+	</select>
+	
 	<select id="countsearchMember" resultType="int" parameterType="String">
 		SELECT count(*) FROM member where member_id like '%'||#{memberId}||'%' 
 	</select>

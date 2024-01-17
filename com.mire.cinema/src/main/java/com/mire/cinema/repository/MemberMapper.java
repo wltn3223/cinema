@@ -25,6 +25,7 @@ public interface MemberMapper {
     void updateMember(MemberDTO.Update dto);
     
     int countMember();
+    int countMemberId(String memberId);
     
     int countsearchMember(String memberId);
     
