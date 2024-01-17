@@ -49,6 +49,9 @@ public class ItemGiftCardController {
 			throw new IllegalArgumentException(bindingResult.getFieldErrors().get(0).getDefaultMessage());
 					
 		}
+		log.info(itemImage.getOriginalFilename());
+		log.info("파일정보" + insert.toString());
+		
 		if(itemImage == null) {
 			throw new NullPointerException(ErrorMsg.IMAGENOTFOUND);
 		}
@@ -58,7 +61,9 @@ public class ItemGiftCardController {
 		// ItemGiftCard 객체 생성
 		ItemGiftCard itemGiftCard = ItemGiftCard.builder().itemNo(insert.getItemNo()).itemName(insert.getItemName()).itemType(insert.getItemType())
 				.itemPrice(insert.getItemPrice()).itemSize(insert.getItemSize()).itemInfo(insert.getItemInfo())
-				.imageUuid(imageUuid).cinemaName(insert.getCinemaName()).build();
+				.build();
+		itemGiftCard.setImageUuid(imageUuid);
+		log.info("정보" + itemGiftCard);
 
 		// 서비스를 통해 ItemGiftCard 저장
 		itemGiftCardService.saveItemGiftCard(itemGiftCard);
@@ -124,7 +129,7 @@ public class ItemGiftCardController {
 		ItemGiftCard info = itemGiftCardService.findItemGiftCard(itemNo);
 		ItemGiftCardDTO.Info item = ItemGiftCardDTO.Info.builder().itemNo(info.getItemNo()).itemName(info.getItemName())
 				.itemType(info.getItemType()).itemPrice(info.getItemPrice()).itemSize(info.getItemSize())
-				.itemInfo(info.getItemInfo()).imageUuid(info.getImageUuid()).cinemaName(info.getCinemaName()).build();
+				.itemInfo(info.getItemInfo()).imageUuid(info.getImageUuid()).build();
 
 		return new ResponseEntity<>(item, SucessMsg.statusOK);
 	}

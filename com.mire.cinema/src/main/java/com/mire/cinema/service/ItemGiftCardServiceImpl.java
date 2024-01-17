@@ -47,7 +47,6 @@ public class ItemGiftCardServiceImpl implements ItemGiftCardService {
 			    .itemSize(update.getItemSize())
 			    .itemInfo(update.getItemInfo())
 			    .imageUuid(update.getImageUuid())
-			    .cinemaName(update.getCinemaName())
 			    .build();
 				
 		itemGiftCardMapper.updateItemGiftCard(item);

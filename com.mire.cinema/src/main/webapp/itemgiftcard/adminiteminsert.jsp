@@ -42,16 +42,7 @@
                     <div class="form-group">
                         <label for="itemImage" class="form-label">이미지</label> <input type="file" class="form-control" id="itemImage">
                     </div>
-                    <div class="form-group">
-                        <label for="cinemaName">상영관 정보</label> <select class="form-control" id="cinemaName" required>
-                            <option value="모든 상영관">모든 상영관</option>
-                            <option value="강남">강남</option>
-                            <option value="강남대로(씨티)">강남대로(씨티)</option>
-                            <option value="강동">강동</option>
-                            <option value="군자">군자</option>
-                            <option value="동대문">동대문</option>
-                        </select>
-                    </div>
+                   
                     <div class="text-center">
                         <button type="button" onclick="itemInsert()" class="btn btn-light">상품등록</button>
                     </div>
@@ -72,7 +63,7 @@
         var itemSize = $('#itemSize').val();
         var itemInfo = $('#itemInfo').val();
         var itemImage = $('#itemImage')[0].files[0];
-        var cinemaName = $('#cinemaName').val();
+    
         var fileInput = document.getElementById('itemImage');
 
         var formData = new FormData(); // formData 초기화 위치 수정
@@ -87,7 +78,7 @@
         formData.append('itemSize', itemSize);
         formData.append('itemInfo', itemInfo);
         formData.append('itemImage', itemImage);
-        formData.append('cinemaName', cinemaName);
+     
 
         $.ajax({
             type: 'POST',

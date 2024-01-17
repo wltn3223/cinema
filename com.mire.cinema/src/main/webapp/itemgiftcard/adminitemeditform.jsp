@@ -64,17 +64,7 @@
 						<label for="itemImage" class="form-label">이미지</label> <input
 							type="file" class="form-control" id="file" name="file">
 					</div>
-					<div class="form-group">
-						<label for="cinemaName">상영관 정보</label> <select
-							class="form-control" id="cinemaName" name="cinemaName" required>
-							<option value="모든 상영관">모든 상영관</option>
-							<option value="강남">강남</option>
-							<option value="강남대로(씨티)">강남대로(씨티)</option>
-							<option value="강동">강동</option>
-							<option value="군자">군자</option>
-							<option value="동대문">동대문</option>
-						</select>
-					</div>
+					
 
 					<div class="d-flex justify-content-center">
 						<div class="text-center">
@@ -130,7 +120,7 @@
 								$('#itemPrice').val(selectedItem.itemPrice);
 								$('#itemSize').val(selectedItem.itemSize);
 								$('#itemInfo').val(selectedItem.itemInfo);
-								$('#cinemaName').val(selectedItem.cinemaName);
+							
 							},
 							error : function(error) {
 								var errorMessage = error.responseText;
@@ -149,7 +139,7 @@
 			var itemPrice = $("#itemPrice").val();
 			var itemSize = $("#itemSize").val();
 			var itemInfo = $("#itemInfo").val();
-			var cinemaName = $("#cinemaName").val();
+			
 
 			// FormData를 사용하여 파일을 추가
 			var formData = new FormData(document.getElementById('editForm'));
@@ -157,7 +147,7 @@
 			// 사용자에게 현재 입력된 값들을 보여줌
 			var confirmationMessage = "상품명: " + itemName + "\n" + "상품분류: "
 					+ itemType + "\n" + "상품금액: " + itemPrice + "\n" + "사이즈: "
-					+ itemSize + "\n" + "판매 상영관: " + cinemaName + "\n"
+					+ itemSize + "\n" + "판매 상영관: " + "\n"
 					+ "상품정보: " + itemInfo + "\n\n" + "입력된 정보로 수정하시겠습니까?";
 
 			var confirmUpdate = confirm(confirmationMessage);

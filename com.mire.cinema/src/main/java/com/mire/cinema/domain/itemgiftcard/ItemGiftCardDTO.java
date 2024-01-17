@@ -32,7 +32,6 @@ public class ItemGiftCardDTO {
 		@NotBlank(message = "상품정보를 입력하세요")
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaName;
 	}
 
 	@Builder
@@ -47,7 +46,7 @@ public class ItemGiftCardDTO {
 		private String itemSize;
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaName;
+		
 
 	}
 
@@ -62,7 +61,7 @@ public class ItemGiftCardDTO {
 		private String itemSize;
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaName;
+
 
 	}
 	

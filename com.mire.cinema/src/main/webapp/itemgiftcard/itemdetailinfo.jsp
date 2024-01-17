@@ -221,8 +221,8 @@ p {
 				pg : 'kakaopay',
 				pay_method : 'card',
 				merchant_uid : "order_" + new Date().getTime(), // 상점에서 관리하는 주문 번호
-				name : '주문명:결제테스트',
-				amount : 10000,
+				name : '주문명:문영진꼬추털',
+				amount : 100000,
 				buyer_email : 'iamport@siot.do',
 				buyer_name : '구매자이름',
 				buyer_tel : '010-1234-5678',

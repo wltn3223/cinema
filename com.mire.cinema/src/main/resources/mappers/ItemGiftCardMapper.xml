@@ -5,10 +5,10 @@
 		parameterType="com.mire.cinema.domain.itemgiftcard.ItemGiftCard">
 		INSERT INTO itemgiftcard(item_no, item_name, item_type,
 		item_price,
-		item_size, item_info, image_uuid, cinema_name)
+		item_size, item_info, image_uuid)
 		VALUES
 		(item_seq.nextval, #{itemName}, #{itemType}, #{itemPrice},
-		#{itemSize}, #{itemInfo}, #{imageUuid}, #{cinemaName})
+		#{itemSize}, #{itemInfo}, #{imageUuid})
 	</insert>
 
 	<select id="selectItemGiftCard" resultType="ItemGiftCard">
@@ -33,7 +33,6 @@
         item_price = #{itemPrice},
         item_size = #{itemSize},
         item_info = #{itemInfo},
-        cinema_name = #{cinemaName},
         image_uuid = #{imageUuid}
     WHERE item_no = #{itemNo}
 </update>
