@@ -2,6 +2,8 @@ package com.mire.cinema.domain.itemgiftcard;
 
 import java.util.List;
 
+import com.mire.cinema.domain.movie.MovieDTO;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +23,7 @@ public class ItemGiftCardDTO {
 		@NotBlank(message = "상품타입을 입력하세요")
 		private String itemType;
 		@NotNull(message = "상품가격을 입력하세요")
-	    @Min(value = 0, message = "상품가격은 0 이상이어야 합니다.")
+		@Min(value = 0, message = "상품가격은 0 이상이어야 합니다.")
 		private Integer itemPrice;
 		@NotBlank(message = "상품사이즈를 입력하세요")
 		private String itemSize;
@@ -30,8 +32,7 @@ public class ItemGiftCardDTO {
 		private String imageUuid;
 		private String cinemaName;
 	}
-	
-	
+
 	@Builder
 	@Data
 	@AllArgsConstructor
@@ -44,8 +45,21 @@ public class ItemGiftCardDTO {
 		private String itemInfo;
 		private String imageUuid;
 		private String cinemaName;
-		
+
 	}
-	
+
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class update {
+		private String itemName;
+		private String itemType;
+		private Integer itemPrice;
+		private String itemSize;
+		private String itemInfo;
+		private String imageUuid;
+		private String cinemaName;
+
+	}
 
 }

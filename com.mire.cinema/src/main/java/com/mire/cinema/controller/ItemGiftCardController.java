@@ -3,6 +3,7 @@ package com.mire.cinema.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
+import com.mire.cinema.domain.movie.Movie;
+import com.mire.cinema.domain.movie.MovieDTO;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.ImageService;
@@ -67,20 +70,26 @@ public class ItemGiftCardController {
 		return ResponseEntity.ok(foundItemGiftCard);
 	}
 
-	@PutMapping
-	public ResponseEntity<Void> modifyItemGiftCard(@RequestBody ItemGiftCard item, @RequestParam(value = "file", required = false) MultipartFile file) {
-	    itemGiftCardService.modifyItemGiftCard(item);
-	    
-	    if (file != null && !file.isEmpty()) {
-	        // 새 파일이 제공된 경우에만 이미지 업데이트 처리
-	        String uuid = imageService.saveImage(file);
-	        item.setImageUuid(uuid);
-	        itemGiftCardService.updateItemImage(item); // 이미지 UUID 업데이트 추가
-	    }
-
-	    return ResponseEntity.ok().build();
+	
+	@PostMapping("/update")
+	 public ResponseEntity<String> modifyItemGiftCard(@Valid ItemGiftCardDTO.update item ,MultipartFile file){
+		String uuid = null;
+		ItemGiftCard findItem = null;
+				
+		findItem = itemGiftCardService.findItemGiftCard(item.getItemName());
+		
+		if(file != null) {
+			if(	imageService.findImage(findItem.getImageUuid()) != null) {
+				imageService.removeImage(findItem.getImageUuid());
+			}
+			uuid = imageService.saveImage(file);
+			item.setImageUuid(uuid);
+			
+		}
+		itemGiftCardService.modifyItemGiftCard(findItem,item);
+		
+		return new ResponseEntity<>(SucessMsg.UPDATE,HttpStatus.OK);
 	}
-
 
 
 

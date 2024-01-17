@@ -167,14 +167,7 @@
                 div.append(row);
             }
         }
-
-
-
-
-
-
-
-
+   
         
         // 클릭 시 호출되는 함수로 선택한 아이템의 정보를 가져와서 sessionStorage에 저장
         function loadItemInfo(itemName) {

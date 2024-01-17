@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
+import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
 import com.mire.cinema.repository.ItemGiftCardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,21 @@ public class ItemGiftCardServiceImpl implements ItemGiftCardService {
 		return itemGiftCardMapper.selectItemGiftCard(itemName);
 	}
 
+
 	@Override
-	public void modifyItemGiftCard(ItemGiftCard item) {
-
+	public void modifyItemGiftCard(ItemGiftCard item1, ItemGiftCardDTO.update update) {
+		
+		ItemGiftCard item = ItemGiftCard.builder()
+				.itemName(update.getItemName())
+			    .itemType(update.getItemType())
+			    .itemPrice(update.getItemPrice())
+			    .itemSize(update.getItemSize())
+			    .itemInfo(update.getItemInfo())
+			    .imageUuid(update.getImageUuid())
+			    .cinemaName(update.getCinemaName())
+			    .build();
+				
 		itemGiftCardMapper.updateItemGiftCard(item);
-
 	}
 
 	@Override
@@ -48,10 +59,5 @@ public class ItemGiftCardServiceImpl implements ItemGiftCardService {
 
 		return itemGiftCardMapper.selectAllItemGiftCard();
 	}
-
-	@Override
-	public void updateItemImage(ItemGiftCard item) {
-		
-		itemGiftCardMapper.updateItemImage(item);
-	}
+	
 }
