@@ -12,13 +12,11 @@
 	</insert>
 
 	<select id="selectImage" resultType="Image" parameterType="java.lang.String">
-		SELECT * FROM image WHERE
-		image_uuid = #{uuid}
+		SELECT * FROM image WHERE image_uuid = #{uuid}
 	</select>
 
 	 <delete id="deleteImage" parameterType="String">
-        DELETE FROM image
-        WHERE image_uuid = #{uuid}
+        DELETE FROM image WHERE image_uuid = #{uuid}
     </delete>
 	
 

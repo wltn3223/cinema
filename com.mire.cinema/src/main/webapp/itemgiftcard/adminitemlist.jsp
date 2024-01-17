@@ -83,9 +83,12 @@ p {
 				<div id="tab01">
 					<a href="#"><img src="/img/item01.PNG" width="1200px"
 						height="400px" style="margin-bottom: 120px; margin-left: 70px;"></a>
-					
+
 					<div class="item-container">
 						<c:forEach var="item" items="${itemGiftCards}">
+							<input type="hidden" id="itemNo" name="itemNo"
+								value="${item.itemNo}">
+
 							<a href="#" onclick="loadItemInfo('${item.itemName}')">
 								<div class="item">
 									<img src="${item.image}" alt="${item.itemName} 이미지" width="220"
@@ -101,6 +104,7 @@ p {
 				<div id="tab02">
 					<div class="item-container">
 						<c:forEach var="item" items="${itemGiftCards}">
+						<input type="hidden" id="itemNo" name="itemNo" value="${item.itemNo}">
 							<a href="#" onclick="loadItemInfo('${item.itemName}')">
 								<div class="item">
 									<img src="${item.image}" alt="${item.itemName} 이미지" width="220"
@@ -118,7 +122,7 @@ p {
 					<h2>등록된 상품이 없습니다.</h2>
 					<br>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -130,84 +134,83 @@ p {
 	</footer>
 
 	<script>
-		$(document).ready(function() {
-			$.ajax({
-				type : 'GET',
-				url : '/item/list',
-				contentType : 'application/json',
-				success : function(itemGiftCards) {
-					console.log(itemGiftCards);
-					appendItemGiftCardToDiv(itemGiftCards);
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		});
+    $(document).ready(function() {
+        $.ajax({
+            type : 'GET',
+            url : '/item/list',
+            contentType : 'application/json',
+            success : function(itemGiftCards) {
+                console.log(itemGiftCards);
+                appendItemGiftCardToDiv(itemGiftCards);
+            },
+            error : function(error) {
+                var errorMessage = error.responseText;
+                alert(errorMessage);
+            }
+        });
+    });
 
-		// 가격을 1000단위로 콤마(,)를 추가하는 함수
-		function addCommaToPrice(price) {
-			return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
+    // 가격을 1000단위로 콤마(,)를 추가하는 함수
+    function addCommaToPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
-		function appendItemGiftCardToDiv(itemGiftCards) {
-			var div = $(".item-container");
-			div.empty();
-			console.log(itemGiftCards);
+    function appendItemGiftCardToDiv(itemGiftCards) {
+        var div = $(".item-container");
+        div.empty();
+        console.log(itemGiftCards);
 
-			for (var i = 0; i < itemGiftCards.length; i++) {
-				var itemGiftCard = itemGiftCards[i];
-				var formattedPrice = addCommaToPrice(itemGiftCard.itemPrice);
+        for (var i = 0; i < itemGiftCards.length; i++) {
+            var itemGiftCard = itemGiftCards[i];
+            var formattedPrice = addCommaToPrice(itemGiftCard.itemPrice);
 
-				var row = '<div class="item">'
-						+ '<a href="#" onclick="loadItemInfo(\''
-						+ itemGiftCard.itemName
-						+ '\')">'
-						+ '<img src="../upload/' + itemGiftCard.imageUuid + '" class="item-image">'
-						+ '<p class="item-name" style="color: black; font-weight: bold;">'
-						+ itemGiftCard.itemName
-						+ '</p>'
-						+ '<p class="item-info" style="color: black; font-size: 13px;">'
-						+ itemGiftCard.itemSize
-						+ '</p>'
-						+ '<p class="item-price" style="color: #9d00f7; font-size: 25px; font-weight: 400;">'
-						+ formattedPrice + '원</p>' + '</a>'
-						+ '<button class="updateButton" onclick="editItem(\''
-						+ itemGiftCard.itemName + '\')">수정/삭제</button>'
-						+ '</div>';
-				div.append(row);
-			}
-		}
+            var row = '<div class="item">'
+                + '<input type="hidden" class="itemNo" name="itemNo" value="' + itemGiftCard.itemNo + '">'
+                + '<a href="#" onclick="loadItemInfo(' + itemGiftCard.itemNo + ')">'
+                + '<img src="../upload/' + itemGiftCard.imageUuid + '" class="item-image">'
+                + '<p class="item-name" style="color: black; font-weight: bold;">'
+                + itemGiftCard.itemName
+                + '</p>'
+                + '<p class="item-info" style="color: black; font-size: 13px;">'
+                + itemGiftCard.itemSize
+                + '</p>'
+                + '<p class="item-price" style="color: #9d00f7; font-size: 25px; font-weight: 400;">'
+                + formattedPrice + '원</p>' + '</a>'
+                + '<button class="updateButton" onclick="editItem('
+                + itemGiftCard.itemNo + ')">수정/삭제</button>'
+                + '</div>';
+            div.append(row);
+        }
+    }
 
-		// 클릭 시 호출되는 함수로 선택한 아이템의 정보를 가져와서 sessionStorage에 저장
-		function loadItemInfo(itemName) {
-			$.ajax({
-				type : 'GET',
-				url : '/item/info/' + itemName,
-				contentType : 'application/json',
-				success : function(response) {
-					console.log(response);
-					// 선택한 아이템의 정보를 sessionStorage에 저장
-					sessionStorage.setItem('selectedItem', JSON
-							.stringify(response));
-					// itemEditForm.jsp로 이동
-					location.href = '/itemgiftcard/adminitemeditform.jsp';
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		}
+    
+   <!-- 클릭 시 호출되는 함수로 선택한 아이템의 정보를 localStorage에 저장 -->
+function loadItemInfo(itemNo) {
+    $.ajax({
+        type : 'GET',
+        url : '/item/info/' + itemNo,
+        contentType : 'application/json',
+        success : function(response) {
+            console.log(response);
+            // 선택한 아이템의 정보를 localStorage에 저장
+            localStorage.setItem('selectedItemNo', itemNo);
+            // adminitemEditForm.jsp로 이동
+            location.href = '/itemgiftcard/adminitemeditform.jsp';
+        },
+        error : function(error) {
+            var errorMessage = error.responseText;
+            alert(errorMessage);
+        }
+    });
+}
 
-		function editItem(itemName) {
-		   
-		    location.href = '/itemgiftcard/adminitemeditform.jsp?itemName=' + itemName;
-		}
+function editItem(itemNo) {
+    localStorage.setItem('selectedItemNo', itemNo);
+    location.href = '/itemgiftcard/adminitemeditform.jsp?itemNo=' + itemNo;
+}
 
-		
-	</script>
+</script>
+
 
 </body>
 

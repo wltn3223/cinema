@@ -30,16 +30,17 @@ public class ItemGiftCardServiceImpl implements ItemGiftCardService {
 	}
 
 	@Override
-	public ItemGiftCard findItemGiftCard(String itemName) {
+	public ItemGiftCard findItemGiftCard(Long itemNo) {
 
-		return itemGiftCardMapper.selectItemGiftCard(itemName);
+		return itemGiftCardMapper.selectItemGiftCard(itemNo);
 	}
 
 
 	@Override
-	public void modifyItemGiftCard(ItemGiftCard item1, ItemGiftCardDTO.update update) {
+	public void modifyItemGiftCard(ItemGiftCardDTO.update update) {
 		
 		ItemGiftCard item = ItemGiftCard.builder()
+				.itemNo(update.getItemNo())
 				.itemName(update.getItemName())
 			    .itemType(update.getItemType())
 			    .itemPrice(update.getItemPrice())
@@ -53,9 +54,9 @@ public class ItemGiftCardServiceImpl implements ItemGiftCardService {
 	}
 
 	@Override
-	public void removeItemGiftCard(String itemName) {
+	public void removeItemGiftCard(Long itemNo) {
 
-		itemGiftCardMapper.deleteItemGiftCard(itemName);
+		itemGiftCardMapper.deleteItemGiftCard(itemNo);
 
 	}
 

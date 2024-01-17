@@ -10,15 +10,15 @@ public interface ItemGiftCardService {
 
 	public void saveItemGiftCard(ItemGiftCard item);
 
-	public ItemGiftCard findItemGiftCard(String itemName);
+	public ItemGiftCard findItemGiftCard(Long itemNo);
 
-	public void modifyItemGiftCard(ItemGiftCard item, ItemGiftCardDTO.update update);
+	public void modifyItemGiftCard(ItemGiftCardDTO.update update);
 
-	public void removeItemGiftCard(String itemName);
+	public void removeItemGiftCard(Long itemNo);
 
 	public List<ItemGiftCard> selectAllItemGiftCard();
 	public int getTotalItemGiftCard();
 	public int getTotalItemGiftCard(String name);
-	public Map<String,Object> getItemGiftCardMap(Integer pageNum, String itemName);
+	public Map<String,Object> getItemGiftCardMap(Integer pageNum, String itemNo);
 	
 }

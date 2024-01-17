@@ -13,7 +13,7 @@
 
 	<select id="selectItemGiftCard" resultType="ItemGiftCard">
 		SELECT * FROM
-		itemgiftcard WHERE item_name = #{itemName}
+		itemgiftcard WHERE item_no = #{itemNo}
 	</select>
 
 	<select id="selectAllItemGiftCard"
@@ -22,21 +22,22 @@
 	</select>
 
 	<delete id="deleteItemGiftCard">
-		DELETE FROM itemgiftcard WHERE item_name =
-		#{itemName}
+		DELETE FROM itemgiftcard WHERE item_no =
+		#{itemNo}
 	</delete>
 
 	<update id="updateItemGiftCard">
-		update itemgiftcard set item_type = #{itemType},
-		item_price = #{itemPrice},
-		item_size = #{itemSize},
-		item_info =
-		#{itemInfo},
-		cinema_name = #{cinemaName},
-		image_uuid = #{imageUuid}
-		where item_name = #{itemName}
+    UPDATE itemgiftcard
+    SET item_name = #{itemName},
+        item_type = #{itemType},
+        item_price = #{itemPrice},
+        item_size = #{itemSize},
+        item_info = #{itemInfo},
+        cinema_name = #{cinemaName},
+        image_uuid = #{imageUuid}
+    WHERE item_no = #{itemNo}
+</update>
 
-	</update>
 
 	<select id="getPartList" resultType="ItemGiftCard"
 		parameterType="int">
@@ -69,13 +70,14 @@ WHERE rn >= #{start}
   ]]>
 	</select>
 	<select id="countItem" resultType="int">
-		SELECT count(*) FROM itemgiftcard
+		SELECT count(*) FROM
+		itemgiftcard
 	</select>
 
-	<select id="countItemName" resultType="int"
-		parameterType="String">
-		SELECT count(*) FROM itemgiftcard where item_name =
-		#{itemName}
+	<select id="countItemNo" resultType="int" parameterType="String">
+		SELECT
+		count(*) FROM itemgiftcard where item_no =
+		#{itemNo}
 	</select>
 
 </mapper>

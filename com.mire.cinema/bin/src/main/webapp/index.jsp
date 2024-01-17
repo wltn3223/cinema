@@ -17,15 +17,22 @@
     </style>
 </head>
 
+<%
+  String contextPath = request.getContextPath();
+  String uploadedImagePath = contextPath + "/uploads/myimage.jpg";
+%>
 
 <body>
+
     <!-- 헤더 -->
     <header>
        <%@ include file="./WEB-INF/header.jsp" %>
     </header>
     <!-- 메인 -->
     <main class="container" id="main">
-        <h1 style="height: 500px;"> 메인 부분</h1>
+		
+        <h1 style="height: 500px;">메인 부분
+        </h1>
     </main>
     <!-- 푸터-->
     <footer class="container">
@@ -33,6 +40,13 @@
     </footer>
 </body>
 
+<script>
+$(document).ready(function() {
+	console.log("클리어");
+    localStorage.clear();
+});
+
+</script>
 
 </html>
 
