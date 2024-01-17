@@ -50,7 +50,7 @@ where rn >= #{start}
   ]]>
 	</select>
 
-	<select id="getPartList"
+	<select id="searchPartList"
 		resultType="com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO$items"
 		parameterType="int">
 		 <![CDATA[
