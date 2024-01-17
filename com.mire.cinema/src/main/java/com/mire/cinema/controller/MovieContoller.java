@@ -126,16 +126,14 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 			if(	imageService.findImage(findMovie.getImageUuid()) != null) {
 				imageService.removeImage(findMovie.getImageUuid());
 			}
+			
 			uuid = imageService.saveImage(file);
 			movie.setImageUuid(uuid);
 			
 		}
 		
 		
-		
-		
-		System.out.println("영화수정시작");
-		movieService.modifyMovie(findMovie,movie);
+		movieService.modifyMovie(movie);
 		
 		
 

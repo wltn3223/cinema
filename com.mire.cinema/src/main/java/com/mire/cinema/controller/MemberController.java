@@ -139,7 +139,17 @@ public class MemberController {
 
 	
 
-		return new ResponseEntity<>(memberService.getMemberMap(pageNum),HttpStatus.OK);
+		return new ResponseEntity<>(memberService.getMemberMap(pageNum,null),HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/list/{pageNum}/member/{memberId}")
+	public ResponseEntity<Map<String,Object>> getMemberList(@PathVariable Integer pageNum, @PathVariable String memberId) {
+		
+		
+	
+
+		return new ResponseEntity<>(memberService.getMemberMap(pageNum,memberId),HttpStatus.OK);
 
 	}
 

@@ -15,7 +15,8 @@ public interface MemberService {
 	public void saveMember(Member member);
 	public Member findMember(String memberId);
 	public int getTotalMember();
-	public Map<String,Object> getMemberMap(Integer pageNum);
+	public int getTotalMember(String id);
+	public Map<String,Object> getMemberMap(Integer pageNum, String memberId);
 	public void modifyMember(MemberDTO.Update dto);
 	public void removeMember(String memberId);
 	public TokenDTO loginMember(MemberDTO.Login memberLoginDTO);
