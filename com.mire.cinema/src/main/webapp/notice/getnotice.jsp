@@ -30,62 +30,71 @@
 	<!-- 메인 -->
 	<main class="container">
 		<div class="container mt-3">
+			<br>
 			<h2>공지사항</h2>
-			<a href="/notice/noticelist.jsp"><button
-					class="btn btn-dark mb-2">공지사항 리스트 보러가기</button></a>
+			<br>
 			<table class="table table-bordered table-striped">
 				<tbody id="tableBody">
 				</tbody>
 			</table>
+		</div>
+		<div class="text-end">
+			<!-- 추가: 텍스트를 오른쪽 정렬하는 클래스 -->
+			<a href="/notice/noticelist.jsp"><button
+					class="btn btn-dark mb-2">목록으로</button></a>
 		</div>
 	</main>
 	<!-- 푸터-->
 	<footer class="container">
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
-
-	<script>
-		$(document).ready(function() {
-			var boardNo = sessionStorage.getItem('BoardNo');
-
-			$.ajax({
-				type : 'GET',
-				url : '/notice/' + boardNo,
-				contentType : 'application/json',
-				success : function(notice) {
-					appendNoticeToTable(notice);
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		});
-
-		function appendNoticeToTable(notice) {
-			var tbody = $("#tableBody");
-			tbody.empty();
-
-			var row = "<tr><th scope='col'>일련번호</th><td>"
-					+ notice.boardNo
-					+ "</td></tr>"
-					+ "<tr><th scope='col'>작성자</th><td>관리자</td></tr>"
-					+ "<tr><th scope='col'>제목</th><td>"
-					+ notice.boardTitle
-					+ "</td></tr>"
-					+ "<tr><th scope='col'>내용</th><td>"
-					+ notice.boardContent
-					+ "</td></tr>"
-					+ "<tr><th scope='col'>조회수</th><td>"
-					+ notice.boardViews
-					+ "</td></tr>"
-					+ "<tr><th scope='col'>등록일</th><td>"
-					+ notice.boardDate
-					+ "</td></tr>"
-					+ "<tr><th scope='col'>이미지</th><td><img src='" + notice.imageUuid + "'></td></tr>";
-
-			tbody.append(row);
-		}
-	</script>
 </body>
+
+<script>
+	$(document).ready(function() {
+		var boardNo = sessionStorage.getItem('BoardNo');
+
+		$.ajax({
+			type : 'GET',
+			url : '/notice/' + boardNo,
+			contentType : 'application/json',
+			success : function(notice) {
+				appendNoticeToTable(notice);
+				consol.log(notice);
+			},
+			error : function(error) {
+				var errorMessage = error.responseText;
+				alert(errorMessage);
+			}
+		});
+	});
+
+	function appendNoticeToTable(notice) {
+		var tbody = $("#tableBody");
+		tbody.empty();
+
+		var row = "<div class='card'>"
+				+ "<div class='card-header'>"
+				+ "<h4 class='card-title'>"
+				+ "<strong>"
+				+ notice.boardTitle
+				+ "</strong>"
+				+ "<span class='float-end'><strong>조회수 </strong>"
+				+ notice.boardViews
+				+ " | <strong>등록일 </strong>"
+				+ notice.boardDate
+				+ "</span>"
+				+ "</h4>"
+				+ "</div>"
+				+ "<div class='card-body'>"
+				+ "<p class='card-text'><strong>작성자 | </strong>관리자</p>"
+				+ "<p class='card-text'>"
+				+ notice.boardContent
+				+ "</p>"
+				+ "<img src='../upload/" + notice.imageUuid + "' class='img-fluid' alt='이미지'>"
+				+ "</div>" + "</div>";
+
+		tbody.append(row);
+	}
+</script>
 </html>
