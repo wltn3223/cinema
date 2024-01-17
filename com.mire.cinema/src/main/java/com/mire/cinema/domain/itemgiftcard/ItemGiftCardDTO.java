@@ -61,5 +61,17 @@ public class ItemGiftCardDTO {
 		private String cinemaName;
 
 	}
+	
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class items {
+		private String itemNo;
+		private String movieTitle;
+		private String movieLimit;
+		private String imageUuid;
+		private String movieDate;
+
+	}
 
 }

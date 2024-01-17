@@ -85,6 +85,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 		
 		return new ResponseEntity<>(SucessMsg.INSERT,HttpStatus.OK);
 	}
+	
 	@GetMapping("/list/{pageNum}")
 	public ResponseEntity<Map<String,Object>> getMovieList(@PathVariable Integer pageNum){
 		log.info(pageNum.toString());
@@ -94,6 +95,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z
 		return new ResponseEntity<>(movieService.getPageMap(pageNum),HttpStatus.OK);
 		
 	}
+	
 	@GetMapping("/{movieNo}")
 	public ResponseEntity<Movie> getMovie(@PathVariable Integer movieNo){
 		

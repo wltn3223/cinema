@@ -38,5 +38,22 @@
 	</update>
 
 
+<select id="getPartList" resultType="com.mire.cinema.domain.itemgiftcard.MovieDTO$Movies" parameterType="int">
+		 <![CDATA[
+SELECT a.movie_no, a.movie_title, a.movie_limit, a.image_uuid, to_char(a.movie_date, 'YYYY-MM-DD') as movie_date
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT movie_no, movie_title, movie_limit, image_uuid, movie_date
+        FROM movie
+        ORDER BY movie_no DESC
+    ) a
+    WHERE rownum <= #{end}
+) a
+WHERE rn >= #{start}
+
+  ]]>
+	</select>
+
 
 </mapper>
