@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -43,12 +44,34 @@ public class NoticeDTO {
 		private String boardContent;
 		private String imageUuid;
 	}
-	
+
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Delete {
 		private Long boardNo;
+	}
+
+	@Builder
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Info {
+		private Long boardNo;
+		private String boardTitle;
+		private String boardContent;
+		private Integer boardViews;
+		private LocalDate boardDate;
+	}
+	
+	@Builder
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Search {
+		private String boardTitle;
+		private int startNum;
+		private int endNum;
 	}
 
 }

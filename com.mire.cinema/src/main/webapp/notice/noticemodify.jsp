@@ -39,15 +39,14 @@
 				</div>
 				<div class="mb-3">
 					<label for="boardContent" class="form-label">공지사항</label> <input
-						type="text" class="form-control" id="boardContent" name="boardContent"
-						placeholder="수정할 공지사항을 입력하세요" required>
+						type="text" class="form-control" id="boardContent"
+						name="boardContent" placeholder="수정할 공지사항을 입력하세요" required>
 				</div>
 				<div class="mb-3">
 					<label for="imageUuid" class="form-label">이미지</label> <input
 						type="file" class="form-control" id="imageUuid" name="file"
 						placeholder="수정할 이미지을 넣으세요">
 				</div>
-
 				<button class="btn btn-primary">상영관 업데이트</button>
 			</form>
 		</div>
@@ -58,35 +57,5 @@
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
-	<script>
-		function writeNotice() {
-			var boardNo = $('#boardNo').val();
-			var boardTitle = $('#boardTitle').val();
-			var boardContent = $('#boardContent').val();
-			var fileInput = $('#imageUuid').val();
-
-			var formData = new FormData();
-			formData.append('boardNo', boardNo);
-			formData.append('boardTitle', boardTitle);
-			formData.append('boardContent', boardContent);
-			formData.append('file', fileInput);
-
-			$.ajax({
-				type : 'POST',
-				url : '/notice/update',
-				contentType : false,
-				processData : false,
-				data : formData,
-				success : function(response) {
-					alert(response);
-					location.href = "/notice/noticelist.jsp";
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		}
-	</script>
 </body>
 </html>

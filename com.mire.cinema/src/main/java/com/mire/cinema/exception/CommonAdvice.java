@@ -1,9 +1,12 @@
 package com.mire.cinema.exception;
 
+import java.sql.SQLException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MultipartException;
 
 import io.jsonwebtoken.io.IOException;
 import lombok.extern.java.Log;
@@ -35,6 +38,14 @@ public class CommonAdvice {
 		
 		return new ResponseEntity<>(ErrorMsg.BADTYPE,HttpStatus.BAD_REQUEST);
 	}
-
-
+	//파일용량초량초과 
+	@ExceptionHandler
+	public ResponseEntity<String> FileUploadMaxException(MultipartException e){
+		return new ResponseEntity<>(ErrorMsg.FILEUPLOADEMAX,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<String> sqlException(SQLException e){
+		return new ResponseEntity<>(ErrorMsg.BADTYPE,HttpStatus.BAD_REQUEST);
+	}
 }
