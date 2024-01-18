@@ -17,8 +17,10 @@ public interface ItemGiftCardService {
 	public void removeItemGiftCard(Long itemNo);
 
 	public List<ItemGiftCard> selectAllItemGiftCard();
+	
+	
 	public int getTotalItemGiftCard();
 	public int getTotalItemGiftCard(String name);
-	public Map<String,Object> getItemGiftCardMap(Integer pageNum, String itemNo);
+	public Map<String,Object> getItemGiftCardMap(Integer pageNum, String itemName);
 	
 }
