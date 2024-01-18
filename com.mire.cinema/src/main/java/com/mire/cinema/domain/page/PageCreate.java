@@ -1,7 +1,5 @@
 package com.mire.cinema.domain.page;
 
-import org.eclipse.jdt.internal.compiler.ast.FalseLiteral;
-
 import lombok.Data;
 
 @Data

@@ -5,6 +5,7 @@ public interface ErrorMsg {
 	String USERNOTFOUND = "해당 ID와 일치하는 회원정보를 찾을 수 없습니다.";
 	
 	String FILESAVE = "파일 등록에러";
+	String FILEUPLOADEMAX ="파일 용량 초과";
 	
 	String IMAGENOTFOUND = "해당 게시물의 이미지를 찾을수없습니다.";
 	String BADTYPE = "잘못된 형식을 입력하셨습니다. 다시시도해주세요.";
