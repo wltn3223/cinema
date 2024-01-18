@@ -8,6 +8,7 @@ public interface SucessMsg {
 	    String SELECT= "조회 성공";
 	    String UPDATE = "정보 수정 성공";
 	    String DELETE = "삭제 성공";
+	    String PAY = "결제 성공";
 	    // 다른 성공 메시지들도 추가 가능
 
 	 

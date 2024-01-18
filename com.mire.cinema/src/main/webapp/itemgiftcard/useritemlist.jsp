@@ -252,7 +252,7 @@ p {
                     // 선택한 아이템의 정보를 localStorage에 저장
                     localStorage.setItem('selectedItemNo', itemNo);
                     // adminitemEditForm.jsp로 이동
-                    location.href = '/itemgiftcard/adminitemeditform.jsp';
+                    location.href = '/itemgiftcard/itemdetailinfo.jsp';
                 },
                 error: function (error) {
                     var errorMessage = error.responseText;

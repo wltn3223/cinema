@@ -127,14 +127,18 @@ p {
 				<tr>
 					<td colspan="2">
 					 <input type="hidden" id="itemNo" name="itemNo" value="${item.itemNo}">
-						<button id="purchaseBtn" onclick="requestPay()">구매하기</button>
+						<button id="purchaseBtn" onclick="openPurchase()">구매하기</button>
 					</td>
 				</tr>
 
 			</tbody>
 		</table>
+		
+		
 	</div>
-	<!-- itemTab -->
+
+    
+   
 
 	<!-- 푸터-->
 	<footer class="py-3 my-4" style="background-color: rgb(17, 17, 17);">
@@ -143,6 +147,7 @@ p {
 
 	<script>
 	  $(document).ready(function () {
+		 
 	        // 페이지 로드 시 localStorage에서 선택한 상품 정보의 상품 번호를 가져옵니다.
 	        var selectedItemNo = localStorage.getItem('selectedItemNo');
 
@@ -214,22 +219,44 @@ p {
 	            console.warn('localStorage에서 선택한 상품 정보를 찾을 수 없습니다.');
 	        }
 	    });
-	
-		function requestPay() {
+	  function openPurchase(){
+		  var itemNo = localStorage.getItem('selectedItemNo');
+		  var memberId = '${memberId}';
+		  var number = $("#quantity").text();
+		  console.log(number);
+		  
+			$.ajax({
+				type: "get",
+				url: "/order/memberId/" + memberId  +"/itemNo/" + itemNo + "/number/" + number, // 서버에서 정보를 가져오는 URL을 설정
+				contentType: "application/json;charset=UTF-8",
+				success: function(data) {
+					console.log(data);
+					// 서버에서 받아온 정보를 폼에 넣기
+					if(data!== null && data !== "" && data !== undefined){
+						openPopUp(data);
+					}
+				},
+				error: function(error) {
+					var errorMessage = error.responseText;
+					alert(errorMessage);
+				}
+			});
+		
+		
+	}
+		function requestPay(memberId, itemName, discountPrice, orderId) {
 			IMP.init('imp27664032');
 			var msg;
 
 			IMP.request_pay({
-				pg : 'kakaopay',
-				pay_method : 'card',
-				merchant_uid : "order_" + new Date().getTime(), // 상점에서 관리하는 주문 번호
-				name : '주문명:asdasdasd',
-				amount : 100000,
-				buyer_email : 'iamport@siot.do',
-				buyer_name : '구매자이름',
-				buyer_tel : '010-1234-5678',
-				buyer_addr : '서울특별시 강남구 삼성동',
-				buyer_postcode : '123-456',
+				pg: 'kakaopay',
+				pay_method: 'card',
+				merchant_uid: orderId, // Include orderId as part of the request
+			    name: '상품명: ' + itemName + ' (할인된 총 결제 가격: ' + discountPrice + '원)',
+			    amount: discountPrice + '원',
+				buyer_name: memberId,
+			
+				
 				m_redirect_url : '/'
 			}, function(rsp) {
 				if (rsp.success) {
@@ -267,6 +294,35 @@ p {
 				alert(msg);
 			});
 		}
+	  
+	  
+	  
+	  
+	  function openPopUp(data) {
+		    var width = 700; // 윈도우 너비
+		    var height = 500; // 윈도우 높이
+		    var left = (window.innerWidth - width) / 2; // 윈도우 왼쪽 위치
+		    var top = (window.innerHeight - height) / 2; // 윈도우 위쪽 위치
+		    var myWindow = window.open("", "MsgWindow", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+
+		    // 팝업 창에 HTML 내용 추가 (부트스트랩 스타일)
+		    myWindow.document.body.innerHTML = 
+		    	'<div class="container text-center mt-4">' +
+		        '<h2 class="mb-4">상품 구매</h2>' +
+		        '<div class="mb-3">회원 아이디: ' + data.memberId + '</div>' +
+		        '<div class="mb-3">회원 등급: ' + data.memberGrade + '</div>' +
+		        '<div class="mb-3">상품 번호: ' + data.itemNo + '</div>' +
+		        '<div class="mb-3">상품 이름: ' + data.itemName + '</div>' +
+		        '<div class="mb-3">상품 가격: ' + data.price + ' (원)</div>' +
+		        '<div class="mb-3">상품 수량: ' + data.number + ' (개)</div>' +
+		        '<div class="mb-3">상품 총 가격: ' + data.totalPrice + ' (원)</div>' +
+		        '<div class="mb-3">할인이 적용된 총 가격: ' + data.discountPrice + ' (원)</div>' +
+		        '<button class="btn btn-primary" onclick="opener.parent.requestPay(\'' + 
+		        data.memberId + '\', \'' + data.itemName + '\', ' + data.discountPrice + ', \'' + data.orderId + '\')">주문하기</button>' +
+		        '</div>';
+		}
+	
+	
 	</script>
 
 </body>

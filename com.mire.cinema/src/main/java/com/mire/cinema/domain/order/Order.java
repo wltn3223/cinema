@@ -1,22 +1,30 @@
 package com.mire.cinema.domain.order;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Builder
 @Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
 	private long orderNo;
-	private int orderQuantiy;
-	private int order_price;
-	private int discount_price;
-	private String order_status;
-	private int order_date;
-	private int item_no;
-	private int member_id;
+	private String orderId;
+	private int orderQuantity;
+	private int orderPrice;
+	private int discountPrice;
+	private String orderStatus;
+	private Date orderDate;
+	private long itemNo;
+	private String memberId;
+	
+	
+
 
 }
