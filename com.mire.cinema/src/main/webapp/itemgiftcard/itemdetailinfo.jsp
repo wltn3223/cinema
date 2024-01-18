@@ -5,6 +5,7 @@
 <html>
 
 <head>
+<script src="https://js.tosspayments.com/v1/payment-widget"></script>
 <title>MIRE MOVIE</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -213,6 +214,7 @@ p {
 	            console.warn('localStorage에서 선택한 상품 정보를 찾을 수 없습니다.');
 	        }
 	    });
+	
 		function requestPay() {
 			IMP.init('imp27664032');
 			var msg;
@@ -221,7 +223,7 @@ p {
 				pg : 'kakaopay',
 				pay_method : 'card',
 				merchant_uid : "order_" + new Date().getTime(), // 상점에서 관리하는 주문 번호
-				name : '주문명:문영진꼬추털',
+				name : '주문명:asdasdasd',
 				amount : 100000,
 				buyer_email : 'iamport@siot.do',
 				buyer_name : '구매자이름',
@@ -238,7 +240,8 @@ p {
 						dataType : 'json',
 						contentType : 'application/json', // Specify the content type here
 						data : JSON.stringify({
-							imp_uid : rsp.imp_uid
+						    imp_uid: rsp.imp_uid,            // 결제 고유번호
+					         merchant_uid: rsp.merchant_uid 
 						// Add any other necessary data
 						}),
 					}).done(function(rsp) {

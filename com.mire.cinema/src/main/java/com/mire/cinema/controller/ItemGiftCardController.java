@@ -133,22 +133,19 @@ public class ItemGiftCardController {
 
 		return new ResponseEntity<>(item, SucessMsg.statusOK);
 	}
-//	
-//	@GetMapping("/list/{pageNum}")
-//	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum) {
-//		
-//
-//	
-//
-//		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum,null),HttpStatus.OK);
-//
-//	}
-//	
-//	@GetMapping("/list/{pageNum}/item/{itemNo}")
-//	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum, @PathVariable String itemNo) {
-//		
-//		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum, itemNo),HttpStatus.OK);
-//
-//	}
+	
+	@GetMapping("/list/{pageNum}")
+	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum) {
+		
+		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum,null),HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/list/{pageNum}/item/{itemName}")
+	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum, @PathVariable String itemName) {
+		
+		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum, itemName),HttpStatus.OK);
+
+	}
 
 }

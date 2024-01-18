@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mire.cinema.domain.pay.PayDTO;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Payment;
@@ -18,6 +19,7 @@ import lombok.extern.java.Log;
 @RestController("/pay")
 public class PayController {
 	private final IamportClient api;
+
 	
 	
 	public PayController() {
@@ -27,12 +29,16 @@ public class PayController {
 	}
 	
 	@PostMapping("/pay")
-	public String payItem(@RequestBody String imp_uid) throws IamportResponseException, IOException {
+	public String payItem(@RequestBody PayDTO.Info imp_uid) throws IamportResponseException, IOException {
 		log.info("제발 와줘");
 
 		
-		Payment payment = this.api.paymentByImpUid(imp_uid).getResponse();
-		System.out.println(payment);
+		
+		Payment payment = this.api.paymentByImpUid(imp_uid.getImp_uid()).getResponse();
+	
+	
+		
+		
 		
 		
 		return "ok";
