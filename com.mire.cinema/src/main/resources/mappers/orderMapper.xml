@@ -11,14 +11,14 @@
       #{discountPrice}, #{orderStatus},#{itemNo}, #{memberId}
     )
   </insert>
-	
-	<select id="selectOrderById" resultType="Order" parameterType="String">
-		select * from orders where order_id = #{orderId}
-	</select>
-	
-	<update id="updateStatus" parameterType="String">
-	update orders set order_status = #{status} where order_id = #{orderId}
-	</update>
-	
+   
+   <select id="selectOrderById" resultType="Order" parameterType="String">
+      select * from orders where order_id = #{orderId}
+   </select>
+   
+   <update id="updateStatus" parameterType="String">
+   update orders set order_status = #{status} where order_id = #{orderId}
+   </update>
+   
 
 </mapper>
