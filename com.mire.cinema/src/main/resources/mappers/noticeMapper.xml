@@ -77,10 +77,14 @@ where rn >= #{start}
 
 	<select id="countNoticeTitle" resultType="int"
 		parameterType="String">
-		SELECT count(*) FROM board where boardTitle =
+		SELECT count(*) FROM board where board_title =
 		#{boardTitle}
 	</select>
-
+	
+	<select id="countSearchNotice" resultType="int" parameterType="String">
+		SELECT count(*) FROM board where board_title like '%'||#{boardTitle}||'%' 
+	</select>
+	
 	<!-- 보드번호로 삭제 -->
 	<delete id="deleteNotice">
 		delete from board where board_no = #{boardNo}

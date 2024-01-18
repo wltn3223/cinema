@@ -30,6 +30,7 @@ public interface NoticeMapper {
 	void searchNoiceList(NoticeDTO.Search notice);
 	int countNotice();
 	int countNoticeTitle(String boardTitle);
+	int countSearchNotice(String boardTitle);
 	List<Notice> getPartList(int start,int end);
 	List<Notice> searchNoticeList(NoticeDTO.Search noticeDTO);
 	// 공지사항 삭제하기

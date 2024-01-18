@@ -32,10 +32,10 @@
 		<div class="container mt-3">
 			<h2 class="mb-4">공지사항</h2>
 			<div>
-    <input type="text" placeholder="제목으로 검색하세요" id="boardTitle">
-    <div class="btn btn-dark"
-        onclick="fetchNotice(1, document.getElementById('boardTitle').value)">검색</div>
-</div>
+				<input type="text" placeholder="제목으로 검색하세요" id="boardTitle">
+				<div class="btn btn-dark"
+					onclick="fetchNotice(1, document.getElementById('boardTitle').value)">검색</div>
+			</div>
 			<a href="/notice/noticewrite.jsp">
 				<button class="btn btn-dark mb-2">공지사항 작성</button>
 			</a> <a href="/notice/noticemodify.jsp">
@@ -92,6 +92,10 @@
 	            return response.json();
 	        })
 	        .then(data => {
+	        	console.log(data.list);
+	            console.log(data.searchList);
+	            console.log(data.page);
+	        	
 	            let notices = (data.list === undefined) ? data.searchList : data.list;
 	            let paginationData = data.page;
 	            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next, data);
@@ -103,6 +107,7 @@
 	}
 
 	function displayMovies(notices) {
+		
 	    $('#noticeList').empty();
 
 	    for (var notice of notices) {
@@ -131,15 +136,14 @@
 	    $('#pageNum').empty();
 
 	    if (data.list !== undefined) {
-	        $('#prev').html(prev ? '<button onclick="fetchNotice(' + prevPage + ')">이전</button>' : '');
-	        $('#next').html(next ? '<button onclick="fetchNotice(' + nextPage + ')">다음</button>' : '');
+	        $('#prev').html(prevPage ? '<button onclick="fetchNotice(' + prevPage + ')">이전</button>' : '');
+	        $('#next').html(nextPage ? '<button onclick="fetchNotice(' + nextPage + ')">다음</button>' : '');
 	        for (let i = begin; i <= end; i++) {
 	            $('#pageNum').append('<button onclick="fetchNotice(' + i + ')" class="mx-2">' + i + '</button>');
 	        }
 	    } else {
-	        console.log(data.keyword);
-	        $('#prev').html(prev ? '<button onclick="fetchNotice(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
-	        $('#next').html(next ? '<button onclick="fetchNotice(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
+	        $('#prev').html(prevPage ? '<button onclick="fetchNotice(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
+	        $('#next').html(nextPage ? '<button onclick="fetchNotice(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
 	        for (let i = begin; i <= end; i++) {
 	            $('#pageNum').append('<button onclick="fetchNotice(' + i + ', \'' + data.keyword + '\')" class="mx-2">' + i + '</button>');
 	        }

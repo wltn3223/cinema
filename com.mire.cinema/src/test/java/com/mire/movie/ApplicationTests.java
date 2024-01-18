@@ -27,6 +27,8 @@ class ApplicationTests {
 	@Test
 	void test() {
 		NoticeDTO.Search dto = new NoticeDTO.Search();
+		controller.findNoticeInfo("r");
+		System.out.println("여기에요"+controller.toString());
 		dto.setStartNum(1);
 		dto.setEndNum(2);
 		dto.setBoardTitle("r");

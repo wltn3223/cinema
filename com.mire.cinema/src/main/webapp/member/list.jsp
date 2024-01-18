@@ -51,7 +51,6 @@
 			<div id="pageNum"></div>
 			<div id="next" class="mx-4"></div>
 		</div>
-
 	</div>
 
 
@@ -67,10 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchMembers(1); // Initial fetch with page 1
 });
 
-function fetchNotice(pageNum, boardTitle) {
-    var url = (boardTitle === null || boardTitle === '' || boardTitle === undefined) ?
-        '/notice/list/' + pageNum : '/notice/list/' + pageNum + '/notice/' + boardTitle;
-    console.log(url);
+function fetchMembers(pageNum,memberId) {
+   
+   
+   var url = (memberId === null || memberId === '' || memberId === undefined)?
+         '/member/list/' + pageNum:'/member/list/' + pageNum +'/member/' +memberId;
+   console.log(url);
     fetch(url, {
         method: 'GET',
         headers: {
@@ -87,30 +88,31 @@ function fetchNotice(pageNum, boardTitle) {
             return response.json();
         })
         .then(data => {
+           
             console.log(data.list);
             console.log(data.searchList);
             console.log(data.page);
-
-            let notices = (data.list === undefined) ? data.searchList : data.list;
+          
+            let members = (data.list === undefined)?data.searchList:data.list;
             let paginationData = data.page;
-            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next, data);
-            displayMovies(notices);
+            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next,data);
+            displayMovies(members);
+
         })
         .catch(error => {
             console.error('Fetch error:', error.message);
         });
 }
 
-
 function displayMovies(members) {
    
     $('#memberList').empty();
-	
+   
   
     for (var member of members) {
     
         let memberInfo = 
-        	'<tr>' +
+           '<tr>' +
             '<td>' + member.memberNo + '</td>' +
             '<td>' + member.memberName + '</td>' +
             '<td>' + member.memberId + '</td>' +
@@ -131,19 +133,19 @@ function createPaginationButtons(begin, end, prev, next,data) {
     $('#pageNum').empty();
     
     if(data.list !== undefined){
-   	 	$('#prev').html(prev ? '<button onclick="fetchMembers(' + prevPage + ')">이전</button>' : '');
-    	$('#next').html(next ? '<button onclick="fetchMembers(' + nextPage + ')">다음</button>' : '');
-    	  for (let i = begin; i <= end; i++) {
-    	        $('#pageNum').append('<button onclick="fetchMembers(' + i + ')" class="mx-2">' + i + '</button>');
-    	    }
+          $('#prev').html(prev ? '<button onclick="fetchMembers(' + prevPage + ')">이전</button>' : '');
+       $('#next').html(next ? '<button onclick="fetchMembers(' + nextPage + ')">다음</button>' : '');
+         for (let i = begin; i <= end; i++) {
+               $('#pageNum').append('<button onclick="fetchMembers(' + i + ')" class="mx-2">' + i + '</button>');
+           }
     }
-    else{	
-    	console.log(data.keyword);
-    		$('#prev').html(prev ? '<button onclick="fetchMembers(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
-    		$('#next').html(next ? '<button onclick="fetchMembers(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
-    		 for (let i = begin; i <= end; i++) {
-    		        $('#pageNum').append('<button onclick="fetchMembers(' + i + ', \'' + data.keyword + '\')"lass="mx-2">' + i + '</button>');
-    		    }
+    else{   
+       console.log(data.keyword);
+          $('#prev').html(prev ? '<button onclick="fetchMembers(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
+          $('#next').html(next ? '<button onclick="fetchMembers(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
+           for (let i = begin; i <= end; i++) {
+                  $('#pageNum').append('<button onclick="fetchMembers(' + i + ', \'' + data.keyword + '\')"lass="mx-2">' + i + '</button>');
+              }
     }
    
     

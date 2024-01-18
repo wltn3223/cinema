@@ -98,7 +98,7 @@ public class NoticeController {
 	public ResponseEntity<NoticeDTO.Info> findNoticeInfo(@PathVariable String boardTitle) {
 		Notice info = noticeService.findSearchNotice(boardTitle);
 		if (info == null) {
-			throw new IllegalArgumentException(ErrorMsg.USERINFO);
+			throw new IllegalArgumentException(ErrorMsg.BoardNOTFOUND);
 		}
 		NoticeDTO.Info notice = NoticeDTO.Info.builder().boardNo(info.getBoardNo()).boardTitle(info.getBoardTitle())
 				.boardContent(info.getBoardContent()).boardViews(info.getBoardViews()).boardDate(info.getBoardDate())
@@ -117,7 +117,7 @@ public class NoticeController {
 	}
 
 	@GetMapping("/list/{pageNum}/notice/{boardTitle}")
-	public ResponseEntity<Map<String, Object>> getNoticeList(@PathVariable Integer pageNum, String boardTitle) {
+	public ResponseEntity<Map<String, Object>> getNoticeList(@PathVariable Integer pageNum,@PathVariable String boardTitle) {
 		return new ResponseEntity<>(noticeService.getNoticeMap(pageNum, boardTitle), HttpStatus.OK);
 	}
 
