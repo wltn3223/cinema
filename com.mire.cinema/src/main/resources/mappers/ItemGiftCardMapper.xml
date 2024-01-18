@@ -50,33 +50,35 @@ where rn >= #{start}
   ]]>
 	</select>
 
-	<select id="searchPartList"
-		resultType="com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO$items"
-		parameterType="int">
+	<select id="searchPartList" resultType="ItemGiftCard" parameterType="com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO$search">
 		 <![CDATA[
-SELECT a.item_no, a.item_name, a.item_size, a.item_price ,a.image_uuid
+SELECT a.*
 FROM (
     SELECT a.*, rownum rn
     FROM (
-        SELECT item_no, item_name, item_size, item_price, image_uuid
+        SELECT *
         FROM itemgiftcard
+        WHERE LOWER(item_name) LIKE '%' || #{itemName} || '%'
         ORDER BY item_no DESC
     ) a
-    WHERE rownum <= #{end}
+    WHERE rownum <= #{endNum}
 ) a
-WHERE rn >= #{start}
+WHERE rn >= #{startNum}   
 
   ]]>
 	</select>
-	<select id="countItem" resultType="int">
+
+	<select id="countItemGiftCard" resultType="int">
 		SELECT count(*) FROM
 		itemgiftcard
 	</select>
 
-	<select id="countItemNo" resultType="int" parameterType="String">
+	<select id="countItemName" resultType="int" parameterType="String">
 		SELECT
-		count(*) FROM itemgiftcard where item_no =
-		#{itemNo}
+		count(*) FROM itemgiftcard where item_name =
+		#{itemName}
 	</select>
-
+	<select id="countsearchItem" resultType="int" parameterType="String">
+		SELECT count(*) FROM itemgiftcard where item_name like '%'||#{itemName}||'%' 
+	</select>
 </mapper>
