@@ -18,7 +18,7 @@
 				<div class="text-center container-fluid mt-2">
 					<a
 						class="blog-header-logo text-body-emphasis text-decoration-none text-dark"
-						href="/"><h2>MIRE MOVIE</h2></a>
+						href="/"><h2 style="color:black;">MIRE MOVIE</h2></a>
 				</div>
 				<div class="w-25">
 					<c:if test="${memberId eq null}">

@@ -92,7 +92,7 @@ p {
 
 				<tr>
 					<td id="hd">사용극장</td>
-					<td id="cinemaName"></td>
+					<td id="cinemaName">모든 상영관</td>
 				</tr>
 				<tr>
 					<td id="hd">유효기간</td>
@@ -298,29 +298,77 @@ p {
 	  
 	  
 	  
-	  function openPopUp(data) {
+		function openPopUp(data) {
 		    var width = 700; // 윈도우 너비
 		    var height = 500; // 윈도우 높이
 		    var left = (window.innerWidth - width) / 2; // 윈도우 왼쪽 위치
 		    var top = (window.innerHeight - height) / 2; // 윈도우 위쪽 위치
 		    var myWindow = window.open("", "MsgWindow", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
 
-		    // 팝업 창에 HTML 내용 추가 (부트스트랩 스타일)
-		    myWindow.document.body.innerHTML = 
-		    	'<div class="container text-center mt-4">' +
-		        '<h2 class="mb-4">상품 구매</h2>' +
-		        '<div class="mb-3">회원 아이디: ' + data.memberId + '</div>' +
-		        '<div class="mb-3">회원 등급: ' + data.memberGrade + '</div>' +
-		        '<div class="mb-3">상품 번호: ' + data.itemNo + '</div>' +
-		        '<div class="mb-3">상품 이름: ' + data.itemName + '</div>' +
-		        '<div class="mb-3">상품 가격: ' + data.price + ' (원)</div>' +
-		        '<div class="mb-3">상품 수량: ' + data.number + ' (개)</div>' +
-		        '<div class="mb-3">상품 총 가격: ' + data.totalPrice + ' (원)</div>' +
-		        '<div class="mb-3">할인이 적용된 총 가격: ' + data.discountPrice + ' (원)</div>' +
-		        '<button class="btn btn-primary" onclick="opener.parent.requestPay(\'' + 
-		        data.memberId + '\', \'' + data.itemName + '\', ' + data.discountPrice + ', \'' + data.orderId + '\')">주문하기</button>' +
+		    // 팝업 창에 HTML 테이블 추가 (부트스트랩 스타일)
+		    myWindow.document.body.innerHTML =
+		        '<div class="container text-center mt-4 p-4">' +
+		        '<div class="row justify-content-center">' +
+		        '<div class="col-md-8">' +
+		        '<h2 class="mb-4" style="text-align: center;">상품 구매</h2>' +
+		        '<table class="table table-bordered">' +
+		        '<tr>' +
+		        '<th>회원 아이디:</th>' +
+		        '<td>' + data.memberId + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>회원 등급:</th>' +
+		        '<td>' + data.memberGrade + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 번호:</th>' +
+		        '<td>' + data.itemNo + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 이름:</th>' +
+		        '<td>' + data.itemName + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 가격:</th>' +
+		        '<td>' + data.price + ' 원</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 수량:</th>' +
+		        '<td>' + data.number + ' 개</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 총 가격:</th>' +
+		        '<td>' + data.totalPrice + ' 원</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>할인이 적용된 총 가격:</th>' +
+		        '<td>' + data.discountPrice + ' 원</td>' +
+		        '</tr>' +
+		        '</table>' +
+		        '</div>' +
+		        '</div>' +
+		        '<div class="row mt-4">' +
+		        '<div class="col-md-4" style="margin-left: auto;">' +
+		        '<button class="btn btn-black btn-lg btn-block payment-button" onclick="opener.parent.requestPay(\'' +
+		        data.memberId + '\', \'' + data.itemName + '\', ' + data.discountPrice + ', \'' + data.orderId + '\')">결제하기</button>' +
+		        '</div>' +
+		        '</div>' +
 		        '</div>';
+
+		    var style = myWindow.document.createElement("style");
+		    style.innerHTML = "table { width: 100%; margin-top: 15px; border-collapse: collapse; } th, td { padding: 10px; font-size: 16px; border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; } .btn { padding: 10px 20px; font-size: 18px; }";
+		    
+		    // Additional style for the payment button
+		    style.innerHTML += ".payment-button { margin: 10px auto; display: block; }";
+		    
+		    myWindow.document.head.appendChild(style);
 		}
+
+
+
+
+
+
 	
 	
 	</script>
