@@ -73,27 +73,28 @@ p {
 		<div class="tab">
 			<h1>스토어</h1>
 			<br>
-			<div style="display: flex; align-items: center;">
-				
-				<div style="display: flex; align-items: center; margin-left: 10px;">
-					<input type="text" placeholder="상품명으로 검색하세요" id="itemName">
+			<div
+				style="display: flex; align-items: center; justify-content: flex-end;">
+				<div style="display: flex; align-items: center;">
+					<input type="text" placeholder="상품명으로 검색하세요" id="itemName"
+						style="color: black; background-color: transparent; border: 1px solid white; border-radius: 8px; padding: 10px 10px; margin: 10px; font-size: 14px; width: 80%;">
 					<button class="btn btn-dark ms-1"
+						style="width: 120px; border-radius: 8px; padding: 10px 10px; margin: 10px;"
 						onclick="fetchItems(1, document.getElementById('itemName').value)">상품
 						검색</button>
 				</div>
-
 			</div>
+
 			<ul class="tabnav">
-				<li><a href="#tab01">새로운 상품</a></li>
-				<li><a href="#tab02">팝콘/음료/굿즈</a></li>
-				<li><a href="#tab03">포인트 몰</a></li>
+				<li><a href="#tab01">팝콘/음료/굿즈</a></li>
+				<li><a href="#tab02">포인트 몰</a></li>
 			</ul>
 			<div class="tabcontent">
 				<div id="tab01">
-					<a href="#"><img src="/img/item01.PNG" width="1200px"
+					<a href="#"><img src="/img/item01.PNG" width="1100px"
 						height="400px" style="margin-bottom: 120px; margin-left: 70px;"></a>
 					<div class="item-container" id="itemList">
-						
+
 						<c:forEach var="item" items="${itemList}">
 							<div class="item">
 								<input type="hidden" class="itemNo" name="itemNo"
@@ -110,25 +111,8 @@ p {
 						</c:forEach>
 					</div>
 				</div>
+
 				<div id="tab02">
-					<div class="item-container" id="itemList">
-						
-						<c:forEach var="item" items="${itemGiftCards}">
-							<input type="hidden" id="itemNo" name="itemNo"
-								value="${item.itemNo}">
-							<a href="#" onclick="loadItemInfo('${item.itemName}')">
-								<div class="item">
-									<img src="${item.image}" alt="${item.itemName} 이미지" width="220"
-										height="220">
-									<p style="color: black; font-weight: bold;">${item.itemName}</p>
-									<p style="color: black; font-size: 13px;">${item.itemSize}</p>
-									<p style="color: #9d00f7; font-size: 25px; font-weight: 400;">${item.itemPrice}원</p>
-								</div>
-							</a>
-						</c:forEach>
-					</div>
-				</div>
-				<div id="tab03">
 					<br>
 					<h2>등록된 상품이 없습니다.</h2>
 					<br>

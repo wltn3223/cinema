@@ -123,15 +123,7 @@
 					<div class="btn btn-dark"
 						onclick="fetchNotice(1, document.getElementById('boardTitle').value)">검색</div>
 				</div>
-
-				<div class="action-buttons">
-					<a href="/notice/noticewrite.jsp"><button
-							class="btn btn-dark mb-2">공지사항 작성</button></a> <a
-						href="/notice/noticemodify.jsp"><button
-							class="btn btn-dark mb-2">공지사항 수정</button></a> <a
-						href="/notice/deletenotice.jsp"><button
-							class="btn btn-dark mb-2">공지사항 삭제</button></a>
-				</div>
+				
 			</div>
 
 			<table id="cinema-list" class="table table-bordered">

@@ -40,7 +40,7 @@
 						type="file" class="form-control" id="noticeImage"
 						placeholder="업로드할 이미지를 삽입해주세요" required>
 				</div>
-				<button type="button" class="btn btn-primary"
+				<button type="button" class="btn btn-dark"
 					onclick="writeNotice()">작성하기</button>
 			</form>
 		</div>

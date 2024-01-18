@@ -12,6 +12,21 @@
 <title>정보조회</title>
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 </head>
+<style>
+.styled-input {
+	background-color: #f8f9fa;
+	border: 1px solid #ced4da;
+	padding: 10px;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-dark a {
+	text-decoration: none;
+	color: white;
+}
+</style>
 
 <body>
 	<header>
@@ -27,43 +42,48 @@
 				<form>
 					<div class="form-group">
 						<label for="memberId">아이디</label> <input type="text"
-							class="form-control" id="memberId" readonly="readonly">
+							class="form-control styled-input" id="memberId"
+							readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberName">이름</label> <input type="text"
-							class="form-control" id="memberName" readonly="readonly">
+							class="form-control styled-input" id="memberName"
+							readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberEmail">이메일</label> <input type="email"
-							class="form-control" id="memberEmail" readonly="readonly">
+							class="form-control styled-input" id="memberEmail"
+							readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberPhone">전화번호</label> <input type="tel"
-							class="form-control" id="memberPhone" readonly="readonly">
+							class="form-control styled-input" id="memberPhone"
+							readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberGrade">회원등급</label> <input type="tel"
-							class="form-control" id="memberGrade" readonly="readonly">
+							class="form-control styled-input" id="memberGrade"
+							readonly="readonly">
 					</div>
 					<div class="form-group">
 						<label for="memberDate">가입일</label> <input type="tel"
-							class="form-control" id="memberDate" readonly="readonly">
-
+							class="form-control styled-input" id="memberDate"
+							readonly="readonly">
 					</div>
-					<div class="d-flex justify-content-center">
-						
-							<button class="btn btn-light bg-dark" type="button">
-								<a href="/member/memberEditForm.jsp" class="text-light">비밀번호변경</a>
-							</button>
-							<button class="btn btn-light bg-dark" type="button">
-								<a class="text-light">회원탈퇴</a>
-							</button>
-							<button class="btn btn-light bg-dark" type="button">
-								<a href="/" class="text-light">홈으로</a>
-							</buttton>	
-				
+					<div class="d-flex justify-content-center mt-4">
+						<button class="btn btn-dark mx-2" type="button">
+							<a href="/member/memberEditForm.jsp" class="text-light">비밀번호
+								변경</a>
+						</button>
+						<button class="btn btn-dark mx-2" type="button">
+							<a class="text-light">회원탈퇴</a>
+						</button>
+						<button class="btn btn-dark mx-2" type="button">
+							<a href="/" class="text-light">홈으로</a>
+						</button>
 					</div>
 				</form>
+
 			</div>
 		</div>
 	</div>
@@ -90,28 +110,26 @@
 	});
 	function getInfo() {
 		let memberId = '${memberId}';
-		
+
 		$.ajax({
-			type: "get",
-			url: "/member/info/" + memberId, // 서버에서 정보를 가져오는 URL을 설정
-			contentType: "application/json;charset=UTF-8",
-			success: function(response) {
+			type : "get",
+			url : "/member/info/" + memberId, // 서버에서 정보를 가져오는 URL을 설정
+			contentType : "application/json;charset=UTF-8",
+			success : function(response) {
 				// 서버에서 받아온 정보를 폼에 넣기
 				$('#memberId').val(response.memberId);
 				$('#memberName').val(response.memberName);
 				$('#memberEmail').val(response.memberEmail);
-				$('#memberPhone')
-				.val(response.memberPhone);
+				$('#memberPhone').val(response.memberPhone);
 				$('#memberGrade').val(response.memberGrade);
 				$('#memberDate').val(response.memberDate);
 			},
-			error: function(error) {
+			error : function(error) {
 				var errorMessage = error.responseText;
 				alert(errorMessage);
 			}
 		});
 	}
-
 </script>
 
 
