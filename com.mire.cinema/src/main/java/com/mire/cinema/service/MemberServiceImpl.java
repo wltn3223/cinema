@@ -141,6 +141,8 @@ public class MemberServiceImpl implements MemberService {
 			map.put("list",memberMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));
 		}
 		
+		
+		
 		else {
 			pc = pc.getPage(pageNum, getTotalMember(memberId));
 			MemberDTO.search dto = new search();

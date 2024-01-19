@@ -256,9 +256,9 @@ p {
 			    name: '상품명: ' + itemName + ' (할인된 총 결제 가격: ' + discountPrice + '원)',
 			    amount: discountPrice + '원',
 				buyer_name: memberId,
-			
+				 m_redirect_url : 'http://localhost:8080/orderCompleteMobile'
 				
-				m_redirect_url : '/'
+				
 			}, function(rsp) {
 				if (rsp.success) {
 					//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -272,19 +272,22 @@ p {
 					         merchant_uid: rsp.merchant_uid 
 						// Add any other necessary data
 						}),
-					}).done(function(rsp) {
-						// [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-						alert(rsp.responseText);
-						location.href = '/member/myOrderList.jsp';
-					});
-				} else {
-					var msg = '결제에 실패하였습니다.';
-					msg += '에러내용 : ' + rsp.error_msg;
-
-					alert(msg);
-				}
-			
-			});
+						 success: function (data) {
+				                // [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+				                alert(data);
+				                location.href = '/member/myOrderList.jsp';
+				            },
+				            error:function(){
+						          console.log("Insert ajax 통신 실패!!!");
+						          location.href = '/member/myOrderList.jsp';
+						        }
+				        });
+				  } else {
+			            var msg = '결제에 실패하였습니다.';
+			            msg += '에러내용 : ' + rsp.error_msg;
+			            alert(msg);
+			        }
+			    });
 		}
 	  
 	  

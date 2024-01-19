@@ -84,10 +84,12 @@ public class OrderServiceImpl implements OrderService {
 		PageCreate pc = new PageCreate();
 		
 		pc = pc.getPage(pageNum, countOrder(memberId));
+		
 		OrderDTO.PageMember dto = new PageMember();
 		dto.setMemberId(memberId);
 		dto.setStart(pc.getPaging().getStartNum());
 		dto.setEnd(pc.getPaging().getEndNum());
+		
 		map.put("keyword", memberId);
 		map.put("searchList",orderMapper.getPartList(dto));
 		map.put("page", pc);
