@@ -29,15 +29,19 @@
        <%@ include file="./WEB-INF/header.jsp" %>
     </header>
     <!-- 메인 -->
-    <main class="container" id="main">
-		
-        <h1 style="height: 500px;">메인 부분
-        </h1>
+    <main class="container">
+       <%@ include file="./WEB-INF/main.jsp"%>
     </main>
+    <!-- 슬라이드쇼-->
+    <footer class="container">
+       <%@ include file="./WEB-INF/slide.jsp"%>
+    </footer>
     <!-- 푸터-->
     <footer class="container">
        <%@ include file="./WEB-INF/footer.jsp"%>
     </footer>
+    
+    
 </body>
 
 <script>
