@@ -38,6 +38,7 @@ public class WebSecurityConfig {
         .authorizeRequests(authorizeRequests -> {
         	authorizeRequests
         	.requestMatchers("/member/memberInfo.jsp").authenticated()
+        	.requestMatchers("/pay/**").authenticated()
         	.requestMatchers("/index.jsp").permitAll()
         	.requestMatchers("/login.html").permitAll()
         	.requestMatchers("/WEB-INF/header.jsp").permitAll()

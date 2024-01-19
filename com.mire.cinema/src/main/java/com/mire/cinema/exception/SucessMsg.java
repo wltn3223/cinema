@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public interface SucessMsg {
 	 String LOGIN= "로그인 성공";
+	 String CheckId= "이 아이디는 사용 가능합니다.";
+	 
 	    String INSERT= "등록 성공";
 	    String SELECT= "조회 성공";
 	    String UPDATE = "정보 수정 성공";

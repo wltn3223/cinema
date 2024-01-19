@@ -83,6 +83,11 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="../member/memberInfo.jsp">회원
 									정보 조회</a></li>
+							<li><a class="dropdown-item" href="../member/myOrderList.jsp">
+									내 주문 내역 조회</a></li>
+							<li><a class="dropdown-item" href="../member/memberInfo.jsp">
+									내 예매 내역 조회</a></li>
+									내 문의 내역 조회</a></li>
 							<li><a class="dropdown-item" href="#"></a></li>
 						</ul></li>
 				</ul>
@@ -146,6 +151,7 @@
 
 	<!-- 추가 스크립트 -->
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		
 	<script>
 		function logout() {
 			$.ajax({

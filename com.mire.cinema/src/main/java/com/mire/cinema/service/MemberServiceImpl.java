@@ -35,6 +35,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void saveMember(Member member) {
+		int num = memberMapper.countMemberId(member.getMemberId());
+		if(num != 0) {
+			throw new IllegalArgumentException(ErrorMsg.DUPLICATEID);
+		}
+		
+		
 		memberMapper.insertMember(member);
 
 	}

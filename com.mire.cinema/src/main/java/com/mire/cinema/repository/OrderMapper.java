@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.mire.cinema.domain.member.Member;
 import com.mire.cinema.domain.member.MemberDTO;
 import com.mire.cinema.domain.order.Order;
+import com.mire.cinema.domain.order.OrderDTO;
 
 
 
@@ -28,11 +29,11 @@ public interface OrderMapper {
     void updateOrder(MemberDTO.Update dto);
     
     int countOrder();
-    int countOrdertype(String memberId);
+    int countOrder(String memberId);
     
     int countsearchMember(String memberId);
     
-    List<Member> getPartList(int start,int end);
+    List<OrderDTO.MemberInfo> getPartList(OrderDTO.PageMember page);
     
     List<Member> searchPartList(MemberDTO.search dto);
 

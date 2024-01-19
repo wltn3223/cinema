@@ -45,10 +45,7 @@
 </body>
 
 <script>
-$(document).ready(function() {
-	console.log("클리어");
-    localStorage.clear();
-});
+
 
 </script>
 

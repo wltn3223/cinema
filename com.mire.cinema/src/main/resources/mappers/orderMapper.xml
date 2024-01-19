@@ -21,4 +21,30 @@
    </update>
    
 
+	
+	
+	<select id="getPartList" resultType="com.mire.cinema.domain.order.OrderDTO$MemberInfo" parameterType="com.mire.cinema.domain.order.OrderDTO$PageMember">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT a.order_id, a.member_id, a.order_quantity, a.order_price, a.discount_price, a.order_date, b.item_name, b.image_uuid
+        FROM orders a
+        INNER JOIN itemgiftcard b ON a.item_no = b.item_no where a.member_Id = #{memberId}
+        ORDER BY a.order_date DESC
+    ) a
+    WHERE rownum <= #{end}
+) a
+WHERE rn >= #{start}
+
+  ]]>
+	</select>
+	
+	<select id="countOrder" parameterType="String">
+		select count(*) from orders where member_id = #{memberId}
+	</select>
+   
+   
+
 </mapper>

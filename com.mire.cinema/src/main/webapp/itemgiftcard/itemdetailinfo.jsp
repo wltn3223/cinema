@@ -146,6 +146,7 @@ p {
 	</footer>
 
 	<script>
+	
 	  $(document).ready(function () {
 		 
 	        // 페이지 로드 시 localStorage에서 선택한 상품 정보의 상품 번호를 가져옵니다.
@@ -227,7 +228,7 @@ p {
 		  
 			$.ajax({
 				type: "get",
-				url: "/order/memberId/" + memberId  +"/itemNo/" + itemNo + "/number/" + number, // 서버에서 정보를 가져오는 URL을 설정
+				url: "/pay/memberId/" + memberId  +"/itemNo/" + itemNo + "/number/" + number, // 서버에서 정보를 가져오는 URL을 설정
 				contentType: "application/json;charset=UTF-8",
 				success: function(data) {
 					console.log(data);
@@ -262,7 +263,7 @@ p {
 				if (rsp.success) {
 					//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 					jQuery.ajax({
-						url : "/pay", //cross-domain error가 발생하지 않도록 주의해주세요
+						url : "/pay/item", //cross-domain error가 발생하지 않도록 주의해주세요
 						type : 'POST',
 						dataType : 'json',
 						contentType : 'application/json', // Specify the content type here
@@ -273,17 +274,8 @@ p {
 						}),
 					}).done(function(rsp) {
 						// [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-						if (rsp.success) {
-							msg = '결제가 완료되었습니다.';
-							msg += '고유ID : ' + rsp.imp_uid;
-							msg += '상점 거래ID : ' + rsp.merchant_uid;
-							msg += '결제 금액 : ' + rsp.paid_amount;
-							msg += '카드 승인번호 : ' + rsp.apply_num;
-						} else {
-							console.log(rsp);
-							// [3] 아직 제대로 결제가 되지 않았습니다.
-							// [4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-						}
+						alert(rsp.responseText);
+						location.href = '/member/myOrderList.jsp';
 					});
 				} else {
 					var msg = '결제에 실패하였습니다.';
@@ -291,7 +283,7 @@ p {
 
 					alert(msg);
 				}
-				alert(msg);
+			
 			});
 		}
 	  
