@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
+import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
 
 
 
@@ -15,13 +16,16 @@ import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 public interface ItemGiftCardMapper {
 	  
 		void insertItemGiftCard(ItemGiftCard itemgiftcard);
-		ItemGiftCard selectItemGiftCard(String name);
-
+		ItemGiftCard selectItemGiftCard(Long itemNo);
 	    List<ItemGiftCard> getItemGiftCardList();
 	    List<ItemGiftCard> selectAllItemGiftCard();
-	    void deleteItemGiftCard(String name);
-
+	    void deleteItemGiftCard(Long itenNo);
 	    void updateItemGiftCard(ItemGiftCard itemgiftcard);
-	    void updateItemImage(ItemGiftCard item);
+	    
+	    int countItemGiftCard();
+	    int countItemName(String itemName);
+	    int countsearchItem(String itemName);
+	    List<ItemGiftCard> getPartList(int start,int end);
+	    List<ItemGiftCard> searchPartList(ItemGiftCardDTO.search dto);
 	    
 }

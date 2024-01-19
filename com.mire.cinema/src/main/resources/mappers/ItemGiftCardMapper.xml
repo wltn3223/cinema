@@ -5,15 +5,15 @@
 		parameterType="com.mire.cinema.domain.itemgiftcard.ItemGiftCard">
 		INSERT INTO itemgiftcard(item_no, item_name, item_type,
 		item_price,
-		item_size, item_info, image_uuid, cinema_name)
+		item_size, item_info, image_uuid)
 		VALUES
 		(item_seq.nextval, #{itemName}, #{itemType}, #{itemPrice},
-		#{itemSize}, #{itemInfo}, #{imageUuid}, #{cinemaName})
+		#{itemSize}, #{itemInfo}, #{imageUuid})
 	</insert>
 
 	<select id="selectItemGiftCard" resultType="ItemGiftCard">
 		SELECT * FROM
-		itemgiftcard WHERE item_name = #{itemName}
+		itemgiftcard WHERE item_no = #{itemNo}
 	</select>
 
 	<select id="selectAllItemGiftCard"
@@ -22,21 +22,63 @@
 	</select>
 
 	<delete id="deleteItemGiftCard">
-		DELETE FROM itemgiftcard WHERE item_name =
-		#{itemName}
+		DELETE FROM itemgiftcard WHERE item_no =
+		#{itemNo}
 	</delete>
 
 	<update id="updateItemGiftCard">
-		update itemgiftcard set item_type = #{itemType},
-		item_price = #{itemPrice},
-		item_size = #{itemSize},
-		item_info = #{itemInfo},
-		cinema_name = #{cinemaName},
-		image_uuid = #{imageUuid}
-		where item_name = #{itemName}
+    UPDATE itemgiftcard
+    SET item_name = #{itemName},
+        item_type = #{itemType},
+        item_price = #{itemPrice},
+        item_size = #{itemSize},
+        item_info = #{itemInfo},
+        image_uuid = #{imageUuid}
+    WHERE item_no = #{itemNo}
+</update>
 
-	</update>
 
+	<select id="getPartList" resultType="ItemGiftCard"
+		parameterType="int">
+		 <![CDATA[
+ SELECT a.* from 
+(SELECT a.*, rownum rn from 
+    ( SELECT * from itemgiftcard order by item_no desc) a 
+    where rownum <= #{end} ) a
+where rn >= #{start}    
 
+  ]]>
+	</select>
 
+	<select id="searchPartList" resultType="ItemGiftCard" parameterType="com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO$search">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT *
+        FROM itemgiftcard
+        WHERE LOWER(item_name) LIKE '%' || #{itemName} || '%'
+        ORDER BY item_no DESC
+    ) a
+    WHERE rownum <= #{endNum}
+) a
+WHERE rn >= #{startNum}   
+
+  ]]>
+	</select>
+
+	<select id="countItemGiftCard" resultType="int">
+		SELECT count(*) FROM
+		itemgiftcard
+	</select>
+
+	<select id="countItemName" resultType="int" parameterType="String">
+		SELECT
+		count(*) FROM itemgiftcard where item_name =
+		#{itemName}
+	</select>
+	<select id="countsearchItem" resultType="int" parameterType="String">
+		SELECT count(*) FROM itemgiftcard where item_name like '%'||#{itemName}||'%' 
+	</select>
 </mapper>

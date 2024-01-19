@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.OrderMapper">
+
+  <insert id="insertOrder">
+    INSERT INTO orders (
+      order_no, order_Id, order_quantity, order_price,
+      discount_price, order_status,item_no, member_id
+    ) VALUES (
+      orders_seq.nextval, #{orderId}, #{orderQuantity}, #{orderPrice},
+      #{discountPrice}, #{orderStatus},#{itemNo}, #{memberId}
+    )
+  </insert>
+   
+   <select id="selectOrderById" resultType="Order" parameterType="String">
+      select * from orders where order_id = #{orderId}
+   </select>
+   
+   <update id="updateStatus" parameterType="String">
+   update orders set order_status = #{status} where order_id = #{orderId}
+   </update>
+   
+
+	
+	
+	<select id="getPartList" resultType="com.mire.cinema.domain.order.OrderDTO$MemberInfo" parameterType="com.mire.cinema.domain.order.OrderDTO$PageMember">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT a.order_id, a.member_id, a.order_quantity, a.order_price, a.discount_price, a.order_date, b.item_name, b.image_uuid
+        FROM orders a
+        INNER JOIN itemgiftcard b ON a.item_no = b.item_no where a.member_Id = #{memberId}
+        ORDER BY a.order_date DESC
+    ) a
+    WHERE rownum <= #{end}
+) a
+WHERE rn >= #{start}
+
+  ]]>
+	</select>
+	
+	<select id="countOrder" parameterType="String">
+		select count(*) from orders where member_id = #{memberId}
+	</select>
+   
+   
+
+</mapper>

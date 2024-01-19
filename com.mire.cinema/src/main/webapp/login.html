@@ -31,34 +31,33 @@
 
 	
 	<div class="container mt-5">
-		<div class="row justify-content-center">
-			<div class="col-md-6 d-flex align-items-center">
-				<div class="container rounded p-4"
-					style="background-color: #343a40; color: white;">
-					<h2 class="text-center mb-4">로그인</h2>
-					<form>
-						<div class="form-group">
-							<label for="memberId">아이디</label> <input type="text"
-								class="form-control" id="memberId" placeholder="아이디를 입력하세요"
-								required>
-						</div>
-						<div class="form-group">
-							<label for="memberPasswd">비밀번호</label> <input type="password"
-								class="form-control" id="memberPasswd" placeholder="비밀번호를 입력하세요"
-								required>
-						</div>
-						<div class="text-center">
-							<button type="button" class="btn btn-light mr-2"
-								onclick="Login()">로그인</button>
-							<button type="button" class="btn btn-light">
-								<a href="/join.html">회원가입</a>
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">로그인</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="memberId" class="form-label">아이디</label>
+                            <input type="text" class="form-control" id="memberId" placeholder="아이디를 입력하세요" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="memberPasswd" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="memberPasswd" placeholder="비밀번호를 입력하세요" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-dark btn-lg mr-2" onclick="Login()">로그인</button>
+                            <button type="button" class="btn btn-dark btn-lg">
+                                <a href="/join.html" class="text-white text-decoration-none">회원가입</a>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 	  <footer class="py-3 my-4">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
          <li class="nav-item"><a href="#"

@@ -18,16 +18,24 @@ public interface NoticeMapper {
 
 	// 공지사항 리스트 출력하기
 	List<Notice> selectNotice();
-	
+
 	// 공지사항 내용 출력하기
 	Notice getNotice(Long boardNo);
 
 	// 공지사항 내용 수정하기
 	void updateNotice(NoticeDTO.NoticeUpdate notice);
-	
+
+	// 공지사항 검색,페이징 기능
+	Notice getSearchNotice(String boardTitle);
+	void searchNoiceList(NoticeDTO.Search notice);
+	int countNotice();
+	int countNoticeTitle(String boardTitle);
+	int countSearchNotice(String boardTitle);
+	List<Notice> getPartList(int start,int end);
+	List<Notice> searchNoticeList(NoticeDTO.Search noticeDTO);
 	// 공지사항 삭제하기
 	void deleteNotice(Long boardNo);
 
-	//공지사항 조회수 증가 
+	// 공지사항 조회수 증가
 	void updateNoticeViews(long boardNo);
 }

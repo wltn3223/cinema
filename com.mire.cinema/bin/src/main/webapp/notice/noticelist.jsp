@@ -33,6 +33,10 @@
 			<h2>공지사항</h2>
 			<a href="/notice/noticewrite.jsp">
 				<button class="btn btn-dark mb-2">공지사항 작성</button>
+			</a> <a href="/notice/noticemodify.jsp">
+				<button class="btn btn-dark mb-2">공지사항 수정</button>
+			</a> <a href="/notice/deletenotice.jsp">
+				<button class="btn btn-dark mb-2">공지사항 삭제</button>
 			</a>
 			<table class="table table-bordered">
 				<thead>
@@ -88,13 +92,12 @@
 				tbody.append(row);
 			}
 
-		
 			$(".notice-title").on("click", function() {
-				
+
 				var boardNo = $(this).data("board-no");
 
 				sessionStorage.setItem("BoardNo", boardNo);
-				location.href="/notice/getnotice.jsp";
+				location.href = "/notice/getnotice.jsp";
 
 			});
 		}

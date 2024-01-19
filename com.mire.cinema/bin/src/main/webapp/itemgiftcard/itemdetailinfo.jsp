@@ -13,6 +13,8 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="/itemgiftcard/tab.js"></script>
+<script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <link rel="stylesheet" href="/itemgiftcard/tab.css">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 <style>
@@ -74,25 +76,27 @@ p {
 			<tbody>
 
 				<tr>
-					<td colspan="2" style="font-weight: 500; font-size: 25px;">패밀리패키지</td>
+					<td colspan="2" style="font-weight: 500; font-size: 25px;"
+						id="itemName"></td>
 				</tr>
 				<tr>
-					<td colspan="2">2d 일반관람권3매 + ㅇㅇ</td>
+					<td colspan="2" id="itemSize"></td>
 				</tr>
 
 				<tr style="border-top: 1px solid black;">
-					<td rowspan="8"><img src="/img/item02.PNG"
-						style="width: 500px; height: 500px; border-right: 1px solid black; margin-right: 30px;"></td>
+					<td rowspan="8"><img src="" id="itemImage"
+						style="width: 500px; height: 500px; border-right: 1px solid black; margin-right: 30px;">
+					</td>
 				</tr>
 
 				<tr>
 					<td id="hd">사용극장</td>
-					<td>모든 지점</td>
+					<td id="cinemaName"></td>
 				</tr>
 				<tr>
 					<td id="hd">유효기간</td>
 
-					<td>구매일로부터 24개월 이내</td>
+					<td id="itemType">구매일로부터 24개월 이내</td>
 				</tr>
 				<tr>
 					<td id="hd">판매수량</td>
@@ -107,21 +111,21 @@ p {
 				<tr>
 					<td id="hd">수량/금액</td>
 
-					<td><button id="decreaseBtn">-</button>
-						<span id="quantity" style="color: black;">1</span> 개
+					<td><button id="decreaseBtn">-</button> <span id="quantity"
+						style="color: black;"></span> 개
 						<button id="increaseBtn">+</button>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
 						style="color: black; font-size: 30px; font-weight: 600;"
-						id="totalPrice">43,000원</span></td>
+						id="itemPrice"></span></td>
 
 				</tr>
 				<tr>
 					<td id="hd">원산지</td>
-					<td>팝콘: 옥수수(미국산)</td>
+					<td id="itemInfo"></td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<button id="purchaseBtn">구매하기</button>
+						<button id="purchaseBtn" onclick="requestPay()">구매하기</button>
 					</td>
 				</tr>
 
@@ -135,71 +139,116 @@ p {
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
-	<script>
-		$(document).ready(function() {
-			$.ajax({
-				type : 'GET',
-				url : '/item/list',
-				contentType : 'application/json',
-				success : function(itemGiftCards) {
-					console.log(itemGiftCards);
-					appendItemGiftCardToTable(itemGiftCards);
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					// 페이지 로드 시 sessionStorage에서 선택한 상품 정보를 가져와서 폼에 표시
+					var selectedItem = sessionStorage.getItem('selectedItem');
+
+					if (selectedItem) {
+						selectedItem = JSON.parse(selectedItem);
+
+						// 상품 정보 표시
+						$('#itemName').text(selectedItem.itemName);
+						$('#itemType').text(selectedItem.itemType);
+						$('#itemPrice').text(selectedItem.itemPrice);
+						$('#itemSize').text(selectedItem.itemSize);
+						$('#itemInfo').text(selectedItem.itemInfo);
+						$('#cinemaName').text(selectedItem.cinemaName);
+
+						// 이미지 정보 표시
+						$('#itemImage').attr('src',
+								'../upload/' + selectedItem.imageUuid);
+
+						console.log(selectedItem);
+
+						// 개당 가격 설정
+						var unitPrice = selectedItem.itemPrice;
+						// 초기 수량 설정
+						var quantity = 1;
+						// 최대 수량 설정
+						var maxQuantity = 8;
+
+						// 수량 및 금액 업데이트 함수
+						function updateQuantityAndPrice() {
+							$("#quantity").text(quantity);
+							$("#itemPrice").text(
+									(quantity * unitPrice).toLocaleString()
+											+ "원");
+						}
+
+						// 감소 버튼에 대한 이벤트 리스너
+						$("#decreaseBtn").on("click", function() {
+							if (quantity > 1) {
+								quantity -= 1;
+								updateQuantityAndPrice();
+							}
+						});
+
+						// 증가 버튼에 대한 이벤트 리스너
+						$("#increaseBtn").on("click", function() {
+							if (quantity < maxQuantity) {
+								quantity += 1;
+								updateQuantityAndPrice();
+							}
+						});
+
+						// 초기 업데이트
+						updateQuantityAndPrice();
+					} else {
+						// 세션 스토리지에 선택한 상품 정보가 없을 경우에 대한 처리
+						console.warn('sessionStorage에서 선택한 상품 정보를 찾을 수 없습니다.');
+					}
+				});
+		function requestPay() {
+			IMP.init('imp27664032');
+			var msg;
+
+			IMP.request_pay({
+				pg : 'kakaopay',
+				pay_method : 'card',
+				merchant_uid : "order_" + new Date().getTime(), // 상점에서 관리하는 주문 번호
+				name : '주문명:결제테스트',
+				amount : 10000,
+				buyer_email : 'iamport@siot.do',
+				buyer_name : '구매자이름',
+				buyer_tel : '010-1234-5678',
+				buyer_addr : '서울특별시 강남구 삼성동',
+				buyer_postcode : '123-456',
+				m_redirect_url : '/'
+			}, function(rsp) {
+				if (rsp.success) {
+					//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+					jQuery.ajax({
+						url : "/pay", //cross-domain error가 발생하지 않도록 주의해주세요
+						type : 'POST',
+						dataType : 'json',
+						contentType : 'application/json', // Specify the content type here
+						data : JSON.stringify({
+							imp_uid : rsp.imp_uid
+						// Add any other necessary data
+						}),
+					}).done(function(rsp) {
+						// [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+						if (rsp.success) {
+							msg = '결제가 완료되었습니다.';
+							msg += '고유ID : ' + rsp.imp_uid;
+							msg += '상점 거래ID : ' + rsp.merchant_uid;
+							msg += '결제 금액 : ' + rsp.paid_amount;
+							msg += '카드 승인번호 : ' + rsp.apply_num;
+						} else {
+							console.log(rsp);
+							// [3] 아직 제대로 결제가 되지 않았습니다.
+							// [4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+						}
+					});
+				} else {
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+
+					alert(msg);
 				}
-			});
-		});
-
-		// 가격을 1000단위로 콤마(,)를 추가하는 함수
-		function addCommaToPrice(price) {
-			return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
-
-		function appendItemGiftCardToTable(itemGiftCards) {
-			var div = $(".item-container");
-			div.empty();
-
-			for (var i = 0; i < itemGiftCards.length; i++) {
-				var itemGiftCard = itemGiftCards[i];
-				// 가격에 1000단위로 콤마 추가
-				var formattedPrice = addCommaToPrice(itemGiftCard.itemPrice);
-				var row = '<a href="#" onclick="loadItemInfo(\''
-						+ itemGiftCard.itemName
-						+ '\')">'
-						+ '<div class="item">'
-						+ '<img src="' + itemGiftCard.image + '" alt="' + itemGiftCard.itemName + ' 이미지" width="220" height="220">'
-						+ '<p style="color: black; font-weight: bold;">'
-						+ itemGiftCard.itemName
-						+ '</p>'
-						+ '<p style="color: black; font-size: 13px;">'
-						+ itemGiftCard.itemInfo
-						+ '</p>'
-						+ '<p style="color: #9d00f7; font-size: 25px; font-weight: 400;">'
-						+ formattedPrice + '원</p>' + '</div>' + '</a>';
-				div.append(row);
-			}
-		}
-
-		// 클릭 시 호출되는 함수로 선택한 아이템의 정보를 가져와서 sessionStorage에 저장
-		function loadItemInfo(itemName) {
-			$.ajax({
-				type : 'GET',
-				url : '/item/info/' + itemName,
-				contentType : 'application/json',
-				success : function(response) {
-					console.log(response);
-					// 선택한 아이템의 정보를 sessionStorage에 저장
-					sessionStorage.setItem('selectedItem', JSON
-							.stringify(response));
-					// itemEditForm.jsp로 이동
-					location.href = '/itemgiftcard/itemEditForm.jsp';
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
+				alert(msg);
 			});
 		}
 	</script>

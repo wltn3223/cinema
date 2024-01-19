@@ -2,6 +2,7 @@ package com.mire.cinema.domain.itemgiftcard;
 
 import java.util.List;
 
+import com.mire.cinema.domain.member.MemberDTO;
 import com.mire.cinema.domain.movie.MovieDTO;
 
 import jakarta.validation.constraints.Min;
@@ -18,6 +19,7 @@ public class ItemGiftCardDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Insert {
+		private Long itemNo;
 		@NotBlank(message = "상품명을 입력하세요")
 		private String itemName;
 		@NotBlank(message = "상품타입을 입력하세요")
@@ -30,7 +32,6 @@ public class ItemGiftCardDTO {
 		@NotBlank(message = "상품정보를 입력하세요")
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaName;
 	}
 
 	@Builder
@@ -38,13 +39,14 @@ public class ItemGiftCardDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Info {
+		private Long itemNo;
 		private String itemName;
 		private String itemType;
 		private Integer itemPrice;
 		private String itemSize;
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaName;
+		
 
 	}
 
@@ -52,14 +54,37 @@ public class ItemGiftCardDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class update {
+		private Long itemNo;
 		private String itemName;
 		private String itemType;
 		private Integer itemPrice;
 		private String itemSize;
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaName;
 
+
+	}
+	
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class items {
+		private String itemNo;
+		private String itemName;
+		private String itemSize;
+		private String itemPrice;
+		private String imageUuid;
+
+	}
+	
+	@Builder
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class search{
+		private String itemName;
+		private int startNum;
+		private int endNum;
 	}
 
 }

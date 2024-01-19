@@ -35,6 +35,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void saveMember(Member member) {
+		int num = memberMapper.countMemberId(member.getMemberId());
+		if(num != 0) {
+			throw new IllegalArgumentException(ErrorMsg.DUPLICATEID);
+		}
+		
+		
 		memberMapper.insertMember(member);
 
 	}
@@ -129,10 +135,13 @@ public class MemberServiceImpl implements MemberService {
 		}
 		PageCreate pc = new PageCreate();
 		
+		
 		if(memberId == null || "".equals(memberId.trim())) {
 			pc = pc.getPage(pageNum, getTotalMember());
 			map.put("list",memberMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));
 		}
+		
+		
 		
 		else {
 			pc = pc.getPage(pageNum, getTotalMember(memberId));

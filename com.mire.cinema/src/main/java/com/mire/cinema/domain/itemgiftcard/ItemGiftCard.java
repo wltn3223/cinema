@@ -19,5 +19,4 @@ public class ItemGiftCard {
 		private String itemSize;
 		private String itemInfo;
 		private String imageUuid;
-		private String cinemaName;
 }

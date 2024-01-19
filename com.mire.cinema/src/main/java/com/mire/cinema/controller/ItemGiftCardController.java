@@ -2,6 +2,7 @@
 package com.mire.cinema.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
 import com.mire.cinema.domain.movie.Movie;
 import com.mire.cinema.domain.movie.MovieDTO;
+import com.mire.cinema.domain.notice.Notice;
+import com.mire.cinema.domain.notice.NoticeDTO;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.ImageService;
@@ -46,6 +49,9 @@ public class ItemGiftCardController {
 			throw new IllegalArgumentException(bindingResult.getFieldErrors().get(0).getDefaultMessage());
 					
 		}
+		log.info(itemImage.getOriginalFilename());
+		log.info("파일정보" + insert.toString());
+		
 		if(itemImage == null) {
 			throw new NullPointerException(ErrorMsg.IMAGENOTFOUND);
 		}
@@ -53,9 +59,11 @@ public class ItemGiftCardController {
 
 
 		// ItemGiftCard 객체 생성
-		ItemGiftCard itemGiftCard = ItemGiftCard.builder().itemName(insert.getItemName()).itemType(insert.getItemType())
+		ItemGiftCard itemGiftCard = ItemGiftCard.builder().itemNo(insert.getItemNo()).itemName(insert.getItemName()).itemType(insert.getItemType())
 				.itemPrice(insert.getItemPrice()).itemSize(insert.getItemSize()).itemInfo(insert.getItemInfo())
-				.imageUuid(imageUuid).cinemaName(insert.getCinemaName()).build();
+				.build();
+		itemGiftCard.setImageUuid(imageUuid);
+		log.info("정보" + itemGiftCard);
 
 		// 서비스를 통해 ItemGiftCard 저장
 		itemGiftCardService.saveItemGiftCard(itemGiftCard);
@@ -64,38 +72,49 @@ public class ItemGiftCardController {
 
 	}
 
-	@GetMapping("/{itemName}")
-	public ResponseEntity<ItemGiftCard> findItemGiftCard(@PathVariable String itemName) {
-		ItemGiftCard foundItemGiftCard = itemGiftCardService.findItemGiftCard(itemName);
+	@GetMapping("/{itemNo}")
+	public ResponseEntity<ItemGiftCard> findItemGiftCard(@PathVariable Long itemNo) {
+		ItemGiftCard foundItemGiftCard = itemGiftCardService.findItemGiftCard(itemNo);
 		return ResponseEntity.ok(foundItemGiftCard);
 	}
 
 	
 	@PostMapping("/update")
-	 public ResponseEntity<String> modifyItemGiftCard(@Valid ItemGiftCardDTO.update item ,MultipartFile file){
-		String uuid = null;
-		ItemGiftCard findItem = null;
-				
-		findItem = itemGiftCardService.findItemGiftCard(item.getItemName());
-		
-		if(file != null) {
-			if(	imageService.findImage(findItem.getImageUuid()) != null) {
-				imageService.removeImage(findItem.getImageUuid());
-			}
-			uuid = imageService.saveImage(file);
-			item.setImageUuid(uuid);
-			
-		}
-		itemGiftCardService.modifyItemGiftCard(findItem,item);
-		
-		return new ResponseEntity<>(SucessMsg.UPDATE,HttpStatus.OK);
+	public ResponseEntity<String> modifyItemGiftCard(@Valid ItemGiftCardDTO.update item,
+	    @RequestParam(required = false) MultipartFile file) {
+	    String uuid = null;
+	    ItemGiftCard findItem = null;
+
+	    findItem = itemGiftCardService.findItemGiftCard(item.getItemNo());
+
+	    try {
+	        if (file != null && !file.isEmpty()) {
+	            if (findItem.getImageUuid() != null) {
+	                imageService.removeImage(findItem.getImageUuid());
+	            }
+	            log.info("새 이미지 저장");
+	            uuid = imageService.saveImage(file);
+	            item.setImageUuid(uuid);
+	        } else {
+	            // 새 이미지가 제공되지 않은 경우 기존 이미지 UUID 유지
+	            item.setImageUuid(findItem.getImageUuid());
+	        }
+
+	        log.info("상품 수정 중");
+	        itemGiftCardService.modifyItemGiftCard(item);
+	        return new ResponseEntity<>(SucessMsg.UPDATE, SucessMsg.statusOK);
+	    } catch (Exception e) {
+	       
+	        return new ResponseEntity<>(ErrorMsg.DataNOTFOUND, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 
 
 
-	@DeleteMapping("/{itemName}")
-	public ResponseEntity<Void> removeItemGiftCard(@PathVariable String itemName) {
-		itemGiftCardService.removeItemGiftCard(itemName);
+
+	@DeleteMapping("/{itemNo}")
+	public ResponseEntity<Void> removeItemGiftCard(@PathVariable Long itemNo) {
+		itemGiftCardService.removeItemGiftCard(itemNo);
 		return ResponseEntity.ok().build();
 	}
 
@@ -105,14 +124,28 @@ public class ItemGiftCardController {
 		return new ResponseEntity<>(itemList, SucessMsg.statusOK);
 	}
 
-	@GetMapping("/info/{itemName}")
-	public ResponseEntity<ItemGiftCardDTO.Info> findItemInfo(@PathVariable String itemName) {
-		ItemGiftCard info = itemGiftCardService.findItemGiftCard(itemName);
-		ItemGiftCardDTO.Info item = ItemGiftCardDTO.Info.builder().itemName(info.getItemName())
+	@GetMapping("/info/{itemNo}")
+	public ResponseEntity<ItemGiftCardDTO.Info> findItemInfo(@PathVariable Long itemNo) {
+		ItemGiftCard info = itemGiftCardService.findItemGiftCard(itemNo);
+		ItemGiftCardDTO.Info item = ItemGiftCardDTO.Info.builder().itemNo(info.getItemNo()).itemName(info.getItemName())
 				.itemType(info.getItemType()).itemPrice(info.getItemPrice()).itemSize(info.getItemSize())
-				.itemInfo(info.getItemInfo()).imageUuid(info.getImageUuid()).cinemaName(info.getCinemaName()).build();
+				.itemInfo(info.getItemInfo()).imageUuid(info.getImageUuid()).build();
 
 		return new ResponseEntity<>(item, SucessMsg.statusOK);
+	}
+	
+	@GetMapping("/list/{pageNum}")
+	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum) {
+		
+		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum,null),HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/list/{pageNum}/item/{itemName}")
+	public ResponseEntity<Map<String,Object>> getItemGiftCardList(@PathVariable Integer pageNum, @PathVariable String itemName) {
+		
+		return new ResponseEntity<>(itemGiftCardService.getItemGiftCardMap(pageNum, itemName),HttpStatus.OK);
+
 	}
 
 }
