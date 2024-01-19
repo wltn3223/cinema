@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
-import com.mire.cinema.domain.movieschedule.MovieScheduleDTO.update;
+import com.mire.cinema.domain.movieschedule.MovieScheduleDTO.Update;
 import com.mire.cinema.repository.MovieScheduleMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -29,14 +29,10 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 	}
 
 	@Override
-	public void modifyMovieSchedule(update update) {
-		MovieSchedule schedule = MovieSchedule.builder()
-				.scheduleNo(update.getScheduleNo())
-				.scheduleDate(update.getScheduleDate())
-				.scheduleStartTime(update.getScheduleStartTime())
-				.scheduleFinishTime(update.getScheduleFinishTime())
-				.build();
-
+	public void modifyMovieSchedule(Update update) {
+		MovieSchedule schedule = MovieSchedule.builder().scheduleNo(update.getScheduleNo())
+				.scheduleDate(update.getScheduleDate()).scheduleStartTime(update.getScheduleStartTime())
+				.scheduleFinishTime(update.getScheduleFinishTime()).build();
 		Mapper.scheduleUpdate(schedule);
 	}
 

@@ -1,24 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mire.cinema.repository.CinemaMapper">
-	
+<mapper
+	namespace="com.mire.cinema.repository.MovieScheduleMapper">
+
 	<!-- 스케줄 리스트 -->
 	<select id="scheduleSelect" resultType="MovieSchedule">
-		select * from movie_schedule
+		select * from
+		movie_schedule
 	</select>
 	<!-- 스케줄 등록 -->
-	<insert id="scheduleInsert">
-		insert into movie_schedule(schedule_no, schedule_startTime, schedule_finishTime, screen_totalseat, screen_restSeat, movie_no, screen_no) 
-		values(movie_schedule_seq.nextval,TO_DATE(#{scheduleStartTime}, 'YYYY-MM-DD HH24:MI'),TO_DATE(#{schduleFinishTime}, 'YYYY-MM-DD HH24:MI'),#{screenTotalSeat},#{screenRestSeat},#{movieNo},#{screenNo}); 
+	<insert id="scheduleInsert"
+		parameterType="com.mire.cinema.domain.movieschedule.MovieSchedule">
+		INSERT INTO movie_schedule (
+		schedule_no,
+		schedule_startTime,
+		screen_totalseat,
+		screen_restSeat,
+		movie_no,
+		screen_no,
+		schedule_finishTime
+		)
+		VALUES (
+		movie_schedule_seq.nextval,
+		#{scheduleStartTime},
+		#{screenTotalSeat},
+		#{screenTotalSeat},
+		#{movieNo},
+		#{screenNo},
+		#{scheduleFinishTime}
+		)
 	</insert>
-	<!-- 스케줄 수정 -->
-	<update id="scheduleUpdate">
-		update from movie_schedule schedule_startTime = #{scheduleStartTime},schedule_finishTime = #{scheduleFinishTime} where schedule_no = #{scheduleNo}
+	<!-- 스케줄 수정(영화시작시간+영화상영시간=영화끝나는시간) -->
+	<update id="scheduleUpdate"
+		parameterType="com.mire.cinema.domain.movieschedule.MovieScheduleDTO$Update">
+		UPDATE movie_schedule ms
+		SET
+		ms.schedule_startTime =
+		#{scheduleStartTime},
+		ms.screen_totalseat = #{screenTotalSeat},
+		ms.screen_restSeat = #{screenRestSeat},
+		ms.movie_no = #{movieNo},
+		ms.screen_no = #{screenNo},
+		ms.schedule_finishTime =
+		#{scheduleStartTime} + (SELECT (INTERVAL '1' MINUTE *
+		movie_playTime)
+		FROM movie WHERE movie_no = #{movieNo})
+		WHERE ms.schedule_no =
+		#{scheduleNo}
+		AND ms.movie_no = #{movieNo}
 	</update>
+
 	<!-- 스케줄 삭제 -->
 	<delete id="scheduleDelete">
-		delete from movie_schedule where schedule_no = #{scheduleNo}
+		delete from movie_schedule where schedule_no =
+		#{scheduleNo}
 	</delete>
 	
 </mapper>
