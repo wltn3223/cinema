@@ -30,69 +30,69 @@
 
     <!-- itemTab -->
     <div style="display: flex; justify-content: space-between; align-items: center;" class="container">
-        <table>
-            <tbody>
-
-                <tr>
-                    <td colspan="2" style="font-weight: 500; font-size: 25px;" id="itemName"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" id="itemSize"></td>
-                </tr>
-
-                <tr style="border-top: 1px solid black;">
-                    <td rowspan="8" id="movieImg"><img src="/img/item02.PNG"
-                            style="width: 500px; height: 700px; border-right: 1px solid black; margin-right: 30px;">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>영화제목</td>
-                    <td id="movieTitle">모든 지점</td>
-                </tr>
-                <tr>
-                    <td >영화장르</td>
-
-                    <td id="movieGenre"></td>
-                </tr>
-                <tr>
-                    <td>출연배우</td>
-
-                    <td id="movieActors"></td>
-                </tr>
-      
-                <tr>
-                    <td>영화나이제한</td>
-
-                    <td id="movieLimit"></td>
-                </tr>
-                <tr>
-                    <td>영화상영시간</td>
-
-                    <td id="moviePlayTime"></td>
-                </tr>
-                <tr>
-                    <td>영화개봉일</td>
-
-                    <td id="movieDate"></td>
-                </tr>
-                <tr>
-                    <td>영화소개</td>
-
-                    <td id="movieIntro"></td>
-                </tr>
-              
-             
-            </tbody>
-        </table>
-        
-    </div>
-    <div class="container mt-4">
-        <a href="/movie/adminMovieInfoEdit.jsp"><button>수정하기</button></a>
-        <button onclick="remove()">삭제하기</button>
-        
+        <div style="flex: 0 0 auto;" id="movieImg">
+            
         </div>
+        <div style="flex: 1;">
+            <div style="font-weight: 500; font-size: 25px;" id="itemName">영화 정보</div>
+            <div id="itemSize"></div>
+            
+            <div>
+          
+                <div class="form-group">
+                    <label class="h6" for="movieTitle">영화제목</label>
+                    <div class="form-control" id="movieTitle"></div>
+                </div>
+            </div>
+            <div>
+          
+                <div class="form-group">
+                    <label class="h6" for="movieGenre">영화장르</label>
+                    <div class="form-control" id="movieGenre"></div>
+                </div>
+            </div>
+            <div>
+       
+                <div class="form-group">
+                    <label class="h6" for="movieActors">출연배우</label>
+                    <div class="form-control" id="movieActors"></div>
+                </div>
+            </div>
+            <div>
+ 
+                <div class="form-group">
+                    <label class="h6" for="movieLimit">영화나이제한</label>
+                    <div class="form-control" id="movieLimit"></div>
+                </div>
+            </div>
+            <div>
+ 
+                <div class="form-group">
+                    <label class="h6" for="moviePlayTime">영화상영시간</label>
+                    <div class="form-control" id="moviePlayTime"></div>
+                </div>
+            </div>
+            <div>
+ 
+                <div class="form-group">
+                    <label class="h6" for="movieDate">영화개봉일</label>
+                    <div class="form-control" id="movieDate"></div>
+                </div>
+            </div>
+            <div>
+ 
+                <div class="form-group">
+                    <label class="h6" for="movieIntro">영화소개</label>
+                    <div class="form-control" id="movieIntro"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- itemTab -->
+	   <div class="container mt-4 text-center">
+        <a href="/movie/adminMovieInfoEdit.jsp" class="btn btn-primary">수정하기</a>
+        <button onclick="remove()" class="btn btn-danger">삭제하기</button>
+    </div>
 
     <!-- 푸터-->
     <footer class="py-3 my-4">
@@ -164,7 +164,7 @@ async function remove() {
           
             const responseText = await response.text();
             alert(responseText); 
-            location.href = "/movie/movieList.jsp";
+            location.href = "/movie/adminMovieList.jsp";
         } else {
             console.error('Failed to delete movie');
         }

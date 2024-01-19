@@ -38,15 +38,15 @@
 	border: 1px solid #ccc;
 	border-radius: 8px;
 	margin: 10px;
-	padding: 15px;
-	width: calc(33.33% - 20px); /* 변경된 부분 */
+	width: calc(25% - 20px); /* 변경된 부분 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	text-align: left;
 }
 
 .movie-card img {
 	max-width: 100%;
-	height: auto;
+	width:100%;
+	height: 400px;
 	border-radius: 8px;
 	margin-bottom: 10px;
 }
@@ -94,10 +94,7 @@ a {
 	<div class="container">
 		<div class="tab">
 			<p>영화목록</p>
-			<ul class="tabnav">
-				<li><a href="#tab01">장르별</a></li>
-				<li><a href="#tab02">인기순</a></li>
-			</ul>
+		
 
 			<div class="movie-container d-flex justify-content-between"
 				id="movieContainer">
@@ -165,15 +162,17 @@ a {
    				console.log(movie.movieDate);
    				console.log(movie.imageUuid);
             
-              let movieCard = '<div class="movie-card" onclick="getMovie(' + movie.movieNo + ')" style ="cursor:pointer"  >' +
-             '<img src="../upload/' + movie.imageUuid + '">' +
-    		'<h3>' + movie.movieNo + '</h3>' +
-    		'<p>제목:' + movie.movieTitle + '</p>' +
-    		'<p>연령대: ' + movie.movieLimit + '</p>' +
-    		'<p>개봉일: ' + movie.movieDate + '</p>' +
-    		'</div>';
-                $('#movieContainer').append(movieCard);
-                
+   				let movieCard = 
+   				    '<div class="movie-card" onclick="getMovie(' + movie.movieNo + ')" style="cursor:pointer; display: flex; flex-direction: column;">' +
+   				        '<img src="../upload/' + movie.imageUuid + '">' +
+   				        '<div class="d-flex align-items-center ">' + 
+   				            '<div class="p-2 rounded bg-dark" style="font-size: 17px; color:white;">' + movie.movieLimit + '</div>' +
+   				            '<h4>제목:' + movie.movieTitle + '</h4>' +
+   				        '</div>' +
+   				        '<div style="font-size: 16px;">개봉일: ' + movie.movieDate + '</div>' +
+   				        '<button class="btn btn-secondary mt-auto" onclick="reserveMovie(' + movie.movieNo + ')">예매</button>' +
+   				    '</div>';
+   				$('#movieContainer').append(movieCard);
             }
             
         }

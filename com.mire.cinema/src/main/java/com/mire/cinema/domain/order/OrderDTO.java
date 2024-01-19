@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 public class OrderDTO {
 	
@@ -38,4 +39,35 @@ public class OrderDTO {
 		}
 	
 	}
+	
+	@Data
+	@ToString
+	@Builder
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class MemberInfo{
+		private String orderId; 
+		private String memberId;
+		private int orderQuantity;
+		private int orderPrice;
+		private int discountPrice;
+		private String itemName;
+		private String imageUuid;
+		private Date orderDate;
+		
+	}
+	
+	@Data
+	@ToString
+	@AllArgsConstructor
+
+	@NoArgsConstructor
+	public static class PageMember{
+		private String memberId;
+		private int start;
+		private int end;
+		
+	}
+		
+	
 }

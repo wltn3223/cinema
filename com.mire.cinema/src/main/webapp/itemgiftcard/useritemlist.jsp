@@ -134,6 +134,8 @@ p {
 	</footer>
 
 	<script>
+	var id = '${memberId}';
+	console.log('세션' + id);
         document.addEventListener('DOMContentLoaded', function () {
             fetchItems(1); // Initial fetch with page 1
         });
@@ -162,6 +164,7 @@ p {
                 .then(data => {
                    
                     console.log(data.list);
+           
                     console.log(data.searchList);
                     console.log(data.page);
                   
