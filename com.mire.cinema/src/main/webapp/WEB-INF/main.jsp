@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+ 
 
         <style>
             h1,
@@ -62,6 +63,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                margin: 20px;
             }
 
             .as {
@@ -196,25 +198,25 @@
                 <tr class="trstyle" style="background-color: #503396;">
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/member.PNG" style="width: 100%; height: 100%;"></a>
+                            <a class="window" href="#" class="as"><img src="/image/member.PNG" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/gong.png" style="width: 100%; height: 100%;"></a>
+                            <a href="/notice/noticelist.jsp" class="as"><img src="/image/gong.png" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/store.PNG" style="width: 100%; height: 100%;"></a>
+                            <a href="/itemgiftcard/useritemlist.jsp" class="as"><img src="/image/store.PNG" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/event.PNG" style="width: 100%; height: 100%;"></a>
+                            <a href="/notice/usernoticelist.jsp" class="as"><img src="/image/event.PNG" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
                 </tr>
@@ -239,7 +241,7 @@
 
                 <tr class="trstyle">
                     <td>
-                        <h2 style="color: black;">미래시네마 소개</h2>
+                        <h2 style="color: black; margin-top: 20px">미래시네마 소개</h2>
                     </td>
                 </tr>
                 <tr class="trstyle">
@@ -274,5 +276,34 @@
             </table>
 
         </main>
+ 
+ <script>
+ $(document).ready(function () {
+     $('.window').click(function (e) {
+         e.preventDefault();
+
+         // 할인 정보 설정
+         var discountText = '<br>상품 결제시 실버 회원은 총 금액의 5% 골드 회원은 총 금액의 10% 할인됩니다.';
+
+         // 창 열기
+         openInfoWindow(discountText, 300, 50);
+     });
+ });
+
+ function openInfoWindow(infoText, width, height) {
+     var screenWidth = window.screen.width;
+     var screenHeight = window.screen.height;
+
+     var left = (screenWidth - width) / 2;
+     var top = (screenHeight - height) / 2;
+
+     var newWindow = window.open('', '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+     newWindow.document.write('<html><head><title>할인 정보</title></head><body style="margin:0;text-align:center;">');
+     newWindow.document.write('<p style="font-weight: bold;">' + infoText + '</p>');
+ }
+
+</script>
+
+
 </body>
 </html>

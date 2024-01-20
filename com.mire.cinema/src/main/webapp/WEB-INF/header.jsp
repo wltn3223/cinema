@@ -16,9 +16,7 @@
 				class="container d-flex justify-content-center align-items-center">
 
 				<div class="text-center container-fluid mt-2">
-					<a
-						class="blog-header-logo text-body-emphasis text-decoration-none text-dark"
-						href="/"><h2 style="color:black;">MIRE MOVIE</h2></a>
+					<img src="/image/MIRAECINEMA.png" width="200" height="400">
 				</div>
 				<div class="w-25">
 					<c:if test="${memberId eq null}">
@@ -43,7 +41,7 @@
 		<div class="nav-scroller py-1 mb-3 mt-2 bg-dark">
 			<nav class="nav nav-underline  container text-center">
 				<ul class="nav container-fluid justify-content-between">
-					<li class="nav-item dropdown mx-2"><a
+					<li  class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">영화</a>
 						<ul class="dropdown-menu">
@@ -51,7 +49,7 @@
 							<li><a class="dropdown-item" href="#">큐레이션</a></li>
 							<li><a class="dropdown-item" href="#">무비포스트</a></li>
 						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
+					<li id="reservationMenu" class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">예매</a>
 						<ul class="dropdown-menu">
@@ -60,7 +58,7 @@
 							<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 						</ul></li>
 
-					<li class="nav-item mx-2"><a class="nav-link text-light"
+					<li class="nav-item mx-2" id="itemMenu"><a class="nav-link text-light" id="itemMenu"
 						href="/itemgiftcard/useritemlist.jsp">상품</a></li>
 					<li class="nav-item dropdown"><a class="nav-link text-light"
 						href="#" role="button" data-bs-toggle="dropdown">공지사항</a>
@@ -69,7 +67,7 @@
 								href="/notice/usernoticelist.jsp">공지사항</a></li>
 							<li><a class="dropdown-item" href="#">이벤트</a></li>
 						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
+					<li class="nav-item dropdown mx-2" id="helpmMenu"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">고객센터</a>
 						<ul class="dropdown-menu">
@@ -77,7 +75,7 @@
 							<li><a class="dropdown-item" href="#">문의내역조회</a></li>
 							<li><a class="dropdown-item" href="#"></a></li>
 						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
+					<li class="nav-item dropdown mx-2" id="mypageMenu"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">My</a>
 						<ul class="dropdown-menu">
@@ -87,67 +85,13 @@
 									내 주문 내역 조회</a></li>
 							<li><a class="dropdown-item" href="../member/memberInfo.jsp">
 									내 예매 내역 조회</a></li>
-									내 문의 내역 조회</a></li>
+									
 							<li><a class="dropdown-item" href="#"></a></li>
 						</ul></li>
 				</ul>
 			</nav>
 		</div>
 	</c:if>
-
-
-	<c:if test="${memberId eq 'admin'}">
-
-		<div class="nav-scroller py-1 mb-3 mt-2 bg-dark">
-			<nav class="nav nav-underline  container text-center">
-				<ul class="nav container-fluid justify-content-between">
-					<li class="nav-item dropdown mx-2"><a
-						class="nav-link text-light" href="#" role="button"
-						data-bs-toggle="dropdown">영화관리</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item"
-								href="/movie/adminMovieList.jsp">전체영화조회</a></li>
-							<li><a class="dropdown-item"
-								href="/movie/movieInsertForm.jsp">영화등록</a></li>
-							<li><a class="dropdown-item" href="#">무비포스트</a></li>
-						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
-						class="nav-link text-light" href="#" role="button"
-						data-bs-toggle="dropdown">회원관리</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/member/list.jsp">전체회원목록조회</a></li>
-						</ul></li>
-					<li class="nav-item mx-2"><a class="nav-link text-light"
-						href="/itemgiftcard/adminitemlist.jsp">상품</a></li>
-					<li class="nav-item dropdown"><a class="nav-link text-light"
-						href="#" role="button" data-bs-toggle="dropdown">공지사항</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/notice/noticelist.jsp">공지사항</a></li>
-							<li><a class="dropdown-item" href="/notice/noticewrite.jsp">공지사항글
-									작성</a></li>
-							<li><a class="dropdown-item" href="#">이벤트</a></li>
-						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
-						class="nav-link text-light" href="#" role="button"
-						data-bs-toggle="dropdown">고객센터</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">문의내역등록</a></li>
-							<li><a class="dropdown-item" href="#">문의내역조회</a></li>
-							<li><a class="dropdown-item" href="#"></a></li>
-						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
-						class="nav-link text-light" href="#" role="button"
-						data-bs-toggle="dropdown">My</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="../member/memberInfo.jsp">회원
-									정보 조회</a></li>
-							<li><a class="dropdown-item" href="#"></a></li>
-						</ul></li>
-				</ul>
-			</nav>
-		</div>
-	</c:if>
-
 
 	<!-- 추가 스크립트 -->
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -169,6 +113,25 @@
 				}
 			});
 		}
+
+		// 로그인 체크 및 이동 함수
+		function checkLoginAndRedirect(href) {
+			<c:if test="${memberId eq null}">
+				alert("로그인이 필요한 서비스입니다.");
+				location.href = "/login.html";
+			</c:if>
+			<c:if test="${memberId ne null}">
+				location.href = href;
+			</c:if>
+		}
+		
+		// 각 li 요소에 이벤트 추가
+		$(document).ready(function() {
+			$('#mypageMenu,#helpMenu,itemMenu,#reservationMenu').click(function() {
+				var href = $(this).find('a').attr('href');
+				checkLoginAndRedirect(href);
+			});
+		});
 	</script>
 </body>
 </html>

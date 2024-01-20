@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Insert Answer</title>
+<title>리뷰 작성</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -23,20 +23,30 @@
 		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
 	<div class="container">
-		<h2 class="mt-3">Q&A 게시판</h2>
+		<h2 class="mt-3">리뷰 게시판</h2>
 		<div class="form-container">
-			<form id="answer">
+			<form id="review">
+				 <div class="mb-3">
+                <label for="reviewScore" class="form-label">평점</label>
+                <select class="form-select" id="reviewScore" name="reviewScore" required>
+                    <option value="1">1점</option>
+                    <option value="2">2점</option>
+                    <option value="3">3점</option>
+                    <option value="4">4점</option>
+                    <option value="5">5점</option>
+                </select>
+            </div>
 				<div class="mb-3">
-					<label for="ansTitle" class="form-label">제목</label> <input
-						type="text" class="form-control" id="ansTitle"
+					<label for="reviewTitle" class="form-label">제목</label> <input
+						type="text" class="form-control" id="reviewTitle"
 						placeholder="제목을 입력해주세요" required>
 				</div>
 				<div class="mb-3">
-					<label for="ansContent" class="form-label">답변 내용</label>
-					<textarea class="form-control" id="ansContent"
+					<label for="reviewContent" class="form-label">답변 내용</label>
+					<textarea class="form-control" id="reviewContent"
 						placeholder="내용을 입력해주세요" required></textarea>
 				</div>
-				<button type="button" class="btn btn-dark" onclick="writeAnswer()">작성하기</button>
+				<button type="button" class="btn btn-dark" onclick="writeReview()">작성하기</button>
 			</form>
 		</div>
 	</div>
@@ -47,21 +57,25 @@
 </body>
 
 <script>
-	function writeAnswer() {
-		var ansTitle = $('#ansTitle').val();
-		var ansContent = $('#ansContent').val();
+	function writeReview() {
+		var reviewScore = $('#reviewScore').val();
+		var reviewTitle = $('#reviewTitle').val();
+		var reviewContent = $('#reviewContent').val();
+
 		var requestData = {
-			ansTitle : ansTitle,
-			ansContent : ansContent
+			reviewScore : reviewScore,
+			reviewTitle : reviewTitle,
+			reviewContent : reviewContent
 		};
+
 		$.ajax({
 			type : 'POST',
-			url : '/answer',
+			url : '/review',
 			contentType : 'application/json',
 			data : JSON.stringify(requestData),
 			success : function(response) {
 				alert(response);
-				location.href = "/answer/answerlist.jsp";
+				location.href = "/review/reviewlist.jsp";
 			},
 			error : function(error) {
 				var errorMessage = error.responseText;
@@ -70,4 +84,5 @@
 		});
 	}
 </script>
+
 </html>

@@ -20,12 +20,15 @@
 	border-radius: 4px;
 	margin-bottom: 10px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	 
 }
 
 .btn-dark a {
 	text-decoration: none;
 	color: white;
 }
+
+
 </style>
 
 <body>
@@ -75,7 +78,7 @@
 							<a href="/member/memberEditForm.jsp" class="text-light">비밀번호
 								변경</a>
 						</button>
-						<button class="btn btn-dark mx-2" type="button">
+						<button class="btn btn-dark mx-2" type="button" id="removeMember">
 							<a class="text-light">회원탈퇴</a>
 						</button>
 						<button class="btn btn-dark mx-2" type="button">
@@ -130,6 +133,8 @@
 			}
 		});
 	}
+	
+
 </script>
 
 

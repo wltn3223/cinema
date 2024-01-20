@@ -13,7 +13,7 @@ import com.mire.cinema.domain.answer.AnswerDTO;
 @Mapper
 @MapperScan
 public interface AnswerMapper {
-	
+
 	void insertAnswer(Answer ans);
 
 	// 리스트 출력하기

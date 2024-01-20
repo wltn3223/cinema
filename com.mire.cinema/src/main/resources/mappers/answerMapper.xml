@@ -56,7 +56,6 @@ FROM (
     WHERE rownum <= #{endNum}
 ) a
 WHERE rn >= #{startNum}   
-
   ]]>
 	</select>
 
@@ -71,7 +70,6 @@ WHERE rn >= #{startNum}
     ( SELECT * from answer order by ans_no desc) a 
     where rownum <= #{end} ) a
 where rn >= #{start}    
-
   ]]>
 	</select>
 

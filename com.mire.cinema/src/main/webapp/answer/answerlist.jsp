@@ -19,7 +19,6 @@
 	align-items: center;
 	margin-bottom: 20px;
 }
-
 .search-container input {
 	width: 70%;
 	padding: 8px;
@@ -27,7 +26,6 @@
 	border-radius: 4px;
 	box-sizing: border-box;
 }
-
 .search-container .btn-dark {
 	padding: 8px 12px;
 	border: 1px solid #343a40;
@@ -36,16 +34,13 @@
 	background-color: #343a40;
 	color: white;
 }
-
 .action-buttons {
 	display: flex;
 	gap: 10px;
 }
-
 .action-buttons a {
 	text-decoration: none;
 }
-
 .action-buttons .btn-dark {
 	padding: 8px 12px;
 	border: 1px solid #343a40;
@@ -54,25 +49,20 @@
 	background-color: #343a40;
 	color: white;
 }
-
 #cinema-list {
 	width: 100%;
 	margin-top: 20px;
 }
-
 #cinema-list th, #cinema-list td {
 	text-align: center;
 }
-
 #cinema-list th, #cinema-list td {
 	font-size: 14px;
 	padding: 10px;
 }
-
 #paging {
 	margin-top: 20px;
 }
-
 #paging button {
 	padding: 8px 12px;
 	margin: 0 2px;
@@ -82,16 +72,13 @@
 	background-color: #343a40;
 	color: white;
 }
-
 .page-title {
 	display: flex;
 	align-items: baseline;
 }
-
 .page-title h2 {
 	margin-bottom: 4px;
 }
-
 .page-title p {
 	font-size: 14px;
 	color: #6c757d;
@@ -159,7 +146,6 @@
 	document.addEventListener('DOMContentLoaded', function () {
 	    fetchAnswer(1);
 	});
-
 	function fetchAnswer(pageNum, ansTitle) {
 	    var url = (ansTitle === null || ansTitle === '' || ansTitle === undefined) ?
 	        '/answer/list/' + pageNum : '/answer/list/' + pageNum + '/answer/' + ansTitle;
@@ -192,10 +178,8 @@
 	            console.error('Fetch 오류:', error.message);
 	        });
 	}
-
 	function displayAnswers(answers) {
 	    $('#answerList').empty();
-
 	    for (var answer of answers) {
 	        let answerInfo =
 	            '<tr>' +
@@ -205,23 +189,18 @@
 	            '<td>' + answer.ansDate + '</td>' +
 	            '<td>' + answer.ansViews + '</td>' +
 	            '</tr>';
-
 	        $('#answerList').append(answerInfo);
 	    }
-
 	    $(".answer-title").on("click", function() {
 	        var ansNo = $(this).data("answer-no");
 	        sessionStorage.setItem("ansNo", ansNo);  
 	        location.href = "/answer/getanswer.jsp";
 	    });
 	}
-
-
 	function createPaginationButtons(begin, end, prev, next, data) {
 	    let prevPage = begin - 1;
 	    let nextPage = end + 1;
 	    $('#pageNum').empty();
-
 	    if (data.list !== undefined) {
 	        $('#prev').html(prevPage ? '<button onclick="fetchAnswer(' + prevPage + ')">이전</button>' : '');
 	        $('#next').html(nextPage ? '<button onclick="fetchAnswer(' + nextPage + ')">다음</button>' : '');
@@ -238,7 +217,6 @@
 	}
 	
 	
-
     // 클릭 시 호출되는 함수로 선택한 아이템의 정보를 localStorage에 저장
     function loadItemInfo(ansNo) {
     $.ajax({
@@ -261,6 +239,5 @@
 	
         
 	</script>
-
 </body>
 </html>
