@@ -37,21 +37,15 @@
 	<!-- 스케줄 수정(영화시작시간+영화상영시간=영화끝나는시간) -->
 	<update id="scheduleUpdate"
 		parameterType="com.mire.cinema.domain.movieschedule.MovieScheduleDTO$Update">
-		UPDATE movie_schedule ms
+		UPDATE movie_schedule 
 		SET
-		ms.schedule_startTime =
-		#{scheduleStartTime},
-		ms.screen_totalseat = #{screenTotalSeat},
-		ms.screen_restSeat = #{screenRestSeat},
-		ms.movie_no = #{movieNo},
-		ms.screen_no = #{screenNo},
-		ms.schedule_finishTime =
-		#{scheduleStartTime} + (SELECT (INTERVAL '1' MINUTE *
-		movie_playTime)
-		FROM movie WHERE movie_no = #{movieNo})
-		WHERE ms.schedule_no =
-		#{scheduleNo}
-		AND ms.movie_no = #{movieNo}
+		schedule_startTime = #{scheduleStartTime},
+		schedule_finishTime = #{scheduleStartTime},
+		screen_totalseat = #{screenTotalSeat},
+		screen_restSeat = #{screenRestSeat},
+		movie_no = #{movieNo},
+		screen_no = #{screenNo}
+		FROM movie WHERE schedule_no = #{scheduleNo}
 	</update>
 
 	<!-- 스케줄 삭제 -->

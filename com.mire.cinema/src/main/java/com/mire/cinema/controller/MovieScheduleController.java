@@ -1,7 +1,6 @@
 package com.mire.cinema.controller;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mire.cinema.domain.movie.Movie;
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO;
 import com.mire.cinema.exception.ErrorMsg;
@@ -46,12 +44,9 @@ public class MovieScheduleController {
 					HttpStatus.BAD_REQUEST);
 		}
 
-		MovieSchedule newSchedule = MovieSchedule.builder()
-				.scheduleStartTime(dto.getScheduleStartTime())
+		MovieSchedule newSchedule = MovieSchedule.builder().scheduleStartTime(dto.getScheduleStartTime())
 				.scheduleFinishTime(dto.getScheduleStartTime().plusMinutes(moviePlayTime))
-				.screenTotalSeat(dto.getScreenTotalSeat())
-				.screenNo(dto.getScreenNo())
-				.movieNo(dto.getMovieNo())
+				.screenTotalSeat(dto.getScreenTotalSeat()).screenNo(dto.getScreenNo()).movieNo(dto.getMovieNo())
 				.build();
 
 		log.info("스케줄" + newSchedule);
@@ -61,11 +56,11 @@ public class MovieScheduleController {
 			LocalDateTime existingStartTime = existingSchedule.getScheduleStartTime();
 			LocalDateTime existingFinishTime = existingSchedule.getScheduleFinishTime();
 
-			  if (dto.getScreenNo() == existingSchedule.getScreenNo()
-		                && !newSchedule.getScheduleFinishTime().isBefore(existingStartTime)
-		                && !newSchedule.getScheduleStartTime().isAfter(existingFinishTime)) {
-		            return new ResponseEntity<>(ErrorMsg.SCHEDULEOVERLAP, HttpStatus.BAD_REQUEST);
-		        }
+			if (dto.getScreenNo() == existingSchedule.getScreenNo()
+					&& !newSchedule.getScheduleFinishTime().isBefore(existingStartTime)
+					&& !newSchedule.getScheduleStartTime().isAfter(existingFinishTime)) {
+				return new ResponseEntity<>(ErrorMsg.SCHEDULEOVERLAP, HttpStatus.BAD_REQUEST);
+			}
 		}
 		service.saveMovieSchedule(newSchedule);
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);

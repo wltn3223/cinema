@@ -17,7 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class MovieScheduleServiceImpl implements MovieScheduleService {
 
 	private final MovieScheduleMapper Mapper;
-
+	private final MovieService movieService;
+	
 	@Override
 	public void saveMovieSchedule(MovieSchedule schedule) {
 		Mapper.scheduleInsert(schedule);
@@ -30,9 +31,10 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 
 	@Override
 	public void modifyMovieSchedule(Update update) {
+		int moviePlayTime = movieService.findMovie(update.getMovieNo()).getMoviePlayTime();
 		MovieSchedule schedule = MovieSchedule.builder().scheduleNo(update.getScheduleNo())
 				.scheduleDate(update.getScheduleDate()).scheduleStartTime(update.getScheduleStartTime())
-				.scheduleFinishTime(update.getScheduleFinishTime()).build();
+				.scheduleFinishTime(update.getScheduleFinishTime().plusMinutes(moviePlayTime)).build();
 		Mapper.scheduleUpdate(schedule);
 	}
 
