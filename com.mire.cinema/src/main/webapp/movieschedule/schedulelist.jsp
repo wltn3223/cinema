@@ -34,6 +34,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>일련번호</th>
                         <th>영화</th>
                         <th>상영관</th>
                         <th>영화상영시간</th>
@@ -74,6 +75,7 @@
             for (var i = 0; i < movieSchedules.length; i++) {
                 var movieSchedule = movieSchedules[i];
                 var row = "<tr>"
+                    + "<td>" + movieSchedule.scheduleNo + "</td>"
                     + "<td>" + movieSchedule.screenNo + "</td>"
                     + "<td>" + movieSchedule.movieNo + "</td>"
                     + "<td>" + movieSchedule.scheduleStartTime + "</td>"
