@@ -78,10 +78,9 @@
 				location.href = "/index.jsp";
 			},
 			error : function(error) {
-				// 에러 처리
 				var errorMessage = error.responseText;
 				console.error(errorMessage); // 에러 메시지를 콘솔에 출력
-				alert('에러가 발생했습니다. 콘솔을 확인하세요.');
+				alert(errorMessage);
 			}
 		});
 	}

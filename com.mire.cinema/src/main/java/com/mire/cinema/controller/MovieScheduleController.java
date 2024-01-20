@@ -1,5 +1,6 @@
 package com.mire.cinema.controller;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -33,38 +34,40 @@ import lombok.extern.java.Log;
 public class MovieScheduleController {
 	private final MovieScheduleService service;
 	private final MovieService movieService;
+
 	// 스케줄 등록
 	@PostMapping
 	public ResponseEntity<String> saveSchedule(@RequestBody @Valid MovieScheduleDTO.Insert dto,
 			BindingResult bindingResult) {
-		movieService.getTotalList();
-		
+		int moviePlayTime = movieService.findMovie(dto.getMovieNo()).getMoviePlayTime();
+
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
 					HttpStatus.BAD_REQUEST);
 		}
-		
-		MovieSchedule schedule = MovieSchedule.builder().scheduleStartTime(dto.getScheduleStartTime())
-				.scheduleFinishTime(dto.getScheduleFinishTime()).scheduleFinishTime(dto.getScheduleFinishTime()).screenTotalSeat(dto.getScreenTotalSeat())
-				.screenNo(dto.getScreenNo()).movieNo(dto.getMovieNo()).build();
 
-		log.info("스케줄" + schedule);
-		List<MovieSchedule> list = service.ScheduleList(); // list를 어떻게 초기화하는지에 따라 달라집니다.
+		MovieSchedule newSchedule = MovieSchedule.builder()
+				.scheduleStartTime(dto.getScheduleStartTime())
+				.scheduleFinishTime(dto.getScheduleStartTime().plusMinutes(moviePlayTime))
+				.screenTotalSeat(dto.getScreenTotalSeat())
+				.screenNo(dto.getScreenNo())
+				.movieNo(dto.getMovieNo())
+				.build();
+
+		log.info("스케줄" + newSchedule);
+		List<MovieSchedule> list = service.ScheduleList();
 		log.info("리스트" + list);
 		for (MovieSchedule existingSchedule : list) {
-			Date existingStartTime = existingSchedule.getScheduleStartTime();
-			Date existingFinishTime = existingSchedule.getScheduleFinishTime();
+			LocalDateTime existingStartTime = existingSchedule.getScheduleStartTime();
+			LocalDateTime existingFinishTime = existingSchedule.getScheduleFinishTime();
 
-			// 같은 상영관에 같은 시간대의 영화를 상영할 수 없는 조건 확인
-			if (dto.getScreenNo() == existingSchedule.getScreenNo()
-					&& !dto.getScheduleFinishTime().before(existingStartTime)
-					&& !dto.getScheduleStartTime().after(existingFinishTime)) {
-
-				return new ResponseEntity<>(ErrorMsg.SCHEDULEOVERLAP, HttpStatus.BAD_REQUEST);
-			}
+			  if (dto.getScreenNo() == existingSchedule.getScreenNo()
+		                && !newSchedule.getScheduleFinishTime().isBefore(existingStartTime)
+		                && !newSchedule.getScheduleStartTime().isAfter(existingFinishTime)) {
+		            return new ResponseEntity<>(ErrorMsg.SCHEDULEOVERLAP, HttpStatus.BAD_REQUEST);
+		        }
 		}
-
-		service.saveMovieSchedule(schedule);
+		service.saveMovieSchedule(newSchedule);
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
 	}
 
