@@ -25,73 +25,74 @@
 	<div
 		style="display: flex; justify-content: space-between; align-items: center;"
 		class="container">
-		<form enctype="multipart/form-data" action="/movie/update" method="post">
-			<table class="container-fluid">
-
-				<tbody>
-
-
-					<tr style="border-top: 1px solid black;">
-						<td rowspan="8" id="movieImg" class="w-50">
-						</td>
-					</tr>
-					<tr>
-						<td>영화번호</td>
-						<td id="movieNo"><input type="text" class="form-control"
-							placeholder="수정할 내용을 입력하세요" name="movieNo" readonly></td>
-					</tr>
-
-					<tr>
-						<td>영화제목</td>
-						<td id="movieTitle"><input type="text" class="form-control"
-							placeholder="수정할 내용을 입력하세요" name="movieTitle"></td>
-					</tr>
-					<tr>
-						<td>영화장르</td>
-
-						<td id="movieGenre"><input type="text" class="form-control"
-							placeholder="수정할 내용을 입력하세요" name="movieGenre"></td>
-					</tr>
-					<tr>
-						<td>출연배우</td>
-
-						<td id="movieActors"><input type="text" class="form-control"
-							placeholder="수정할 내용을 입력하세요" name="movieActors"></td>
-					</tr>
-
-					<tr>
-						<td>영화나이제한</td>
-
-						<td id="movieLimit"><input type="text" class="form-control"
-							placeholder="수정할 내용을 입력하세요(숫자입력)" name="movieLimit"></td>
-					</tr>
-					<tr>
-						<td>영화상영시간</td>
-
-						<td id="moviePlayTime"><input type="text"
-							class="form-control" placeholder="수정할 내용을 입력하세요(숫자만입력)" name="moviePlayTime"></td>
-					</tr>
-
-					<tr>
-						<td>영화소개</td>
-
-						<td id="movieIntro"><textarea class="form-control"
-								placeholder="수정할 내용을 입력하세요" name="movieIntro"></textarea></td>
-					</tr>
-					<tr>
-						<td>수정할 이미지 등록: <input type="file" id="file" name="file"></td>
-
-					</tr>
-
-				</tbody>
-			</table>
-			<div class="container d-flex justify-content-center mt-3 ">
-				<button>영화수정</button>
-				<button onclick="goback()" type="button">뒤로가기</button>
-			</div>
-		</form>
+		<div style="flex: 0 0 auto;" id="movieImg"></div>
+		<div style="flex: 1;">
+			<div style="font-weight: 500; font-size: 25px;" id="itemName">영화
+				정보</div>
+			<div id="itemSize"></div>
+			<form id="editForm" enctype="multipart/form-data" action="/item/update" method="post">
+    <div>
+        <div class="form-group">
+            <label class="h6" for="movieNo">영화번호</label>
+            <input type="text" class="form-control" id="movieNo" name="movieNo">
+        </div>
+    
+        <div class="form-group">
+            <label class="h6" for="movieTitle">영화제목</label>
+            <input type="text" class="form-control" id="movieTitle" name="movieTitle">
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label class="h6" for="movieGenre">영화장르</label>
+            <input type="text" class="form-control" id="movieGenre" name="movieGenre">
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label class="h6" for="movieActors">출연배우</label>
+            <input type="text" class="form-control" id="movieActors" name="movieActors">
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label class="h6" for="movieLimit">영화나이제한</label>
+            <input type="text" class="form-control" id="movieLimit" name="movieLimit">
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label class="h6" for="moviePlayTime">영화상영시간</label>
+            <input type="text" class="form-control" id="moviePlayTime" name="moviePlayTime">
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label class="h6" for="movieDate">영화개봉일</label>
+            <input type="text" class="form-control" id="movieDate" name="movieDate">
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label class="h6" for="movieIntro">영화소개</label>
+            <input type="text" class="form-control" id="movieIntro" name="movieIntro">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="h6" for="file">파일등록</label>
+        <input type="file" class="form-control-file" id="file" name="file">
+    </div>
+</form>
+		</div>
 	</div>
-	<!-- itemTab -->
+
+	<div class="container d-flex justify-content-center mt-3">
+		<div class="input-group">
+			<button class="btn btn-primary" onclick="updateInfo()">영화수정</button>
+			<button class="btn btn-secondary ms-2" onclick="goBack()"
+			type="button">뒤로가기</button>
+		</div>
+	</div>
 
 	<!-- 푸터-->
 	<footer class="py-3 my-4">
@@ -118,28 +119,68 @@
 			const response = await
 			fetch('/movie/' + movieNo);
 
-			const data = await response.json();
+			const data = await
+			response.json();
 			console.log(data);
 			console.log(data.responsetext)
 			$('#movieImg')
 					.html(
-							'<img src="../upload/' + data.imageUuid + '"class="w-100" style=" height: 700px; border-right: 1px solid black; margin-right: 30px;">');
+							'<img src="../upload/' + data.imageUuid + '" style="width: 500px; height: 700px; border-right: 1px solid black; margin-right: 30px;">');
 			
-			$('#movieNo input').val(data.movieNo);
-			$('#movieTitle input').val(data.movieTitle);
-			$('#movieGenre input').val(data.movieGenre);
-			$('#movieActors input').val(data.movieActors);
-			$('#movieLimit input').val(data.movieLimit);
-			$('#moviePlayTime input').val(data.moviePlayTime);
-			$('#movieIntro input').val(data.movieIntro);
+			$('#movieNo').val(data.movieNo);
+			$('#movieTitle').val(data.movieTitle);
+			$('#movieGenre').val(data.movieGenre);
+			$('#movieActors').val(data.movieActors);
+			$('#movieLimit').val(data.movieLimit + '세');
+			$('#moviePlayTime').val(data.moviePlayTime + '분');
+			$('#movieDate').val(data.movieDate);
+			$('#movieIntro').val(data.movieIntro);
 
 		} catch (error) {
 			alert(error);
-			
+
 		}
 	}
-	
+	function updateInfo() {
+		
+		
+
+		// FormData를 사용하여 파일을 추가
+		var formData = new FormData(document.getElementById('editForm'));
 
 
+		var confirmUpdate = confirm("수정하시겠습니까?");
+
+		if (confirmUpdate) {
+			// FormData를 사용하여 파일을 전송
+			$.ajax({
+				type : "POST",
+				url : "/movie/update",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(response) {
+					console.log("수정 성공:", response);
+					alert("상품이 수정되었습니다.");
+
+					// 수정 후 로컬 스토리지에서 선택한 상품 정보 삭제
+					localStorage.removeItem('movieNo');
+
+					location.href = "/movie/adminMovieList.jsp";
+				},
+				error : function(error) {
+					var errorMessage = error.responseText;
+					alert(errorMessage);
+				}
+			});
+		} else {
+			// 사용자가 수정을 취소한 경우
+			alert("상품 수정이 취소되었습니다.");
+		}
+	}
+
+	function goBack() {
+		location.href = '/movie/adminMovieList.jsp';
+	}
 </script>
 </html>

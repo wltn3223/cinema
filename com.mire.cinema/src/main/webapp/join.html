@@ -75,6 +75,10 @@
 	}
 </style>
 <script>
+	var msg = "아이디 중복확인을 해주세요";
+	var isJoin = false;
+	
+	
 	function goBack() {
 		window.history.back();
 	}
@@ -86,27 +90,35 @@
 			return;
 		}
 
-		var urlPath = encodeURI("/member/" + id);
+		var urlPath = encodeURI("/member/login/" + id);
 
-		$.ajax({
-			type: "GET",
-			url: urlPath,
-			contentType: "application/json",
-			success: function (data) {
-				if (data !== null || data !== '') {
-					alert("이 아이디는 사용 불가능합니다.");
-				}
-			},
-			error: function (error) {
-				// 에러가 발생했을 때의 처리
-				alert("이 아이디는 사용 가능합니다.");
-			}
-
-		});
+		 $.ajax({
+		        type: "GET",
+		        url: urlPath,
+		        contentType: "application/json",
+		        success: function (data) {
+		            if (data !== null || data !== '') {
+		                alert(data);
+		                msg = data;
+		                isJoin = true;
+		       
+		            } 
+		        },
+		        error: function (error) {
+		            // 에러가 발생했을 때의 처리
+		            alert(error.responseText);
+		            msg = error.responseText;
+		        }
+		    });
 
 
 	}
 	function join() {
+		 if (isJoin === false) {
+		        alert(msg);
+		        return;
+		    }
+		    
 		var memberId = $('#memberId').val();
 		var memberPasswd = $('#memberPasswd').val();
 		var memberName = $('#memberName').val();
@@ -127,7 +139,7 @@
 			contentType: 'application/json',
 			data: JSON.stringify(memberData),
 			success: function (response) {
-				// 서버로부터의 응답 처리
+				location.href = '/index.jsp';
 				
 			},
 			error: function (error) {

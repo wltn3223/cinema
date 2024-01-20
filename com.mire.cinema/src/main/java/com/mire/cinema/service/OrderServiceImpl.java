@@ -1,12 +1,20 @@
 package com.mire.cinema.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
 import com.mire.cinema.domain.member.Member;
+import com.mire.cinema.domain.member.MemberDTO;
+import com.mire.cinema.domain.member.MemberDTO.search;
 import com.mire.cinema.domain.order.Order;
 import com.mire.cinema.domain.order.OrderDTO;
+import com.mire.cinema.domain.order.OrderDTO.PageMember;
 import com.mire.cinema.domain.order.OrderStatus;
+import com.mire.cinema.domain.page.PageCreate;
+import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.repository.ItemGiftCardMapper;
 import com.mire.cinema.repository.MemberMapper;
 import com.mire.cinema.repository.OrderMapper;
@@ -68,22 +76,44 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public Map<String, Object> getOrderMap(Integer pageNum, String memberId) {
+		Map<String, Object> map = new HashMap<>();
+		if(pageNum == null) {
+			throw new IllegalArgumentException(ErrorMsg.BADTYPE);
+		}
+		PageCreate pc = new PageCreate();
+		
+		pc = pc.getPage(pageNum, countOrder(memberId));
+		
+		OrderDTO.PageMember dto = new PageMember();
+		dto.setMemberId(memberId);
+		dto.setStart(pc.getPaging().getStartNum());
+		dto.setEnd(pc.getPaging().getEndNum());
+		
+		map.put("keyword", memberId);
+		map.put("searchList",orderMapper.getPartList(dto));
+		map.put("page", pc);
+		return map;
+	}
+	@Override
 	public void modifyStatus(int orderNo) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void modifyOrderInfo(Order order) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Order selectOrder(int orderNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public int countOrder(String memberId) {
+		// TODO Auto-generated method stub
+		return orderMapper.countOrder(memberId);
+	}
+
+	
 
 	@Override
 	public void deleteOrder(int orderNo) {

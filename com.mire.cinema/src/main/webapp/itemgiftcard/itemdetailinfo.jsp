@@ -92,7 +92,7 @@ p {
 
 				<tr>
 					<td id="hd">사용극장</td>
-					<td id="cinemaName"></td>
+					<td id="cinemaName">모든 상영관</td>
 				</tr>
 				<tr>
 					<td id="hd">유효기간</td>
@@ -146,6 +146,7 @@ p {
 	</footer>
 
 	<script>
+	
 	  $(document).ready(function () {
 		 
 	        // 페이지 로드 시 localStorage에서 선택한 상품 정보의 상품 번호를 가져옵니다.
@@ -227,7 +228,7 @@ p {
 		  
 			$.ajax({
 				type: "get",
-				url: "/order/memberId/" + memberId  +"/itemNo/" + itemNo + "/number/" + number, // 서버에서 정보를 가져오는 URL을 설정
+				url: "/pay/memberId/" + memberId  +"/itemNo/" + itemNo + "/number/" + number, // 서버에서 정보를 가져오는 URL을 설정
 				contentType: "application/json;charset=UTF-8",
 				success: function(data) {
 					console.log(data);
@@ -255,14 +256,14 @@ p {
 			    name: '상품명: ' + itemName + ' (할인된 총 결제 가격: ' + discountPrice + '원)',
 			    amount: discountPrice + '원',
 				buyer_name: memberId,
-			
+				 m_redirect_url : 'http://localhost:8080/orderCompleteMobile'
 				
-				m_redirect_url : '/'
+				
 			}, function(rsp) {
 				if (rsp.success) {
 					//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 					jQuery.ajax({
-						url : "/pay", //cross-domain error가 발생하지 않도록 주의해주세요
+						url : "/pay/item", //cross-domain error가 발생하지 않도록 주의해주세요
 						type : 'POST',
 						dataType : 'json',
 						contentType : 'application/json', // Specify the content type here
@@ -271,56 +272,98 @@ p {
 					         merchant_uid: rsp.merchant_uid 
 						// Add any other necessary data
 						}),
-					}).done(function(rsp) {
-						// [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-						if (rsp.success) {
-							msg = '결제가 완료되었습니다.';
-							msg += '고유ID : ' + rsp.imp_uid;
-							msg += '상점 거래ID : ' + rsp.merchant_uid;
-							msg += '결제 금액 : ' + rsp.paid_amount;
-							msg += '카드 승인번호 : ' + rsp.apply_num;
-						} else {
-							console.log(rsp);
-							// [3] 아직 제대로 결제가 되지 않았습니다.
-							// [4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-						}
-					});
-				} else {
-					var msg = '결제에 실패하였습니다.';
-					msg += '에러내용 : ' + rsp.error_msg;
-
-					alert(msg);
-				}
-				alert(msg);
-			});
+						 success: function (data) {
+				                // [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+				                alert(data);
+				                location.href = '/member/myOrderList.jsp';
+				            },
+				            error:function(){
+						          console.log("Insert ajax 통신 실패!!!");
+						          location.href = '/member/myOrderList.jsp';
+						        }
+				        });
+				  } else {
+			            var msg = '결제에 실패하였습니다.';
+			            msg += '에러내용 : ' + rsp.error_msg;
+			            alert(msg);
+			        }
+			    });
 		}
 	  
 	  
 	  
 	  
-	  function openPopUp(data) {
+		function openPopUp(data) {
 		    var width = 700; // 윈도우 너비
 		    var height = 500; // 윈도우 높이
 		    var left = (window.innerWidth - width) / 2; // 윈도우 왼쪽 위치
 		    var top = (window.innerHeight - height) / 2; // 윈도우 위쪽 위치
 		    var myWindow = window.open("", "MsgWindow", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
 
-		    // 팝업 창에 HTML 내용 추가 (부트스트랩 스타일)
-		    myWindow.document.body.innerHTML = 
-		    	'<div class="container text-center mt-4">' +
-		        '<h2 class="mb-4">상품 구매</h2>' +
-		        '<div class="mb-3">회원 아이디: ' + data.memberId + '</div>' +
-		        '<div class="mb-3">회원 등급: ' + data.memberGrade + '</div>' +
-		        '<div class="mb-3">상품 번호: ' + data.itemNo + '</div>' +
-		        '<div class="mb-3">상품 이름: ' + data.itemName + '</div>' +
-		        '<div class="mb-3">상품 가격: ' + data.price + ' (원)</div>' +
-		        '<div class="mb-3">상품 수량: ' + data.number + ' (개)</div>' +
-		        '<div class="mb-3">상품 총 가격: ' + data.totalPrice + ' (원)</div>' +
-		        '<div class="mb-3">할인이 적용된 총 가격: ' + data.discountPrice + ' (원)</div>' +
-		        '<button class="btn btn-primary" onclick="opener.parent.requestPay(\'' + 
-		        data.memberId + '\', \'' + data.itemName + '\', ' + data.discountPrice + ', \'' + data.orderId + '\')">주문하기</button>' +
+		    // 팝업 창에 HTML 테이블 추가 (부트스트랩 스타일)
+		    myWindow.document.body.innerHTML =
+		        '<div class="container text-center mt-4 p-4">' +
+		        '<div class="row justify-content-center">' +
+		        '<div class="col-md-8">' +
+		        '<h2 class="mb-4" style="text-align: center;">상품 구매</h2>' +
+		        '<table class="table table-bordered">' +
+		        '<tr>' +
+		        '<th>회원 아이디:</th>' +
+		        '<td>' + data.memberId + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>회원 등급:</th>' +
+		        '<td>' + data.memberGrade + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 번호:</th>' +
+		        '<td>' + data.itemNo + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 이름:</th>' +
+		        '<td>' + data.itemName + '</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 가격:</th>' +
+		        '<td>' + data.price + ' 원</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 수량:</th>' +
+		        '<td>' + data.number + ' 개</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>상품 총 가격:</th>' +
+		        '<td>' + data.totalPrice + ' 원</td>' +
+		        '</tr>' +
+		        '<tr>' +
+		        '<th>할인이 적용된 총 가격:</th>' +
+		        '<td>' + data.discountPrice + ' 원</td>' +
+		        '</tr>' +
+		        '</table>' +
+		        '</div>' +
+		        '</div>' +
+		        '<div class="row mt-4">' +
+		        '<div class="col-md-4" style="margin-left: auto;">' +
+		        '<button class="btn btn-black btn-lg btn-block payment-button" onclick="opener.parent.requestPay(\'' +
+		        data.memberId + '\', \'' + data.itemName + '\', ' + data.discountPrice + ', \'' + data.orderId + '\')">결제하기</button>' +
+		        '</div>' +
+		        '</div>' +
 		        '</div>';
+
+		    var style = myWindow.document.createElement("style");
+		    style.innerHTML = "table { width: 100%; margin-top: 15px; border-collapse: collapse; } th, td { padding: 10px; font-size: 16px; border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; } .btn { padding: 10px 20px; font-size: 18px; }";
+		    
+		    // Additional style for the payment button
+		    style.innerHTML += ".payment-button { margin: 10px auto; display: block; }";
+		    
+		    myWindow.document.head.appendChild(style);
 		}
+
+
+
+
+
+
 	
 	
 	</script>

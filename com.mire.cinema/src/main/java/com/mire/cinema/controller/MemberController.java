@@ -56,6 +56,17 @@ public class MemberController {
 		memberService.saveMember(member);
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
 	}
+	@GetMapping("/login/{memberId}")
+	public ResponseEntity<String> checkMember(@PathVariable String memberId) {
+		Member foundMember = memberService.findMember(memberId);
+
+		if (foundMember != null) {
+			throw new IllegalArgumentException(ErrorMsg.DUPLICATEID);
+		}
+
+		return new ResponseEntity<>(SucessMsg.CheckId, SucessMsg.statusOK);
+
+	}
 
 	@GetMapping("/{memberId}")
 	public ResponseEntity<String> findMember(@PathVariable String memberId) {
