@@ -190,7 +190,7 @@
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as" id="reservationMenu"><img src="/image/ym.PNG" style="width: 30px; height: 30px;"> 빠른예매</a>
+                            <a href="/cinema/cinemalist.jsp" class="as" id="reservationMenu"><img src="/image/ym.PNG" style="width: 30px; height: 30px;"> 빠른예매</a>
                         </div>
                     </td>
                 </tr>
@@ -297,27 +297,7 @@
 			});
 		}
 
-		// 로그인 체크 및 이동 함수
-		function checkLoginAndRedirect(href) {
-			<c:if test="${memberId eq null}">
-			alert("로그인이 필요한 서비스입니다.");
-			location.href = "/login.html";
-			</c:if>
-			<c:if test="${memberId ne null}">
-			location.href = href;
-			</c:if>
-		}
-
-		// 각 li 요소에 이벤트 추가
-		$(document).ready(
-				function() {
-					$('#itemMenu2, #reservationMenu')
-							.click(function(e) {
-								e.preventDefault(); // 기본 동작을 막음
-								var href = $(this).find('a').attr('href');
-								checkLoginAndRedirect(href);
-							});
-				});
+	
 	</script>
 </body>
 </html>
