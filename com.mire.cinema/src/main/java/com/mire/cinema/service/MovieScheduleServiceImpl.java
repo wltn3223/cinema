@@ -1,5 +1,6 @@
 package com.mire.cinema.service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,27 @@ import lombok.RequiredArgsConstructor;
 public class MovieScheduleServiceImpl implements MovieScheduleService {
 
 	private final MovieScheduleMapper Mapper;
+
+	//예매를 위한 맵
+	@Override
+	public Map<String, Object> movieScheduleMap(long movieNo, long cinemaNo, LocalDateTime scheduleDate) {
+	    // MovieSchedule 객체를 생성하고 필요한 파라미터 설정
+	    MovieSchedule movieSchedule = new MovieSchedule();
+	    movieSchedule.setMovieNo(movieNo);
+	    movieSchedule.setScreenNo(cinemaNo);
+	    movieSchedule.setScheduleDate(scheduleDate);
+
+	    // MyBatis의 매퍼를 호출하여 결과를 받아옴
+	    MovieSchedule resultSchedule = Mapper.selectMovieSchedule(movieSchedule);
+
+	    // 받아온 결과를 Map으로 변환 (이 부분은 결과 객체의 필드에 따라 조정해야 할 수 있음)
+	    Map<String, Object> resultMap = new HashMap<>();
+	    resultMap.put("movieNo", resultSchedule.getMovieNo());
+	    resultMap.put("ScreenNo", resultSchedule.getScreenNo());
+	    resultMap.put("scheduleDate", resultSchedule.getScheduleDate());
+
+	    return resultMap;
+	}
 
 	@Override
 	public List<MovieSchedule> scheduleList() {
