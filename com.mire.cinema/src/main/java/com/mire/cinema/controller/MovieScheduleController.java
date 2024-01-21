@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
@@ -130,4 +131,13 @@ public class MovieScheduleController {
 		service.removeMovieSchedule(scheduleNo);
 		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
 	}
+	
+	//예매를 위한 리스트 추가
+	 @GetMapping("/getMovieSchedule")
+	    public Map<String, Object> getMovieSchedule(
+	            @RequestParam long movieNo,
+	            @RequestParam long cinemaNo,
+	            @RequestParam LocalDateTime scheduleDate) {
+	        return service.movieScheduleMap(movieNo, cinemaNo, scheduleDate);
+	    }
 }

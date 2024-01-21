@@ -1,7 +1,6 @@
 package com.mire.cinema.domain.movieschedule;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +17,7 @@ public class MovieSchedule {
 	private LocalDateTime scheduleFinishTime;
 	private Integer screenTotalSeat;
 	private Integer screenRestSeat;
-	private Date scheduleDate;
+	private LocalDateTime scheduleDate;
 	private long movieNo;
 	private long screenNo;
 }
