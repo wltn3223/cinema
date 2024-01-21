@@ -31,14 +31,14 @@ public class WebSecurityConfig {
 		http
         .httpBasic().disable()
         .csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .sessionManagement()
         .and()
         .formLogin().loginPage("/login.html")
         .and()
         .authorizeRequests(authorizeRequests -> {
         	authorizeRequests
         	.requestMatchers("/member/memberInfo.jsp").authenticated()
-        	.requestMatchers("/pay/**").authenticated()
+//        	.requestMatchers("/pay/**").hasRole("ADMIN")
         	.requestMatchers("/index.jsp").permitAll()
         	.requestMatchers("/login.html").permitAll()
         	.requestMatchers("/WEB-INF/header.jsp").permitAll()
@@ -46,7 +46,10 @@ public class WebSecurityConfig {
         	.requestMatchers("/member/login").permitAll()
         	.requestMatchers("/join.html").permitAll()
         	.requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
-        	.requestMatchers(HttpMethod.POST,"/member").permitAll();
+        	.requestMatchers(HttpMethod.POST,"/member").permitAll()
+        	.requestMatchers("/upload/**").permitAll()
+        	.requestMatchers("/image/**").permitAll()
+        	.anyRequest().authenticated();
 
         	
         })
