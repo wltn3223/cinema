@@ -16,4 +16,5 @@ public interface ErrorMsg {
 	String BADPAYINFO = "결제 정보와 구매 정보가 일치하지않습니다. 다시 시도해주세요";
 	
 	String SCHEDULEOVERLAP ="해당 시간에 이미 상영 중인 영화가 있습니다.";
+	String NOTFOUNDSEARCH ="해당 정보로 찾을수 없습니다.";
 }

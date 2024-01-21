@@ -9,6 +9,68 @@
 		select * from
 		movie_schedule ORDER BY schedule_startTime DESC
 	</select>
+	
+	<select id="getScheduleSelect" resultType="MovieSchedule">
+		select * from movie_schedule where = #{scheduleNo}ORDER BY schedule_startTime DESC
+	</select>
+
+	<!-- 페이징처리 및 검색기능 -->
+	<!-- 페이징 -->
+	<select id="getPartList" resultType="MovieSchedule"
+		parameterType="int">
+		 <![CDATA[
+ SELECT a.* from 
+(SELECT a.*, rownum rn from 
+    ( SELECT * from movie_schedule order by schedule_startTime desc) a 
+    where rownum <= #{end} ) a
+where rn >= #{start}    
+
+  ]]>
+	</select>
+
+	<!-- 검색기능 -->
+	<select id="searchPartList" resultType="MovieSchedule"
+		parameterType="com.mire.cinema.domain.movieschedule.MovieSchedule">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT *
+        FROM movie_schedule
+        WHERE LOWER(schedule_no) LIKE '%' || #{scheduleNo} || '%'
+        ORDER BY schedule_startTime DESC
+    ) a
+    WHERE rownum <= #{endNum}
+) a
+WHERE rn >= #{startNum}   
+  ]]>
+	</select>
+
+	<!-- 검색과 페이징 기능을 돕기위한것 -->
+	<select id="selectSchedule" resultType="MovieSchedule"
+		parameterType="java.lang.String">
+		SELECT * FROM movie_schedule WHERE schedule_no =
+		#{scheduleNo}
+	</select>
+
+	<select id="countSchedule" resultType="int">
+		SELECT count(*) FROM
+		movie_schedule
+	</select>
+
+	<select id="countScheduleNo" resultType="int"
+		parameterType="long">
+		SELECT count(*) FROM movie_schedule where schedule_no =
+		#{scheduleNo}
+	</select>
+
+	<select id="countSearchSchedule" resultType="int"
+		parameterType="long">
+		SELECT count(*) FROM movie_schedule where schedule_no
+		like '%'||#{scheduleNo}||'%'
+	</select>
+
 	<!-- 스케줄 등록 -->
 	<insert id="scheduleInsert"
 		parameterType="com.mire.cinema.domain.movieschedule.MovieSchedule">
@@ -32,21 +94,18 @@
 		)
 	</insert>
 
-
-
 	<!-- 스케줄 수정(영화시작시간+영화상영시간=영화끝나는시간) -->
 	<update id="scheduleUpdate"
 		parameterType="com.mire.cinema.domain.movieschedule.MovieScheduleDTO$Update">
-		UPDATE movie_schedule 
+		UPDATE movie_schedule
 		SET
 		schedule_startTime = #{scheduleStartTime},
-		schedule_finishTime = #{scheduleStartTime},
-		screen_totalseat = #{screenTotalSeat},
-		screen_restSeat = #{screenRestSeat},
-		movie_no = #{movieNo},
-		screen_no = #{screenNo}
-		FROM movie WHERE schedule_no = #{scheduleNo}
+		schedule_finishTime = #{scheduleFinishTime},
+		screen_no = #{screenNo},
+		movie_no = #{movieNo}
+		WHERE schedule_no = #{scheduleNo}
 	</update>
+
 
 	<!-- 스케줄 삭제 -->
 	<delete id="scheduleDelete">

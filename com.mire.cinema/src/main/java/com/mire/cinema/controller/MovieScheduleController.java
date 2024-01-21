@@ -2,6 +2,7 @@ package com.mire.cinema.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,7 @@ import com.mire.cinema.service.MovieService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 
-@Log
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/movieschedule")
@@ -49,9 +48,8 @@ public class MovieScheduleController {
 				.screenTotalSeat(dto.getScreenTotalSeat()).screenNo(dto.getScreenNo()).movieNo(dto.getMovieNo())
 				.build();
 
-		log.info("스케줄" + newSchedule);
-		List<MovieSchedule> list = service.ScheduleList();
-		log.info("리스트" + list);
+		List<MovieSchedule> list = service.scheduleList();
+
 		for (MovieSchedule existingSchedule : list) {
 			LocalDateTime existingStartTime = existingSchedule.getScheduleStartTime();
 			LocalDateTime existingFinishTime = existingSchedule.getScheduleFinishTime();
@@ -66,18 +64,64 @@ public class MovieScheduleController {
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
 	}
 
-	// 스케줄 리스트
-	@GetMapping("/list")
-	public ResponseEntity<List<MovieSchedule>> ScreenList() {
-		List<MovieSchedule> scheduleList = service.ScheduleList();
-		return new ResponseEntity<>(scheduleList, SucessMsg.statusOK);
+	@GetMapping("/{scheduleNo}")
+	public ResponseEntity<Long> findSchedule(@PathVariable long scheduleNo) {
+		MovieSchedule foundSchedule = service.findSchedule(scheduleNo);
+		if (scheduleNo == 0) {
+			throw new NullPointerException(ErrorMsg.NOTFOUNDSEARCH);
+		}
+		return new ResponseEntity<>(foundSchedule.getScheduleNo(), SucessMsg.statusOK);
+	}
+
+	@GetMapping("/info/{scheduleNo}")
+	public ResponseEntity<MovieScheduleDTO.Info> findMemberInfo(@PathVariable long scheduleNo) {
+		MovieSchedule info = service.findSchedule(scheduleNo);
+		if (info == null) {
+			throw new IllegalArgumentException(ErrorMsg.USERINFO);
+		}
+		MovieScheduleDTO.Info schedule = MovieScheduleDTO.Info.builder().scheduleNo(info.getScheduleNo()).build();
+		return new ResponseEntity<>(schedule, SucessMsg.statusOK);
+	}
+
+	@GetMapping("/list/{pageNum}")
+	public ResponseEntity<Map<String, Object>> getscheduleList(@PathVariable Integer pageNum) {
+		return new ResponseEntity<>(service.getScheduleMap(pageNum, 0), HttpStatus.OK);
+	}
+
+	@GetMapping("/list/{pageNum}/movieschedule/{scheduleNo}")
+	public ResponseEntity<Map<String, Object>> getscheduleList(@PathVariable Integer pageNum,
+			@PathVariable Long scheduleNo) {
+		return new ResponseEntity<>(service.getScheduleMap(pageNum, scheduleNo), HttpStatus.OK);
+
 	}
 
 	// 스케줄 업데이트
 	@PostMapping("/update")
-	public ResponseEntity<String> modifySchedule(@Valid MovieScheduleDTO.Update dto) {
-		service.modifyMovieSchedule(dto);
-		return new ResponseEntity<>(SucessMsg.UPDATE, SucessMsg.statusOK);
+	public ResponseEntity<String> updateMovieSchedule(@RequestBody @Valid MovieScheduleDTO.Update request) {
+		if (isScheduleConflict(request.getScreenNo(), request.getScheduleStartTime(),
+				request.getScheduleFinishTime())) {
+			return new ResponseEntity<>(ErrorMsg.SCHEDULEOVERLAP, HttpStatus.BAD_REQUEST);
+		}
+
+		service.modifyMovieSchedule(request);
+
+		return new ResponseEntity<>(SucessMsg.UPDATE, HttpStatus.OK);
+	}
+
+	private boolean isScheduleConflict(long screenNo, LocalDateTime startTime, LocalDateTime finishTime) {
+		List<MovieSchedule> scheduleList = service.scheduleList();
+
+		for (MovieSchedule schedule : scheduleList) {
+			LocalDateTime existingStartTime = schedule.getScheduleStartTime();
+			LocalDateTime existingFinishTime = schedule.getScheduleFinishTime();
+
+			if (screenNo == schedule.getScreenNo()
+					&& (startTime.isBefore(existingFinishTime) || startTime.isEqual(existingFinishTime))
+					&& (finishTime.isAfter(existingStartTime) || finishTime.isEqual(existingStartTime))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// 스케줄 삭제하기

@@ -75,7 +75,7 @@
 			data : JSON.stringify(ScheduleData),
 			success : function(response) {
 				alert(response);
-				location.href = "/index.jsp";
+				location.href = "/movieschedule/schedulelist.jsp";
 			},
 			error : function(error) {
 				var errorMessage = error.responseText;
