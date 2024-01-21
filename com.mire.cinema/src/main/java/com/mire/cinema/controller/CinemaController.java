@@ -46,6 +46,8 @@ public class CinemaController {
 		List<Cinema> cinemaList = cinemaService.seeCinema();
 		return new ResponseEntity<>(cinemaList, SucessMsg.statusOK);
 	}
+	
+
 
 	
 

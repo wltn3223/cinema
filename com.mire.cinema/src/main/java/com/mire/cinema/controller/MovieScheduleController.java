@@ -1,6 +1,8 @@
 package com.mire.cinema.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,22 +18,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mire.cinema.domain.cinema.Cinema;
+import com.mire.cinema.domain.movie.Movie;
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
+import com.mire.cinema.service.CinemaService;
 import com.mire.cinema.service.MovieScheduleService;
 import com.mire.cinema.service.MovieService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
+@Log
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/movieschedule")
 public class MovieScheduleController {
 	private final MovieScheduleService service;
 	private final MovieService movieService;
+	private final CinemaService cinemaService;
 
 	// 스케줄 등록
 	@PostMapping
@@ -133,11 +141,33 @@ public class MovieScheduleController {
 	}
 	
 	//예매를 위한 리스트 추가
-	 @GetMapping("/getMovieSchedule")
-	    public Map<String, Object> getMovieSchedule(
-	            @RequestParam long movieNo,
-	            @RequestParam long cinemaNo,
-	            @RequestParam LocalDateTime scheduleDate) {
-	        return service.movieScheduleMap(movieNo, cinemaNo, scheduleDate);
+	 @GetMapping("/getMovieSchedule/{movieNo}/{cinemaNo}/{schedule}")
+	    public List<MovieSchedule> getMovieSchedule(
+	            @PathVariable long movieNo,
+	            @PathVariable long cinemaNo,
+	            @PathVariable(value = "schedule") String scheduleStr) {
+		 		
+		LocalDate schedule = service.getDateTime(scheduleStr);
+		 
+		 
+		
+		 
+	        return service.movieScheduleMap(movieNo, cinemaNo, schedule);
 	    }
+	 
+	//예매를 위한 리스트 추가
+		 @GetMapping("/MovieInfo")
+		    public Map<String, Object> getMovieScheduleInfo() {
+			 Map<String,Object> list = new HashMap<>();
+			 
+			 
+			 List<Cinema> cinemaList = cinemaService.seeCinema();
+			 List<Movie> movies = movieService.getTotalList();
+			 
+			 list.put("cinema", cinemaList);
+			 list.put("movie", movies);
+			 
+		        return list ;
+		    }
+	 
 }

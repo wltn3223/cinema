@@ -1,6 +1,7 @@
 package com.mire.cinema.service;
 
 import java.util.Map;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,6 +26,10 @@ public interface MovieScheduleService {
 	public void removeMovieSchedule(long movieNo);
 	
 	//예매를 위한 리스트
-	public Map<String,Object> movieScheduleMap(long movieNo,long screenNo, LocalDateTime scheduleDate);
+	public List<MovieSchedule> movieScheduleMap(long movieNo,long screenNo, LocalDate scheduleDate);
+	
+	public LocalDate getDateTime(String date);
+	
+	
 
 }

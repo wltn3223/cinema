@@ -112,13 +112,23 @@ WHERE rn >= #{startNum}
 	</delete>
 
 	<!-- 예매할때 필요한 스케줄리스트 -->
-	<select id="selectMovieSchedule" parameterType="map"
+	<select id="selectMovieSchedule" parameterType="com.mire.cinema.domain.movieschedule.MovieScheduleDTO$schedule"
 		resultType="MovieSchedule">
-		SELECT *
-		FROM movie_schedule
-		WHERE screen_no = #{screenNo}
-		AND movie_no = #{movieNo}
-		AND schedule_date = #{scheduleDate}
+		 <![CDATA[
+   SELECT *
+FROM movie_schedule
+WHERE movie_no = #{movieNo}
+AND TO_CHAR(schedule_date, 'yyyy-mm-dd') = #{time}
+AND screen_no IN (
+    SELECT screen_no 
+    FROM screen 
+    WHERE cinema_name = (
+        SELECT cinema_name 
+        FROM cinema 
+        WHERE cinema_no = #{cinemaNo}
+    )
+)
+    ]]>
 	</select>
 
 </mapper>
