@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+ 
 
         <style>
             h1,
@@ -62,6 +63,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                margin: 20px;
             }
 
             .as {
@@ -188,7 +190,7 @@
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/ym.PNG" style="width: 30px; height: 30px;"> 빠른예매</a>
+                            <a href="/cinema/cinemalist.jsp" class="as" id="reservationMenu"><img src="/image/ym.PNG" style="width: 30px; height: 30px;"> 빠른예매</a>
                         </div>
                     </td>
                 </tr>
@@ -196,25 +198,25 @@
                 <tr class="trstyle" style="background-color: #503396;">
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/member.PNG" style="width: 100%; height: 100%;"></a>
+                            <a class="window" href="#" class="as"><img src="/image/member.PNG" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/gong.png" style="width: 100%; height: 100%;"></a>
+                            <a href="/notice/usernoticelist.jsp" class="as"><img src="/image/gong.png" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/store.PNG" style="width: 100%; height: 100%;"></a>
+                            <a href="/itemgiftcard/useritemlist.jsp" class="as" id="itemMenu2"><img src="/image/store.PNG" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/event.PNG" style="width: 100%; height: 100%;"></a>
+                            <a href="/notice/usernoticelist.jsp" class="as"><img src="/image/event.PNG" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
                 </tr>
@@ -239,7 +241,7 @@
 
                 <tr class="trstyle">
                     <td>
-                        <h2 style="color: black;">미래시네마 소개</h2>
+                        <h2 style="color: black; margin-top: 20px">미래시네마 소개</h2>
                     </td>
                 </tr>
                 <tr class="trstyle">
@@ -274,5 +276,28 @@
             </table>
 
         </main>
+ 
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+	<script>
+		function logout() {
+			$.ajax({
+				type : "POST",
+				url : "/member/logout",
+				contentType : "application/json",
+				success : function() {
+					location.href = "/index.jsp";
+
+				},
+				error : function(error) {
+					// 에러가 발생했을 때의 처리
+					var result = error.responseText;
+					alert(result);
+				}
+			});
+		}
+
+	
+	</script>
 </body>
 </html>

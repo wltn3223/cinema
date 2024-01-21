@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 public class AnswerDTO {
-	
+
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
@@ -23,8 +23,8 @@ public class AnswerDTO {
 		private String ansContent;
 		private Integer ansViews;
 		private LocalDate ansDate;
-		
-		
+
+
 	}
 
 	@Data
@@ -35,7 +35,7 @@ public class AnswerDTO {
 		private String ansTitle;
 		private String ansContent;
 //		private Integer ansStatus;
-		
+
 	}
 
 	@Data
@@ -56,8 +56,8 @@ public class AnswerDTO {
 		private Integer ansViews;
 		private LocalDate ansDate;
 		private Integer ansStatus;
-		
-		
+
+
 	}
 
 	@Builder

@@ -13,31 +13,32 @@
 	<div class="container">
 		<header class="py-3">
 			<div
-				class="container d-flex justify-content-center align-items-center">
+				class="container d-flex justify-content-center align-items-center"
+				style="position: relative;">
 
 				<div class="text-center container-fluid mt-2">
-					<a
-						class="blog-header-logo text-body-emphasis text-decoration-none text-dark"
-						href="/"><h2 style="color:black;">MIRE MOVIE</h2></a>
+					<a href="/"><img src="../upload/mirae.jpg" width="240"
+						height="120"></a>
 				</div>
-				<div class="w-25">
+				<div class="w-25" style="position: absolute; right: 20px;">
 					<c:if test="${memberId eq null}">
 						<a class="btn btn-sm btn-outline-secondary" href="/login.html">로그인</a>
-                        &nbsp;
-                        <a class="btn btn-sm btn-outline-secondary"
+                    &nbsp;
+                    <a class="btn btn-sm btn-outline-secondary"
 							href="/join.html">회원가입</a>
 					</c:if>
 					<c:if test="${memberId ne null}">
-						<div class="d-flex  align-items-center justify-content-betwen">
+						<div class="d-flex align-items-center justify-content-between">
 							<div>${memberId}님</div>
-							<button onclick="logout()" class="text-dark btn border">로그아웃
-							</button>
+							<button onclick="logout()" class="text-dark btn border">로그아웃</button>
 						</div>
 					</c:if>
 				</div>
 			</div>
 		</header>
 	</div>
+
+
 	<c:if test="${memberId ne 'admin'}">
 
 		<div class="nav-scroller py-1 mb-3 mt-2 bg-dark">
@@ -51,7 +52,7 @@
 							<li><a class="dropdown-item" href="#">큐레이션</a></li>
 							<li><a class="dropdown-item" href="#">무비포스트</a></li>
 						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
+					<li id="reservationMenu" class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">예매</a>
 						<ul class="dropdown-menu">
@@ -60,16 +61,17 @@
 							<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 						</ul></li>
 
-					<li class="nav-item mx-2"><a class="nav-link text-light"
-						href="/itemgiftcard/useritemlist.jsp">상품</a></li>
+					<li class="nav-item mx-2""><a class="nav-link text-light"
+						id="itemMenu2" href="/itemgiftcard/useritemlist.jsp">상품</a></li>
 					<li class="nav-item dropdown"><a class="nav-link text-light"
-						href="#" role="button" data-bs-toggle="dropdown">공지사항</a>
+						href="/notice/usernoticelist.jsp" role="button"
+						data-bs-toggle="dropdown">공지사항</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item"
 								href="/notice/usernoticelist.jsp">공지사항</a></li>
 							<li><a class="dropdown-item" href="#">이벤트</a></li>
 						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
+					<li class="nav-item dropdown mx-2" id="helpMenu"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">고객센터</a>
 						<ul class="dropdown-menu">
@@ -77,24 +79,23 @@
 							<li><a class="dropdown-item" href="#">문의내역조회</a></li>
 							<li><a class="dropdown-item" href="#"></a></li>
 						</ul></li>
-					<li class="nav-item dropdown mx-2"><a
+					<li class="nav-item dropdown mx-2" id="mypageMenu"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">My</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="../member/memberInfo.jsp">회원
 									정보 조회</a></li>
-							<li><a class="dropdown-item" href="../member/myOrderList.jsp">
-									내 주문 내역 조회</a></li>
+							<li><a class="dropdown-item"
+								href="../member/myOrderList.jsp"> 내 주문 내역 조회</a></li>
 							<li><a class="dropdown-item" href="../member/memberInfo.jsp">
 									내 예매 내역 조회</a></li>
-									내 문의 내역 조회</a></li>
+
 							<li><a class="dropdown-item" href="#"></a></li>
 						</ul></li>
 				</ul>
 			</nav>
 		</div>
 	</c:if>
-
 
 	<c:if test="${memberId eq 'admin'}">
 
@@ -147,11 +148,9 @@
 			</nav>
 		</div>
 	</c:if>
-
-
 	<!-- 추가 스크립트 -->
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-		
+
 	<script>
 		function logout() {
 			$.ajax({
@@ -169,6 +168,8 @@
 				}
 			});
 		}
+
+	
 	</script>
 </body>
 </html>

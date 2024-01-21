@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.ReviewMapper">
+
+
+	<insert id="insertReview">
+		insert into
+		review(review_no,review_score,review_title,review_content)
+		values
+		(review_seq.nextval,#{reviewScore},#{reviewTitle},#{reviewContent})
+	</insert>
+
+
+	<select id="selectReview" resultType="Review">
+		SELECT * FROM review
+		ORDER
+		BY
+		review_date DESC
+	</select>
+
+
+	<select id="getReview" resultType="Review">
+		select * from review where
+		review_no = #{reviewNo}
+	</select>
+
+
+	<select id="getSearchReview" resultType="Review">
+		select * from review
+		where
+		review_title = #{reviewTitle}
+	</select>
+
+
+	<update id="updateReview"
+		parameterType="com.mire.cinema.domain.review.ReviewDTO$ReviewUpdate">
+		update review set review_score = #{reviewScore}, review_title = #{reviewTitle}, review_content = #{reviewContent} where review_no = #{reviewNo}
+	</update>
+
+
+	<select id="searchReviewList" resultType="Review"
+		parameterType="com.mire.cinema.domain.review.ReviewDTO$Search">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT *
+        FROM review
+        WHERE LOWER(review_title) LIKE '%' || #{reviewTitle} || '%'
+        ORDER BY review_no DESC
+    ) a
+    WHERE rownum <= #{endNum}
+) a
+WHERE rn >= #{startNum}   
+  ]]>
+	</select>
+
+	<select id="countReview" resultType="int">
+		SELECT COUNT(*) FROM review
+	</select>
+
+	<select id="getPartList" resultType="Review" parameterType="int">
+		 <![CDATA[
+ SELECT a.* from 
+(SELECT a.*, rownum rn from 
+    ( SELECT * from review order by review_no desc) a 
+    where rownum <= #{end} ) a
+where rn >= #{start}    
+  ]]>
+	</select>
+
+	<select id="countReviewTitle" resultType="int"
+		parameterType="String">
+		SELECT count(*) FROM review where review_title =
+		#{reviewTitle}
+	</select>
+
+	<select id="countSearchReview" resultType="int"
+		parameterType="String">
+		SELECT count(*) FROM review where review_title like
+		'%'||#{reviewTitle}||'%'
+	</select>
+
+
+	<delete id="deleteReview">
+		delete from review where review_no = #{reviewNo}
+	</delete>
+
+	<!-- 조회수 증가 -->
+	<update id="updateReviewViews" parameterType="long">
+		update review
+		set
+		review_views = review_views + 1
+		where
+		review_no = #{reviewNo}
+	</update>
+	
+</mapper>

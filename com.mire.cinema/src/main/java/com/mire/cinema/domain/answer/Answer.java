@@ -22,5 +22,5 @@ public class Answer {
 	private Integer ansStatus;
 	private String memberId;
 	private Long askNo;
-	
+
 }

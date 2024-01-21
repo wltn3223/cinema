@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Q%A 게시판</title>
+<title>리뷰 게시판</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -16,6 +16,7 @@
 	display: block;
 	margin-top: 0;
 }
+
 .nav-link {
 	color: white;
 }
@@ -31,7 +32,7 @@
 	<main class="container">
 		<div class="container mt-3">
 			<br>
-			<h2>Q&A 게시판</h2>
+			<h2>리뷰 게시판</h2>
 			<br>
 			<table class="table table-bordered table-striped">
 				<tbody id="tableBody">
@@ -39,10 +40,11 @@
 			</table>
 		</div>
 		<div class="text-end">
-			<a href="/answer/answermodify.jsp"><button class="btn btn-light bg-dark text-light" type="button">수정하기</button></a>
+			<a href="/review/reviewmodify.jsp"><button
+					class="btn btn-light bg-dark text-light" type="button">수정하기</button></a>
 			<button class="btn btn-light bg-dark text-light" type="button"
-				onclick="removeAnswer()">삭제하기</button>
-			<a href="/answer/answerlist.jsp"><button
+				onclick="removeReview()">삭제하기</button>
+			<a href="/review/reviewlist.jsp"><button
 					class="btn btn-light bg-dark text-light"">목록으로</button></a>
 		</div>
 	</main>
@@ -51,16 +53,18 @@
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 </body>
+
 <script>
 	$(document).ready(function() {
-		var ansNo = sessionStorage.getItem('ansNo');
-		if (ansNo) {
+		var reviewNo = sessionStorage.getItem('reviewNo');
+
+		if (reviewNo) {
 			$.ajax({
 				type : 'GET',
-				url : '/answer/info/' + ansNo,
+				url : '/review/info/' + reviewNo,
 				contentType : 'application/json',
-				success : function(answer) {
-					appendAnswerToTable(answer);
+				success : function(review) {
+					appendReviewToTable(review);
 				},
 				error : function(error) {
 					var errorMessage = error.responseText;
@@ -68,42 +72,42 @@
 				}
 			});
 		} else {
-			// 'ansNo' 값이 없을 때의 처리
-			alert("Answer number not available.");
+
+			alert("Review number not available.");
 		}
 	});
-	function appendAnswerToTable(answer) {
+
+	function appendReviewToTable(review) {
 		var tbody = $("#tableBody");
 		tbody.empty();
+
 		var row = "<div class='card'>" + "<div class='card-header'>"
-				+ "<h4 class='card-title'>" + "<strong>" + answer.ansTitle
-				+ "</strong>" + "<span class='float-end'><strong>조회수 </strong>"
-				+ answer.ansViews + " | <strong>등록일 </strong>" + answer.ansDate
-				+ "</span>" + "</h4>" + "</div>" + "<div class='card-body'>"
+				+ "<h4 class='card-title'>" + "<strong>" + review.reviewTitle
+				+ "</strong>" + "<span class='float-end'>"
+				+ "<strong>조회수 </strong>" + review.reviewViews
+				+ " | <strong>등록일 </strong>" + review.reviewDate + "</span>"
+				+ "</h4>" + "<p class='card-text'><strong>평점 </strong>"
+				+ review.reviewScore +"점" + "</p>" + 
+				"</div>" + "<div class='card-body'>"
 				+ "<p class='card-text'><strong>작성자 | </strong>관리자</p>"
-				+ "<p class='card-text'>" + answer.ansContent + "</p>"
+				+ "<p class='card-text'>" + review.reviewContent + "</p>"
 				+ "</div>" + "</div>";
 
 		tbody.append(row);
 	}
 
-
-
-
-
-
-	function removeAnswer() {
-		var ansNo = sessionStorage.getItem('ansNo');
+	function removeReview() {
+		var reviewNo = sessionStorage.getItem('reviewNo');
 		var confirmDelete = confirm("정말로 게시글을 삭제하시겠습니까?");
 
 		if (confirmDelete) {
 			$.ajax({
 				type : "DELETE",
-				url : "/answer/" + ansNo,
+				url : "/review/" + reviewNo,
 				success : function(response) {
 					console.log("Delete successful:", response);
 					alert("게시글이 삭제되었습니다.");
-					location.href = "/answer/answerlist.jsp";
+					location.href = "/review/reviewlist.jsp";
 				},
 				error : function(error) {
 					var errorMessage = error.responseText;
