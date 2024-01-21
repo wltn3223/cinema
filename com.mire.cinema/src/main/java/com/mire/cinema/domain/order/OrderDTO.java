@@ -1,5 +1,6 @@
 package com.mire.cinema.domain.order;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.mire.cinema.domain.member.DiscountGrade;
@@ -53,7 +54,7 @@ public class OrderDTO {
 		private int discountPrice;
 		private String itemName;
 		private String imageUuid;
-		private Date orderDate;
+		private LocalDate orderDate;
 		
 	}
 	
