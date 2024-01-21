@@ -73,7 +73,7 @@ p {
 
 			<ul class="tabnav">
 				<li><a href="#tab01">팝콘/음료/굿즈</a></li>
-				<li><a href="#tab02">포인트 몰</a></li>
+				<!-- <li><a href="#tab02">tab02</a></li> -->
 			</ul>
 			<div class="tabcontent">
 				<div id="tab01">
@@ -97,11 +97,11 @@ p {
 						</c:forEach>
 					</div>
 				</div>
-				<div id="tab02">
+				<!-- <div id="tab02">
 					<br>
 					<h2>등록된 상품이 없습니다.</h2>
 					<br>
-				</div>
+				</div> -->
 			</div>
 			<!-- 페이지 버튼 -->
 			<div id="paging" class="d-flex container justify-content-center mt-5">

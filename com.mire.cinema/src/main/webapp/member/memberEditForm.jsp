@@ -30,17 +30,17 @@
 					</div>
 					
 					<div class="form-group">
-						<label for="memberPasswd">기존 비밀번호 입력</label> <input type="email"
+						<label for="memberPasswd">기존 비밀번호 입력</label> <input type="password"
 							class="form-control" id="memberPasswd">
 					</div>
 					
 					<div class="form-group">
-						<label for="memberEditPasswd">변경할 비밀번호 입력</label> <input type="email"
+						<label for="memberEditPasswd">변경할 비밀번호 입력</label> <input type="password"
 							class="form-control" id="memberEditPasswd">
 					</div>
 					
 					<div class="form-group">
-						<label for="memberEditPasswd1">변경할 비밀번호 입력 확인</label> <input type="email"
+						<label for="memberEditPasswd1">변경할 비밀번호 입력 확인</label> <input type="password"
 							class="form-control" id="memberEditPasswd1">
 					</div>
 					
@@ -71,17 +71,24 @@
 
 <script type="text/javascript">
 function checkPassword(){
-	var passwd = $("#memberEditPasswd").val();
+    var passwd = $("#memberEditPasswd").val();
     var passwd1 = $("#memberEditPasswd1").val();
 	
-    if(passwd === passwd1){
-    	 updateInfo()
-	}
-    else {
-		alert("변경할 비밀번호와 비밀번호 확인이 일치하지않습니다. 다시 시도해 주세요.")
-	}
+    // 정규식을 사용하여 특수문자 1개를 포함하고 숫자 6자리 이상인지를 검사
+    var passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d).{6,}$/;
 	
+    if(passwd === passwd1 && passwordRegex.test(passwd)){
+        updateInfo();
+    } else {
+        if(passwd !== passwd1) {
+            alert("변경할 비밀번호와 비밀번호 확인이 일치하지 않습니다. 다시 시도해 주세요.");
+        } else {
+            alert("비밀번호는 특수문자 1개를 포함한 숫자 6자리 이상이어야 합니다.");
+        }
+    }
 }
+
+
 
 
 
@@ -116,6 +123,9 @@ function updateInfo() {
       }
     });
   }
+
+
+
 
 </script>
 
