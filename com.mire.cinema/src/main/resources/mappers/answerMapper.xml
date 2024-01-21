@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.AnswerMapper">
+
+
+	<insert id="insertAnswer">
+		insert into
+		answer(ans_no,ans_title,ans_content)
+		values
+		(ans_seq.nextval,#{ansTitle},#{ansContent})
+	</insert>
+
+
+	<select id="selectAnswer" resultType="Answer">
+		SELECT * FROM answer
+		ORDER
+		BY
+		ans_date DESC
+	</select>
+
+
+	<select id="getAnswer" resultType="Answer">
+		select * from answer where
+		ans_no = #{ansNo}
+	</select>
+
+
+	<select id="getSearchAnswer" resultType="Answer">
+		select * from answer
+		where
+		ans_title = #{ansTitle}
+	</select>
+
+
+	<update id="updateAnswer"
+		parameterType="com.mire.cinema.domain.answer.AnswerDTO$AnswerUpdate">
+		update answer set ans_title = #{ansTitle}, ans_content =
+		#{ansContent} where ans_no = #{ansNo}
+	</update>
+
+
+
+
+	<select id="searchAnswerList" resultType="Answer"
+		parameterType="com.mire.cinema.domain.answer.AnswerDTO$Search">
+		 <![CDATA[
+SELECT a.*
+FROM (
+    SELECT a.*, rownum rn
+    FROM (
+        SELECT *
+        FROM answer
+        WHERE LOWER(ans_title) LIKE '%' || #{ansTitle} || '%'
+        ORDER BY ans_no DESC
+    ) a
+    WHERE rownum <= #{endNum}
+) a
+WHERE rn >= #{startNum}   
+
+  ]]>
+	</select>
+
+	<select id="countAnswer" resultType="int">
+		SELECT COUNT(*) FROM answer
+	</select>
+
+	<select id="getPartList" resultType="Answer" parameterType="int">
+		 <![CDATA[
+ SELECT a.* from 
+(SELECT a.*, rownum rn from 
+    ( SELECT * from answer order by ans_no desc) a 
+    where rownum <= #{end} ) a
+where rn >= #{start}    
+
+  ]]>
+	</select>
+
+	<select id="countAnswerTitle" resultType="int"
+		parameterType="String">
+		SELECT count(*) FROM answer where ans_title =
+		#{ansTitle}
+	</select>
+
+	<select id="countSearchAnswer" resultType="int"
+		parameterType="String">
+		SELECT count(*) FROM answer where ans_title like
+		'%'||#{ansTitle}||'%'
+	</select>
+
+
+	<delete id="deleteAnswer">
+		delete from answer where ans_no = #{ansNo}
+	</delete>
+
+	<!-- 조회수 증가 -->
+	<update id="updateAnswerViews" parameterType="long">
+		update answer
+		set
+		ans_views = ans_views + 1
+		where
+		ans_no = #{ansNo}
+	</update>
+
+</mapper>
