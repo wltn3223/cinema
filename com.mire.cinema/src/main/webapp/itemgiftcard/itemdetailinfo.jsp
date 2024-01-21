@@ -237,57 +237,63 @@ p {
 						openPopUp(data);
 					}
 				},
-				error: function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
+				error: function(jqXHR, textStatus, errorThrown) {
+		            if (jqXHR.status === 403) {
+		                // Handle HTTP 403 Forbidden error
+		                var errorMessage = "로그인후 사용가능합니다.";
+		                alert(errorMessage);
+		            } else {
+		                // Handle other errors
+		                var errorMessage = jqXHR.responseText || "An error occurred while processing your request.";
+		                alert(errorMessage);
+		            }
+		        }
 			});
 		
 		
 	}
-		function requestPay(memberId, itemName, discountPrice, orderId) {
-			IMP.init('imp27664032');
-			var msg;
+	  function requestPay(memberId, itemName, discountPrice, orderId) {
+		    IMP.init('imp27664032');
+		    var msg;
 
-			IMP.request_pay({
-				pg: 'kakaopay',
-				pay_method: 'card',
-				merchant_uid: orderId, // Include orderId as part of the request
-			    name: '상품명: ' + itemName + ' (할인된 총 결제 가격: ' + discountPrice + '원)',
-			    amount: discountPrice + '원',
-				buyer_name: memberId,
-				 m_redirect_url : 'http://localhost:8080/orderCompleteMobile'
-				
-				
-			}, function(rsp) {
-				if (rsp.success) {
-					//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-					jQuery.ajax({
-						url : "/pay/item", //cross-domain error가 발생하지 않도록 주의해주세요
-						type : 'POST',
-						dataType : 'json',
-						contentType : 'application/json', // Specify the content type here
-						data : JSON.stringify({
-						    imp_uid: rsp.imp_uid,            // 결제 고유번호
-					         merchant_uid: rsp.merchant_uid 
-						// Add any other necessary data
-						}),
-						 success: function (data) {
-				                // [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-				                alert(data);
-				                location.href = '/member/myOrderList.jsp';
-				            },
-				            error:function(){
-						          console.log("Insert ajax 통신 실패!!!");
-						          location.href = '/member/myOrderList.jsp';
-						        }
-				        });
-				  } else {
-			            var msg = '결제에 실패하였습니다.';
-			            msg += '에러내용 : ' + rsp.error_msg;
-			            alert(msg);
-			        }
-			    });
+		    IMP.request_pay({
+		        pg: 'kakaopay',
+		        merchant_uid: orderId,
+		        name: '상품명: ' + itemName + ' (할인된 총 결제 가격: ' + discountPrice + '원)',
+		        amount: discountPrice,
+		        buyer_name: memberId,
+		        m_redirect_url: 'http://localhost:8080/orderCompleteMobile'
+		    }, function (rsp) {
+		        // 성공적으로 결제가 이루어진 경우
+		        if (rsp.success) {
+		            // 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+		            jQuery.ajax({
+		                url: "/pay/item",
+		                type: 'POST',
+		                dataType: 'text',
+		                contentType: 'application/json',
+		                data: JSON.stringify({
+		                    imp_uid: rsp.imp_uid,
+		                    merchant_uid: rsp.merchant_uid
+		                    // Add any other necessary data
+		                })
+		            })
+		            .done(function (data) {
+		                // 서버에서 REST API로 결제정보 확인 및 서비스 루틴이 정상적인 경우
+		              
+		                    alert(data);
+		                
+		            })
+		            .fail(function (data) {
+		                console.log(data);
+		            });
+		        } else {
+		            // 결제에 실패한 경우
+		            var msg = '결제에 실패하였습니다.';
+		            msg += '에러내용 : ' + rsp.error_msg;
+		            alert(msg);
+		        }
+		    });
 		}
 	  
 	  
