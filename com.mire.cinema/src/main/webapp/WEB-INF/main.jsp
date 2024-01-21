@@ -190,7 +190,7 @@
 
                     <td>
                         <div class="t-container">
-                            <a href="#" class="as"><img src="/image/ym.PNG" style="width: 30px; height: 30px;"> 빠른예매</a>
+                            <a href="#" class="as" id="reservationMenu"><img src="/image/ym.PNG" style="width: 30px; height: 30px;"> 빠른예매</a>
                         </div>
                     </td>
                 </tr>
@@ -204,13 +204,13 @@
 
                     <td>
                         <div class="t-container">
-                            <a href="/notice/noticelist.jsp" class="as"><img src="/image/gong.png" style="width: 100%; height: 100%;"></a>
+                            <a href="/notice/usernoticelist.jsp" class="as"><img src="/image/gong.png" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
                     <td>
                         <div class="t-container">
-                            <a href="/itemgiftcard/useritemlist.jsp" class="as"><img src="/image/store.PNG" style="width: 100%; height: 100%;"></a>
+                            <a href="/itemgiftcard/useritemlist.jsp" class="as" id="itemMenu2"><img src="/image/store.PNG" style="width: 100%; height: 100%;"></a>
                         </div>
                     </td>
 
@@ -277,33 +277,47 @@
 
         </main>
  
- <script>
- $(document).ready(function () {
-     $('.window').click(function (e) {
-         e.preventDefault();
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-         // 할인 정보 설정
-         var discountText = '<br>상품 결제시 실버 회원은 총 금액의 5% 골드 회원은 총 금액의 10% 할인됩니다.';
+	<script>
+		function logout() {
+			$.ajax({
+				type : "POST",
+				url : "/member/logout",
+				contentType : "application/json",
+				success : function() {
+					location.href = "/index.jsp";
 
-         // 창 열기
-         openInfoWindow(discountText, 300, 50);
-     });
- });
+				},
+				error : function(error) {
+					// 에러가 발생했을 때의 처리
+					var result = error.responseText;
+					alert(result);
+				}
+			});
+		}
 
- function openInfoWindow(infoText, width, height) {
-     var screenWidth = window.screen.width;
-     var screenHeight = window.screen.height;
+		// 로그인 체크 및 이동 함수
+		function checkLoginAndRedirect(href) {
+			<c:if test="${memberId eq null}">
+			alert("로그인이 필요한 서비스입니다.");
+			location.href = "/login.html";
+			</c:if>
+			<c:if test="${memberId ne null}">
+			location.href = href;
+			</c:if>
+		}
 
-     var left = (screenWidth - width) / 2;
-     var top = (screenHeight - height) / 2;
-
-     var newWindow = window.open('', '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
-     newWindow.document.write('<html><head><title>할인 정보</title></head><body style="margin:0;text-align:center;">');
-     newWindow.document.write('<p style="font-weight: bold;">' + infoText + '</p>');
- }
-
-</script>
-
-
+		// 각 li 요소에 이벤트 추가
+		$(document).ready(
+				function() {
+					$('#itemMenu2, #reservationMenu')
+							.click(function(e) {
+								e.preventDefault(); // 기본 동작을 막음
+								var href = $(this).find('a').attr('href');
+								checkLoginAndRedirect(href);
+							});
+				});
+	</script>
 </body>
 </html>
