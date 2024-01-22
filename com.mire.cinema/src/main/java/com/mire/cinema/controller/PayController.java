@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,8 +63,6 @@ public class PayController {
 	}
 	
 
-	
-
 	@GetMapping("/memberId/{memberId}/itemNo/{itemNo}/number/{number}")
 	public ResponseEntity<OrderDTO.Info> getBuyerInfo(@PathVariable String memberId,
 			@PathVariable Long itemNo, @PathVariable int number) {
@@ -78,4 +77,49 @@ public class PayController {
 		return new ResponseEntity<>(orderService.getOrderMap(pageNum,memberId),HttpStatus.OK);
 
 	}
+	@GetMapping("/list/{pageNum}")
+	public ResponseEntity<Map<String,Object>> getAllList(@PathVariable Integer pageNum) {
+		System.out.println(pageNum);
+		return new ResponseEntity<>(orderService.getAllOrderMap(pageNum),HttpStatus.OK);
+		
+	}
+	@DeleteMapping("/{orderId}")
+	public ResponseEntity<String> cancelOrder(@PathVariable String orderId) {
+		int n = orderService.selectOrder(orderId);
+		if(n == 0) {
+			throw new NullPointerException(ErrorMsg.NOTFOUNDSEARCH);
+		} 
+		try {
+			String token = payService.getToken();
+			payService.refund(token, orderId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return new ResponseEntity<>(SucessMsg.DELETE,HttpStatus.OK);
 }
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -23,7 +23,7 @@
 	</header>
 	<div class="container mt-5">
 	<div class= "container-fluid  d-flex justify-content-between">
-		<h2 class="mb-4">내 주문 내역</h2>
+		<h2 class="mb-4">전체 주문 내역</h2>
 		<div><input type="text" placeholder="아이디로 검색하세요" id = "id">
 		<div class="btn btn-dark ms-1" onclick="fetchMembers(1,document.getElementById('id').value)">회원검색</div>
 		</div>
@@ -37,8 +37,9 @@
 					<th>상품수량</th>
 					<th>상품 총 가격</th>
 					<th>할인된 가격</th>
+					<th>주문상태</th>
 					<th>주문일</th>
-					<th></th>
+					<th>비고</th>
 				</tr>
 			</thead>
 			<tbody id= "orderList">
@@ -62,16 +63,16 @@
 	<script>
 document.addEventListener('DOMContentLoaded', function () {
    	var memberId = '${memberId}';
-    fetchMembers(1,memberId); // Initial fetch with page 1
+    fetchMembers(1); // Initial fetch with page 1
 });
 
-function fetchMembers(pageNum,memberId) {
+function fetchMembers(pageNum) {
 	
 	
-	var url =  '/pay/list/' + pageNum +'/member/' +memberId;
+	var url =  '/pay/list/' + pageNum;
 	console.log(url);
     fetch(url, {
-        method: 'GET',
+        method: 'get',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -88,7 +89,6 @@ function fetchMembers(pageNum,memberId) {
         .then(data => {
            
             console.log(data.list);
-            console.log(data.searchList);
             console.log(data.page);
           
             let orders = (data.list === undefined)?data.searchList:data.list;
@@ -120,8 +120,10 @@ function displayMovies(orders) {
             '<td>' + order.orderPrice + '</td>' +
             '<td>' + order.discountPrice + '</td>' +
             '<td>' + order.orderStatus + '</td>' +
-           
-            '<td>' + '<div class="btn btn-dark" onclick="cancel(\'' + order.orderId + '\')">주문취소</div></td>' +
+            '<td>' + order.orderDate + '</td>' +
+            (order.orderStatus === 'COMPLETE' ?
+                '<td><div class="btn btn-dark" onclick="cancel(\'' + order.orderId + '\')">주문취소</div></td>' :
+                '') +
         '</tr>';
            
         $('#orderList').append(orderInfo);

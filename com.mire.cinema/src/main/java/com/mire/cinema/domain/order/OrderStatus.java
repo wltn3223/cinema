@@ -5,4 +5,5 @@ public interface OrderStatus {
 	String PROCESS = "PROCESS";
 	String COMPLETE = "COMPLETE";
 	String FAIL = "FAIL";
+	String CANCLE = "CANCLE";
 }

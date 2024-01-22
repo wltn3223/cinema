@@ -18,22 +18,23 @@ import com.mire.cinema.domain.order.OrderDTO;
 public interface OrderMapper {
    
 	void insertOrder(Order order);
+	int countOrderById(String orderId);
+	void updateStatus(String orderId, String status);
+	
     Order selectOrderByNo(int orderNo);
     Order selectOrderById(String orderId);
+    List<OrderDTO.MemberInfo> getPartList(OrderDTO.PageMember page);
+    int countOrderbyOrderId();
+    int countOrder(String memberId);
     
-    void updateStatus(String orderId, String status);
-
-    List<Member> getOrderList();
-    void deleteMember(int OrderNo);
+    List<OrderDTO.MemberInfo> getOrderList(OrderDTO.PageMember page);
+    int getTotal();
 
     void updateOrder(MemberDTO.Update dto);
     
-    int countOrder();
-    int countOrder(String memberId);
+    
     
     int countsearchMember(String memberId);
-    
-    List<OrderDTO.MemberInfo> getPartList(OrderDTO.PageMember page);
     
     List<Member> searchPartList(MemberDTO.search dto);
 
