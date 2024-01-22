@@ -18,20 +18,21 @@ import lombok.RequiredArgsConstructor;
 public class CinemaServiceImpl implements CinemaService {
 	private final CinemaMapper cinemaMapper;
 
-
 	// 영화관 리스트 출력하기
 	@Override
 	public List<Cinema> seeCinema() {
 		return cinemaMapper.selectCinema();
 	}
 
+	// 공지사항 내용 출력
+	public Cinema findCinema(long cinemaNo) {
+		return cinemaMapper.getCinema(cinemaNo);
+	}
 
 	// 영화관 내용 업데이트
 	@Override
 	public void modifyCinema(CinemaDTO.CinemaUpdate cinema) {
 		cinemaMapper.updateCinema(cinema);
 	}
-
-
 
 }

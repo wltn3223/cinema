@@ -2,8 +2,6 @@ package com.mire.cinema.domain.answer;
 
 import java.time.LocalDate;
 
-import com.mire.cinema.domain.notice.Notice;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -37,7 +37,7 @@
 					<th>상품수량</th>
 					<th>상품 총 가격</th>
 					<th>할인된 가격</th>
-					<th>주문날짜</th>
+					<th>가입일</th>
 				</tr>
 			</thead>
 			<tbody id= "orderList">

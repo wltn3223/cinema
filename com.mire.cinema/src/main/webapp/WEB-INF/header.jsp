@@ -56,7 +56,7 @@
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">예매</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/movieschedule/schedule.jsp">영화예매</a></li>
+							<li><a class="dropdown-item" href="/cinema/cinemalist.jsp">영화예매</a></li>
 							<li><a class="dropdown-item" href="#">영화예매내역</a></li>
 							<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 						</ul></li>
@@ -75,8 +75,8 @@
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">고객센터</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">문의내역등록</a></li>
-							<li><a class="dropdown-item" href="#">문의내역조회</a></li>
+							<li><a class="dropdown-item" href="/ask/askwrite.jsp">문의내역등록</a></li>
+							<li><a class="dropdown-item" href="/ask/asklist.jsp">문의내역조회</a></li>
 							<li><a class="dropdown-item" href="#"></a></li>
 						</ul></li>
 					<li class="nav-item dropdown mx-2" id="mypageMenu"><a
@@ -132,8 +132,8 @@
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">고객센터</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">문의내역등록</a></li>
-							<li><a class="dropdown-item" href="#">문의내역조회</a></li>
+							<li><a class="dropdown-item" href="/ask/askwrite.jsp">문의내역등록</a></li>
+							<li><a class="dropdown-item" href="/ask/asklist.jsp">문의내역조회</a></li>
 							<li><a class="dropdown-item" href="#"></a></li>
 						</ul></li>
 					<li class="nav-item dropdown mx-2"><a

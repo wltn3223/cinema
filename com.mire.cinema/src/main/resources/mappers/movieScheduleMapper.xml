@@ -9,6 +9,10 @@
 		select * from
 		movie_schedule ORDER BY schedule_startTime DESC
 	</select>
+	
+	<select id="getScheduleSelect" resultType="MovieSchedule">
+		select * from movie_schedule where = #{scheduleNo}ORDER BY schedule_startTime DESC
+	</select>
 
 	<!-- 페이징처리 및 검색기능 -->
 	<!-- 페이징 -->
@@ -95,13 +99,11 @@ WHERE rn >= #{startNum}
 		parameterType="com.mire.cinema.domain.movieschedule.MovieScheduleDTO$Update">
 		UPDATE movie_schedule
 		SET
-		schedule_startTime =
-		#{scheduleStartTime},
+		schedule_startTime = #{scheduleStartTime},
 		schedule_finishTime = #{scheduleFinishTime},
 		screen_no = #{screenNo},
 		movie_no = #{movieNo}
-		WHERE schedule_no =
-		#{scheduleNo}
+		WHERE schedule_no = #{scheduleNo}
 	</update>
 
 

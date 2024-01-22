@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>영화관 업데이트</title>
+<title>영화관 수정</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -23,14 +23,12 @@
 	</header>
 
 	<div class="container">
-		<h2 class="mt-3">영화관 업데이트</h2>
+		<h2 class="mt-3">영화관 수정</h2>
 		<div class="form-container">
 			<form id="screenForm">
-				<div class="mb-3">
-					<label for="cinemaNo" class="form-label">영화관 번호</label> <input
-						type="text" class="form-control" id="cinemaNo"
-						placeholder="수정할 영화관 번호를 입력하세요" required>
-				</div>
+				<!-- 여기에 hidden 필드를 추가하여 영화관 번호를 유지하도록 합니다 -->
+				<input type="hidden" id="cinemaNo" name="cinemaNo">
+
 				<div class="mb-3">
 					<label for="cinemaName" class="form-label">영화관 이름</label> <input
 						type="text" class="form-control" id="cinemaName"
@@ -56,8 +54,84 @@
 						type="text" class="form-control" id="cinemaLocation"
 						placeholder="수정할 영화관 위치를 입력하세요" required>
 				</div>
+				<!-- 영화관 정보를 불러와 폼에 출력하는 스크립트를 추가 -->
+				<script>
+					$(document)
+							.ready(
+									function() {
+										var cinemaNo = sessionStorage
+												.getItem('CinemaNo');
+
+										$
+												.ajax({
+													type : 'GET',
+													url : '/cinema/' + cinemaNo,
+													contentType : 'application/json',
+													success : function(cinema) {
+														// 영화관 정보를 폼에 출력
+														$('#cinemaNo')
+																.val(
+																		cinema.cinemaNo);
+														$('#cinemaName')
+																.val(
+																		cinema.cinemaName);
+														$('#cinemaIntro')
+																.val(
+																		cinema.cinemaIntro);
+														$('#cinemaTotalScreen')
+																.val(
+																		cinema.cinemaTotalScreen);
+														$('#cinemaPhone')
+																.val(
+																		cinema.cinemaPhone);
+														$('#cinemaLocation')
+																.val(
+																		cinema.cinemaLocation);
+													},
+													error : function(error) {
+														var errorMessage = error.responseText;
+														alert(errorMessage);
+													}
+
+												});
+
+									});
+					// 영화관 정보 업데이트 함수
+					function writeCinema() {
+						var cinemaNo = $('#cinemaNo').val();
+						var cinemaName = $('#cinemaName').val();
+						var cinemaIntro = $('#cinemaIntro').val();
+						var cinemaTotalScreen = $('#cinemaTotalScreen').val();
+						var cinemaPhone = $('#cinemaPhone').val();
+						var cinemaLocation = $('#cinemaLocation').val();
+
+						var data = {
+							cinemaNo : cinemaNo,
+							cinemaName : cinemaName,
+							cinemaIntro : cinemaIntro,
+							cinemaTotalScreen : cinemaTotalScreen,
+							cinemaPhone : cinemaPhone,
+							cinemaLocation : cinemaLocation,
+						};
+
+						$.ajax({
+							type : 'put',
+							url : '/cinema',
+							contentType : "application/json;charset=UTF-8",
+							data : JSON.stringify(data),
+							success : function(response) {
+								alert(response);
+								location.href = "/cinema/cinemalist.jsp";
+							},
+							error : function(error) {
+								var errorMessage = error.responseText;
+								alert(errorMessage);
+							}
+						});
+					}
+				</script>
 				<button type="button" class="btn btn-primary"
-					onclick="writeCinema()">영화관 업데이트</button>
+					onclick="writeCinema()">영화관 수정</button>
 			</form>
 		</div>
 	</div>
@@ -66,40 +140,5 @@
 	<footer class="container">
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
-
-	<script>
-		function writeCinema() {
-			var cinemaNo = $('#cinemaNo').val();
-			var cinemaName = $('#cinemaName').val();
-			var cinemaIntro = $('#cinemaIntro').val();
-			var cinemaTotalScreen = $('#cinemaTotalScreen').val();
-			var cinemaPhone = $('#cinemaPhone').val();
-			var cinemaLocation = $('#cinemaLocation').val();
-
-			var data = {
-				cinemaNo : cinemaNo,
-				cinemaName : cinemaName,
-				cinemaIntro : cinemaIntro,
-				cinemaTotalScreen : cinemaTotalScreen,
-				cinemaPhone : cinemaPhone,
-				cinemaLocation : cinemaLocation,
-			};
-
-			$.ajax({
-				type : 'put',
-				url : '/cinema',
-				contentType : "application/json;charset=UTF-8",
-				data : JSON.stringify(data),
-				success : function(response) {
-					alert(response);
-					location.href = "/cinema/cinemalist.jsp";
-				},
-				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
-				}
-			});
-		}
-	</script>
 </body>
 </html>

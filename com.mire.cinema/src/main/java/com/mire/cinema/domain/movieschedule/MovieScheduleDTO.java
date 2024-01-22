@@ -1,6 +1,5 @@
 package com.mire.cinema.domain.movieschedule;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -50,7 +49,7 @@ public class MovieScheduleDTO {
 		private LocalDateTime scheduleFinishTime;
 		private Integer screenTotalSeat;
 		private Integer screenRestSeat;
-		private LocalDate scheduleDate;
+		private Date scheduleDate;
 		private long movieNo;
 		private long screenNo;
 	}

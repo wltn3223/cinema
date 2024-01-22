@@ -1,14 +1,7 @@
 package com.mire.cinema.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -17,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO.Search;
-import com.mire.cinema.domain.movieschedule.MovieScheduleDTO.schedule;
 import com.mire.cinema.domain.page.PageCreate;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.repository.MovieScheduleMapper;

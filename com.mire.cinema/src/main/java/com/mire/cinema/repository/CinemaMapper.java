@@ -17,10 +17,13 @@ public interface CinemaMapper {
 
 	// 영화관 리스트 출력하기
 	List<Cinema> selectCinema();
-	
+
+	// 영화관 내용 출력하기
+	Cinema getCinema(Long cinemaNo);
 
 	// 영화관 리스트 수정하기
 	void updateCinema(CinemaDTO.CinemaUpdate cinema);
-	
 
+	//공지사항 조회수 증가 
+		void updateCinemaViews(long boardNo);
 }
