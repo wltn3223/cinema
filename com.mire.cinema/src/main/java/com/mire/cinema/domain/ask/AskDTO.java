@@ -2,8 +2,11 @@ package com.mire.cinema.domain.ask;
 
 import java.time.LocalDate;
 
+import com.mire.cinema.domain.notice.NoticeDTO;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -49,4 +52,24 @@ public class AskDTO {
 		private Long askNo;
 	}
 
+	@Builder
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Info {
+		private Long askNo;
+		private String askTitle;
+		private String askContent;
+		private LocalDate askDate;
+	}
+	
+	@Builder
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Search {
+		private String askTitle;
+		private int startNum;
+		private int endNum;
+	}
 }

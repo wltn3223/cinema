@@ -1,6 +1,7 @@
 package com.mire.cinema.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,5 +99,33 @@ public class AskController {
 		askService.removeAsk(askNo);
 		return new ResponseEntity<>(SucessMsg.DELETE, SucessMsg.statusOK);
 	}
+
+	// 검색기능,페이징기능 
+		@GetMapping("/info/{askTitle}")
+		public ResponseEntity<AskDTO.Info> findAskInfo(@PathVariable String askTitle) {
+			Ask info = askService.findSearchAsk(askTitle);
+			if (info == null) {
+				throw new IllegalArgumentException(ErrorMsg.AskNOTFOUND);
+			}
+			AskDTO.Info ask = AskDTO.Info.builder().askNo(info.getAskNo()).askTitle(info.getAskTitle())
+					.askContent(info.getAskContent()).askDate(info.getAskDate())
+					.build();
+			return new ResponseEntity<>(ask, SucessMsg.statusOK);
+		}
+
+		@GetMapping("/list/{pageNum}")
+		public ResponseEntity<Map<String, Object>> getAskList(@PathVariable Integer pageNum) {
+			try {
+				return new ResponseEntity<>(askService.getAskMap(pageNum, null), HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+
+		@GetMapping("/list/{pageNum}/ask/{askTitle}")
+		public ResponseEntity<Map<String, Object>> getAskList(@PathVariable Integer pageNum,@PathVariable String askTitle) {
+			return new ResponseEntity<>(askService.getAskMap(pageNum, askTitle), HttpStatus.OK);
+		}
 
 }

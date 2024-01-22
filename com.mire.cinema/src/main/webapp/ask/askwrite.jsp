@@ -50,40 +50,43 @@
 </body>
 
 <script>
-    function writeAsk() {
-        var askTitle = $('#askTitle').val();
-        var askContent = $('#askContent').val();
-        var fileInput = $('#askImage')[0].files[0];
+function writeAsk() {
+    var askTitle = $('#askTitle').val();
+    var askContent = $('#askContent').val();
+    var fileInput = $('#askImage')[0].files[0];
 
-        var formData = new FormData();
-        formData.append('askTitle', askTitle);
-        formData.append('askContent', askContent);
+    var formData = new FormData();
+    formData.append('askTitle', askTitle);
+    formData.append('askContent', askContent);
 
-        // 세션에서 memberId 가져오기
-        var memberId = '<%= session.getAttribute("memberId") %>';
-        formData.append('memberId', memberId);
+    // 세션에서 memberId 가져오기
+    var memberId = '<%= session.getAttribute("memberId") %>';
+    formData.append('memberId', memberId);
 
-        if (fileInput) {
-            formData.append('file', fileInput);
-        }
-        
-        
-
-        $.ajax({
-            type: 'POST',
-            url: '/ask',
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                alert(response);
-                location.href = "/ask/asklist.jsp";
-            },
-            error: function (error) {
-                var errorMessage = error.responseText;
-                alert(errorMessage);
-            }
-        });
+    if (fileInput) {
+        formData.append('file', fileInput);
     }
+
+    console.log(formData); // formData 로그 확인
+
+    $.ajax({
+        type: 'POST',
+        url: '/ask',
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            console.log(response); // 응답 로그 확인
+            alert(response);
+            location.href = "/ask/asklist.jsp";
+        },
+        error: function (error) {
+            console.error(error); // 오류 로그 확인
+            var errorMessage = error.responseText;
+            alert(errorMessage);
+        }
+    });
+}
+
 </script>
 </html>

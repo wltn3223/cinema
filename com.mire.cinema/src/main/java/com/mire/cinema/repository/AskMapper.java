@@ -27,4 +27,13 @@ public interface AskMapper {
 	
 	// 문의사항 삭제하기
 	void deleteAsk(Long askNo);
+	
+	// 검색,페이징 기능
+		Ask getSearchAsk(String askTitle);
+		void searchAsList(AskDTO.Search ask);
+		int countAsk();
+		int countAskTitle(String askTitle);
+		int countSearchAsk(String askTitle);
+		List<Ask> getPartList(int start,int end);
+		List<Ask> searchAskList(AskDTO.Search askDTO);
 }

@@ -12,6 +12,7 @@ public interface ErrorMsg {
 	String BADTYPE = "잘못된 형식을 입력하셨습니다. 다시시도해주세요.";
 	String DataNOTFOUND = "해당 테이블에 데이터가 존재하지않습니다.";
 	String BoardNOTFOUND = "해당 게시물을 찾을수없습니다.";
+	String AskNOTFOUND = "해당 게시물을 찾을수없습니다.";
 	
 	String BADPAYINFO = "결제 정보와 구매 정보가 일치하지않습니다. 다시 시도해주세요";
 	

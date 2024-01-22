@@ -77,7 +77,9 @@
                 + "<tr><th scope='col'>제목</th><td>"
                 + ask.askTitle
                 + "</td></tr>"
-                + "<tr><th scope='col'>작성자</th><td id='authorCell'></td></tr>"  // Add this line for author
+                + "<tr><th scope='col'>작성자</th><td>"
+                + ask.memberId
+                + "</td></tr>"
                 + "<tr><th scope='col'>내용</th><td>"
                 + ask.askContent
                 + "</td></tr>"

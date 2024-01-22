@@ -19,3 +19,4 @@ public class Ask {
 	private String imageUuid;
 	private String memberId;
 }
+
