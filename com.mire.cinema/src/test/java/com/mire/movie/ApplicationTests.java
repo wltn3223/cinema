@@ -12,11 +12,13 @@ import com.mire.cinema.domain.member.MemberDTO.search;
 import com.mire.cinema.domain.order.OrderDTO;
 import com.mire.cinema.repository.ItemGiftCardMapper;
 import com.mire.cinema.repository.MemberMapper;
+import com.mire.cinema.repository.MovieMapper;
 import com.mire.cinema.repository.OrderMapper;
 import com.mire.cinema.service.ItemGiftCardService;
 import com.mire.cinema.service.ItemGiftCardServiceImpl;
 import com.mire.cinema.service.MemberService;
 import com.mire.cinema.service.MovieService;
+import com.mire.cinema.service.MovieServiceImpl;
 
 import lombok.extern.java.Log;
 
@@ -25,17 +27,16 @@ import lombok.extern.java.Log;
 @ContextConfiguration(classes = Application.class)
 class ApplicationTests {
 	@Autowired
-	ItemGiftCardService Service;
+	MovieService Service;
 	
 	@Autowired
-	ItemGiftCardServiceImpl movieService;
+	MovieServiceImpl ServiceImpl;
+	
 	@Autowired
-	OrderMapper mapper;
+    MovieMapper mapper;
 
 	 @Test
 	    void testSelectItemGiftCard() {
-	       System.out.println(	mapper.countOrder("wltn3223"));
-	
-	        
+	       System.out.println(Service.findSearchMovie("무서운"));
 	    }
 }

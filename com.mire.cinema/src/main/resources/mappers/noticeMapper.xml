@@ -38,8 +38,23 @@
 		where board_no = #{boardNo}
 	</update>
 
+	<!-- 보드번호로 삭제 -->
+	<delete id="deleteNotice">
+		delete from board where board_no = #{boardNo}
+	</delete>
 
+	<!-- 조회수 증가 -->
+	<update id="updateNoticeViews" parameterType="long">
+		update board
+		set
+		board_views = board_views + 1
+		where
+		board_no = #{boardNo}
+	</update>
 
+	
+	
+	
 	<!-- 보드 검색기능(서브쿼리) -->
 	<select id="searchNoticeList" resultType="Notice"
 		parameterType="com.mire.cinema.domain.notice.NoticeDTO$Search">
@@ -85,17 +100,5 @@ where rn >= #{start}
 		SELECT count(*) FROM board where board_title like '%'||#{boardTitle}||'%' 
 	</select>
 	
-	<!-- 보드번호로 삭제 -->
-	<delete id="deleteNotice">
-		delete from board where board_no = #{boardNo}
-	</delete>
 
-	<!-- 조회수 증가 -->
-	<update id="updateNoticeViews" parameterType="long">
-		update board
-		set
-		board_views = board_views + 1
-		where
-		board_no = #{boardNo}
-	</update>
 </mapper>

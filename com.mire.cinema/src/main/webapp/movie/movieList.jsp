@@ -94,11 +94,18 @@ a {
 	<div class="container">
 		<div class="tab">
 			<p>영화목록</p>
-		
-
+			
+			<div class="search-container">
+				<div style="display: flex; align-items: center;">
+					<div style="margin-right: 10px;">
+					영화검색
+					</div>
+					<input type="text" placeholder="영화제목으로 검색하세요" id="movieTitle"
+						style="width: 300px; margin-right: 10px;">
+					<button class="btn btn-dark" onclick="fetchMovies(1, document.getElementById('movieTitle').value)">검색</button>
+				</div>
 			<div class="movie-container d-flex justify-content-between"
-				id="movieContainer">
-				<!-- Data will be appended here using JavaScript -->
+				id="movieContainer" >
 			</div>
 
 			<div id="paging" class="d-flex container justify-content-center mt-5">
@@ -120,11 +127,16 @@ a {
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
         document.addEventListener('DOMContentLoaded', function () {
-            fetchMovies(1); // Initial fetch with page 1
+        	fetchMovies(1); 
         });
 
-        function fetchMovies(pageNum) {
-            fetch('/movie/list/' + pageNum, {
+        function fetchMovies(pageNum,movieTitle) {
+        	
+        	
+        	var url = (movieTitle === null || movieTitle === '' || movieTitle === undefined)?
+        			'/movie/list/' + pageNum:'/movie/list/' + pageNum +'/movie/' +movieTitle;
+        	console.log(url);
+            fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -140,12 +152,12 @@ a {
                     return response.json();
                 })
                 .then(data => {
-              
-                    let movies = data.list;
+                   
+                    let movies = (data.list === undefined)?data.searchList:data.list;
                     let paginationData = data.page;
-                    createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next);
+                    createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next,data);
                     displayMovies(movies);
-     
+
                 })
                 .catch(error => {
                     console.error('Fetch error:', error.message);
@@ -153,14 +165,10 @@ a {
         }
 
         function displayMovies(movies) {
-        
 
             $('#movieContainer').empty();
-			
-          
+
             for (var movie of movies) {
-   				console.log(movie.movieDate);
-   				console.log(movie.imageUuid);
             
    				let movieCard = 
    				    '<div class="movie-card" onclick="getMovie(' + movie.movieNo + ')" style="cursor:pointer; display: flex; flex-direction: column;">' +
@@ -172,21 +180,33 @@ a {
    				        '<div style="font-size: 16px;">개봉일: ' + movie.movieDate + '</div>' +
    				        '<button class="btn btn-secondary mt-auto" onclick="reserveMovie(' + movie.movieNo + ')">예매</button>' +
    				    '</div>';
+   				    
    				$('#movieContainer').append(movieCard);
             }
-            
         }
-        function createPaginationButtons(begin, end, prev, next) {
+        
+        function createPaginationButtons(begin, end, prev, next,data) {
             let prevPage = begin - 1;
             let nextPage = end + 1
-            $('#prev').html(prev ? '<button onclick="fetchMovies(' + prevPage + ')">이전</button>' : '');
-            $('#next').html(next ? '<button onclick="fetchMovies(' + nextPage + ')">다음</button>' : '');
-
             $('#pageNum').empty();
-            for (let i = begin; i <= end; i++) {
-                $('#pageNum').append('<button onclick="fetchMovies(' + i + ')" class="mx-2">' + i + '</button>');
+            
+            if(data.list !== undefined){
+           	 	$('#prev').html(prev ? '<button onclick="fetchMovies(' + prevPage + ')">이전</button>' : '');
+            	$('#next').html(next ? '<button onclick="fetchMovies(' + nextPage + ')">다음</button>' : '');
+            	  for (let i = begin; i <= end; i++) {
+            	        $('#pageNum').append('<button onclick="fetchMovies(' + i + ')" class="mx-2">' + i + '</button>');
+            	    }
             }
-        };
+            else{	
+            	console.log(data.keyword);
+            		$('#prev').html(prev ? '<button onclick="fetchMovies(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
+            		$('#next').html(next ? '<button onclick="fetchMovies(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
+            		 for (let i = begin; i <= end; i++) {
+            		        $('#pageNum').append('<button onclick="fetchMovies(' + i + ', \'' + data.keyword + '\')"lass="mx-2">' + i + '</button>');
+            		    }
+            }
+           
+        }
         function getMovie(movieNo){
         	console.log(movieNo);
         	localStorage.setItem('movieNo',movieNo);
