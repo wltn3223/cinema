@@ -1,6 +1,8 @@
 package com.mire.cinema.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mire.cinema.domain.cinema.Cinema;
+import com.mire.cinema.domain.movie.Movie;
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO.schedule;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
+import com.mire.cinema.service.CinemaService;
 import com.mire.cinema.service.MovieScheduleService;
 import com.mire.cinema.service.MovieService;
 import com.mire.cinema.service.ScreenService;
@@ -34,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 public class MovieScheduleController {
 	private final MovieScheduleService service;
 	private final MovieService movieService;
+	private final CinemaService cinemaService;
 
 	// 스케줄 등록
 	@PostMapping
@@ -141,7 +147,6 @@ public class MovieScheduleController {
 
 		LocalDate scheduleDate = service.getDateTime(scheduleStr);
 
-		log.info("값:" + scheduleStr);
 		return service.movieScheduleMap(movieNo, cinemaNo, scheduleDate);
 	}
 

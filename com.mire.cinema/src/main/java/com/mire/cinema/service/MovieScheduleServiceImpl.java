@@ -1,5 +1,7 @@
 package com.mire.cinema.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO;
 import com.mire.cinema.domain.movieschedule.MovieScheduleDTO.Search;
+import com.mire.cinema.domain.movieschedule.MovieScheduleDTO.schedule;
 import com.mire.cinema.domain.page.PageCreate;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.repository.MovieScheduleMapper;
@@ -26,7 +29,6 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 	// 예매를 위한 맵
 	@Override
 	public List<MovieScheduleDTO.schedule> movieScheduleMap(long movieNo, long cinemaNo, LocalDate scheduleDate) {
-		// MovieSchedule 객체를 생성하고 필요한 파라미터 설정
 		MovieScheduleDTO.schedule schedule = new schedule();
 		schedule.setMovieNo(movieNo);
 		schedule.setCinemaNo(cinemaNo);

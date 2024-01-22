@@ -1,6 +1,7 @@
 package com.mire.cinema.service;
 
 import java.util.Map;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.mire.cinema.domain.movieschedule.MovieSchedule;
@@ -32,4 +33,5 @@ public interface MovieScheduleService {
 
 	public LocalDate getDateTime(String date);
 
+	
 }
