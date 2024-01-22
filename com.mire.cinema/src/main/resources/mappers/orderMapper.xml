@@ -31,7 +31,7 @@ FROM (
     FROM (
         SELECT a.order_id, a.member_id, a.order_quantity, a.order_price, a.discount_price, a.order_date, b.item_name, b.image_uuid
         FROM orders a
-        INNER JOIN itemgiftcard b ON a.item_no = b.item_no where a.member_Id = #{memberId}
+        INNER JOIN itemgiftcard b ON a.item_no = b.item_no where a.member_Id = #{memberId} and a.order_status = 'COMPLETE'
         ORDER BY a.order_date DESC
     ) a
     WHERE rownum <= #{end}
