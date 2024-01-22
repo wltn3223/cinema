@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mire.cinema.repository.ReserveMapper">
+
+  <select id="getTotalSeat">
+  select seat_no from reserve where schedule_no = #{scheduleNo} 
+  </select>
+  
+  <select id="countReserve"  parameterType="String">
+  select  count(*) from reserve where order_id = #{orderId} 
+  </select>
+  
+  <select id="getReserve"  parameterType="String" resultType="Reserve">
+ 		 select  * from reserve where order_id = #{orderId} 
+  </select>
+   
+   <insert id="insertReserve">
+   	INSERT INTO reserve (reserve_no, order_id, seat_no, reserve_price, member_id, schedule_no)
+    VALUES (reserve_seq.nextval, #{orderId}, #{seatNo}, #{reservePrice}, #{memberId}, #{scheduleNo})
+   </insert>
+	<select id ="getMyTotal">
+	select count(*) from reserve where member_id = #{memberId}
+	</select>
+		<select id ="getTotal">
+	select count(*) from reserve
+	</select>
+		
+		<select id ="deleteReserve" parameterType="String">
+	delete from reserve where order_Id = #{orderId}
+	</select>
+	
+
+
+	<select id="getPartList" resultType="com.mire.cinema.domain.reserve.ReserveDTO$Info" parameterType="int">
+  <![CDATA[
+     SELECT a.* FROM (
+      SELECT a.*, ROWNUM rn FROM (
+        SELECT a.reserve_no, a.seat_no,a.member_id,a.order_id, to_char(b.schedule_starttime, 'yyyy-mm-dd hh:mm') schedule_starttime, to_char(b.schedule_finishtime, 'yyyy-mm-dd hh:mm') schedule_finishtime, c.movie_title, d.screen_floor, d.screen_hall  
+        FROM reserve a, movie_schedule b, movie c, screen d 
+        WHERE a.schedule_no = b.schedule_no AND b.movie_no = c.movie_no AND d.screen_no = b.screen_no
+        ORDER BY reserve_no DESC
+      ) a
+      WHERE ROWNUM <= #{end}
+    ) a
+    WHERE rn >= #{start}
+
+  ]]>
+</select>
+	<select id="getPartMyList" resultType="com.mire.cinema.domain.reserve.ReserveDTO$Info" parameterType="com.mire.cinema.domain.reserve.ReserveDTO$Count">
+  <![CDATA[
+     SELECT a.* FROM (
+      SELECT a.*, ROWNUM rn FROM (
+        SELECT a.reserve_no, a.seat_no,a.member_id,a.order_id,to_char(b.schedule_starttime, 'yyyy-mm-dd hh:mm') schedule_starttime, to_char(b.schedule_finishtime, 'yyyy-mm-dd hh:mm') schedule_finishtime, c.movie_title, d.screen_floor, d.screen_hall  
+        FROM reserve a, movie_schedule b, movie c, screen d 
+        WHERE a.schedule_no = b.schedule_no AND b.movie_no = c.movie_no AND d.screen_no = b.screen_no
+        and a.member_id = #{memberId}
+        ORDER BY reserve_no DESC
+      ) a
+      WHERE ROWNUM <= #{end}
+    ) a
+    WHERE rn >= #{start}
+
+  ]]>
+</select>
+
+
+	
+
+	
+
+ 
+</mapper>

@@ -49,8 +49,7 @@ WHERE rn >= #{startNum}
 	</select>
 
 	<!-- 검색과 페이징 기능을 돕기위한것 -->
-	<select id="selectSchedule" resultType="MovieSchedule"
-		parameterType="java.lang.String">
+	<select id="selectSchedule" resultType="MovieSchedule">
 		SELECT * FROM movie_schedule WHERE schedule_no =
 		#{scheduleNo}
 	</select>
@@ -108,6 +107,15 @@ WHERE rn >= #{startNum}
 		WHERE schedule_no =
 		#{scheduleNo}
 	</update>
+	
+	<update id="updateSeat" >
+		UPDATE movie_schedule
+		SET
+		screen_restSeat = screen_restSeat + #{no}
+		where
+		schedule_no =
+		#{scheduleNo}
+		</update>
 
 
 	<!-- 스케줄 삭제 -->

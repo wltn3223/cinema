@@ -32,6 +32,8 @@ public interface MovieScheduleService {
 	public List<MovieScheduleDTO.schedule> movieScheduleMap(long movieNo, long screenNo, LocalDate scheduleDate);
 
 	public LocalDate getDateTime(String date);
+	
+	public void updateSeat(int no,int scheduleNo);
 
 	
 }

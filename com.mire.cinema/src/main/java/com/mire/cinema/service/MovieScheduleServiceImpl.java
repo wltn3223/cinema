@@ -123,4 +123,13 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 		return localDate;
 	}
 
+	@Override
+	public void updateSeat(int no, int scheduleNo) {
+		Mapper.updateSeat(no, scheduleNo);
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 }
