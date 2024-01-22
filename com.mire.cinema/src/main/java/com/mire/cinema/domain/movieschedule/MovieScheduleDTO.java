@@ -64,13 +64,21 @@ public class MovieScheduleDTO {
 		private int startNum;
 		private int endNum;
 	}
-	
+
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class schedule {
-		private long movieNo;
 		private long cinemaNo;
 		private String time;
+		private long scheduleNo;
+		private LocalDateTime scheduleStartTime;
+		private LocalDateTime scheduleFinishTime;
+		private Integer screenTotalSeat;
+		private Integer screenRestSeat;
+		private long movieNo;
+		private long screenNo;
+		private String screenFloor;
+		private String screenHall;
 	}
 }

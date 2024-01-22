@@ -247,6 +247,50 @@ body {
 .movie-date-wrapper-active>* {
 	color: white;
 }
+
+#scheduleTable {
+	max-height: 400px; /* 스크롤 최대 높이 지정 */
+	overflow-y: auto; /* 세로 스크롤이 나타나도록 설정 */
+}
+
+.list-group-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-bottom: 10px; /* 리스트 간 간격 지정 */
+}
+
+.reserve-date {
+	padding-top: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 770px;
+	overflow-y: auto; /* 세로 스크롤이 나타나도록 설정 */
+	overflow-x: hidden;
+}
+
+#scheduleTable {
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+.list-group-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-bottom: 10px;
+}
+
+.reserve-date {
+	padding-top: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 770px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
 </style>
 </head>
 
@@ -258,19 +302,22 @@ body {
 	<div class="reserve-container">
 		<div class="theater-part">
 			<div class="reserve-title">극장</div>
-			<select id="cinemaList" class="dropdown"></select>
+			<select id="cinemaList" class="dropdown"
+				style="width: 260px; height: 30px;"></select>
 		</div>
 		<div class="movie-part">
 			<div class="reserve-title">영화</div>
-			<select id="movieList" class="dropdown"></select>
+			<select id="movieList" class="dropdown"
+				style="width: 280px; height: 30px;"></select>
 		</div>
 		<div class="day-part">
 			<div class="reserve-title">날짜</div>
-			<select id="dateList" class="dropdown"></select>
+			<select id="dateList" class="dropdown"
+				style="width: 90px; height: 30px;"></select>
 		</div>
 		<div class="time-part">
 			<div class="reserve-title">스케줄</div>
-			<div id="scheduleList" class="schedule-list"></div>
+			<div id="scheduleTable" class="schedule-list" id="scheduleContainer"></div>
 		</div>
 	</div>
 	<footer>
@@ -309,24 +356,59 @@ body {
 
 		// 선택한 극장, 영화, 날짜에 따라 스케줄을 업데이트하는 함수
 		function updateSchedule() {
-			var cinema = $('#cinemaList').val();
-			var movie = $('#movieList').val();
-			var date = $('#dateList').val();
+    var cinema = $('#cinemaList').val();
+    var movie = $('#movieList').val();
+    var date = $('#dateList').val();
 
-			// AJAX를 사용하여 서버에 요청을 보냄
-			$.ajax({
-				type : 'GET',
-				url : '/movieschedule/getMovieSchedule/' + movie +'/' + cinema + '/' + date, // 실제 백엔드에서 스케줄을 가져올 엔드포인트
-				success : function(response) {
-					// 서버에서 받아온 스케줄을 업데이트
-					console.log(response);
-					$('#scheduleList').text(response.join(', '));
-				},
-				error : function() {
-					toastr.error('스케줄을 가져오는데 실패했습니다.');
-				}
-			});
-		}
+    // AJAX를 사용하여 서버에 요청을 보냄
+    $.ajax({
+        type: 'GET',
+        url: '/movieschedule/getMovieSchedule/' + movie + '/' + cinema + '/' + date,
+        success: function(response) {
+            console.log(response);
+
+            // 서버에서 받아온 스케줄을 업데이트
+            var scheduleList = $('#scheduleList');
+            scheduleList.empty(); // 기존 내용 비우기
+            
+            var newRow = $("<tr>");
+
+            for (var i = 0; i < response.length; i++) {
+                var schedule = response[i];
+                console.log(schedule);
+
+                var finishTime = new Date(schedule.scheduleFinishTime);
+                var startTime = new Date(schedule.scheduleStartTime);
+
+                // HTML 생성
+                var movieHtml = "<td style='display: flex; flex-direction: column; justify-content: center;'>";
+                movieHtml += "<ol class='list-group' style='width:380px;'>";
+                movieHtml += "<li class='list-group-item d-flex justify-content-between align-items-start'>";
+                movieHtml += "<div class='ms-2 me-auto'>";
+                movieHtml += "<div class='fw-bold'>" + (i + 1) + "</div>";
+                movieHtml += "<p>" + startTime.toLocaleString() + " ~ " + finishTime.toLocaleString() + "</p>";
+                movieHtml += "<p>"+ " | "  + schedule.screenFloor + " | " + schedule.screenHall + " | " +
+                    "남은좌석: " + schedule.screenRestSeat + " | 총좌석: " + schedule.screenTotalSeat + " | " + "</p>";
+                movieHtml += "</div>";
+                movieHtml += "<a href='#'><span class='badge bg-white rounded-pill'>예매하기</span></a>";
+                movieHtml += "</li>";
+                movieHtml += "</ol>";
+                movieHtml += "</td>";
+
+                newRow.append(movieHtml);
+            }
+
+            $('#scheduleTable').append(newRow);
+
+            var scheduleTable = $('#scheduleTable'); // Replace 'scheduleTable' with the actual ID of your table
+            scheduleTable.append(newRow);
+
+            },
+        error: function() {
+            toastr.error('스케줄을 가져오는데 실패했습니다.');
+        }
+    });
+}
 
 		populateDropdownList(cinemaList, 'cinemaList');
 		populateDropdownList(movieList, 'movieList');
@@ -376,12 +458,13 @@ body {
 		            var year = currentDate.getFullYear();
 		            
 		            	var option = document.createElement('option');
-		            	   option.value =  year + '-' + month +'-22';
-		            	    option.text = '1/22';
+		            	   option.value =  year + '-' + month +'-21';
+		            	    option.text = '1/21';
 		            	    
 		            	    var option2 = document.createElement('option');
-			            	   option2.value = year + '-' + month +'-23';
-			            	    option2.text = '1/23';
+			            	   option2.value = year + '-' + month +'-22';
+			            	    option2.text = '1/22';
+		            	   
 		            	    
 		            	    selectElement2.appendChild(option);
 		            	    selectElement2.appendChild(option2);
@@ -394,8 +477,5 @@ body {
 		}
 	</script>
 </body>
-
-
-
 
 </html>
