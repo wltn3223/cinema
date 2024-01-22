@@ -51,13 +51,14 @@
 	function writeAnswer() {
 		var ansTitle = $('#ansTitle').val();
 		var ansContent = $('#ansContent').val();
-		var askNo = sessionStorage.getItem('askNo');
+		var askNo = localStorage.getItem('askNo');
 		
 		var requestData = {
 			ansTitle : ansTitle,
 			ansContent : ansContent,
 			askNo : askNo
 		};
+		console.log(requestData);
 		$.ajax({
 			type : 'POST',
 			url : '/answer',
@@ -65,7 +66,7 @@
 			data : JSON.stringify(requestData),
 			success : function(response) {
 				alert(response);
-				location.href = "/answer/answerlist.jsp";
+				location.href = "/ask/asklist.jsp";
 			},
 			error : function(error) {
 				var errorMessage = error.responseText;
