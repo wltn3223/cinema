@@ -95,6 +95,25 @@ public class OrderServiceImpl implements OrderService {
 		map.put("page", pc);
 		return map;
 	}
+	
+	@Override
+	public Map<String, Object> getAllOrderMap(Integer pageNum) {
+		Map<String, Object> map = new HashMap<>();
+		if(pageNum == null) {
+			throw new IllegalArgumentException(ErrorMsg.BADTYPE);
+		}
+		PageCreate pc = new PageCreate();
+		
+		pc = pc.getPage(pageNum, orderMapper.getTotal());
+		
+		OrderDTO.PageMember dto = new PageMember();
+		dto.setStart(pc.getPaging().getStartNum());
+		dto.setEnd(pc.getPaging().getEndNum());
+		
+		map.put("list",orderMapper.getOrderList(dto));
+		map.put("page", pc);
+		return map;
+	}
 	@Override
 	public void modifyStatus(int orderNo) {
 		// TODO Auto-generated method stub
@@ -103,9 +122,9 @@ public class OrderServiceImpl implements OrderService {
 
 
 	@Override
-	public Order selectOrder(int orderNo) {
+	public int selectOrder(String orderId) {
 		// TODO Auto-generated method stub
-		return null;
+		return orderMapper.countOrderById(orderId);
 	}
 	@Override
 	public int countOrder(String memberId) {
