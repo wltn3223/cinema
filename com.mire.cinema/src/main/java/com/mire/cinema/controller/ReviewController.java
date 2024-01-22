@@ -1,6 +1,8 @@
 package com.mire.cinema.controller;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.mire.cinema.domain.review.Review;
 import com.mire.cinema.domain.review.ReviewDTO;
@@ -33,16 +34,15 @@ public class ReviewController {
 
 	// 등록
 	@PostMapping
-	public ResponseEntity<String> saveReview(@Valid @RequestBody ReviewDTO.ReviewWriteDTO reviewDTO,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
-					HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<String> saveReview(@Valid @RequestBody ReviewDTO.ReviewWriteDTO reviewDTO,BindingResult bindingResult){
+	    if (bindingResult.hasErrors()) {
+	        return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(),
+	                HttpStatus.BAD_REQUEST);
+	    }
 
 		Review review = Review.builder().reviewNo(reviewDTO.getReviewNo()).reviewScore(reviewDTO.getReviewScore())
-				.reviewTitle(reviewDTO.getReviewTitle()).reviewContent(reviewDTO.getReviewContent()).build();
-
+				.reviewTitle(reviewDTO.getReviewTitle()).reviewContent(reviewDTO.getReviewContent()).movieNo(reviewDTO.getMovieNo()).build();
+		
 		reviewService.saveReview(review);
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
 	}
@@ -51,7 +51,7 @@ public class ReviewController {
 	public ResponseEntity<ReviewDTO.ReviewInfo> findReviewInfo(@PathVariable Long reviewNo) {
 		Review info = reviewService.findReview(reviewNo);
 		ReviewDTO.ReviewInfo review = ReviewDTO.ReviewInfo.builder().reviewNo(info.getReviewNo()).reviewScore(info.getReviewScore())
-				.reviewTitle(info.getReviewTitle()).reviewContent(info.getReviewContent()).reviewViews(info.getReviewViews()).reviewDate(info.getReviewDate()).build();
+				.reviewTitle(info.getReviewTitle()).reviewContent(info.getReviewContent()).reviewViews(info.getReviewViews()).reviewDate(info.getReviewDate()).movieNo(info.getMovieNo()).build();
 
 		return new ResponseEntity<>(review, SucessMsg.statusOK);
 	}
@@ -77,7 +77,7 @@ public class ReviewController {
 			throw new IllegalArgumentException(ErrorMsg.BoardNOTFOUND);
 		}
 		ReviewDTO.ReviewInfo review = ReviewDTO.ReviewInfo.builder().reviewNo(info.getReviewNo()).reviewScore(info.getReviewScore())
-				.reviewTitle(info.getReviewTitle()).reviewContent(info.getReviewContent()).reviewViews(info.getReviewViews()).reviewDate(info.getReviewDate()).build();
+				.reviewTitle(info.getReviewTitle()).reviewContent(info.getReviewContent()).reviewViews(info.getReviewViews()).reviewDate(info.getReviewDate()).movieNo(info.getMovieNo()).build();
 
 		return new ResponseEntity<>(review, SucessMsg.statusOK);
 	}
@@ -96,6 +96,17 @@ public class ReviewController {
 	public ResponseEntity<Map<String, Object>> getReviewList(@PathVariable Integer pageNum,
 			@PathVariable String reviewTitle) {
 		return new ResponseEntity<>(reviewService.getReviewMap(pageNum, reviewTitle), HttpStatus.OK);
+	}
+
+	@GetMapping("/list/movie/{movieNo}")
+	public ResponseEntity<List<ReviewDTO.ReviewInfo>> getReviewsByMovie(@PathVariable Long movieNo) {
+	    try {
+	        List<ReviewDTO.ReviewInfo> reviews = reviewService.getReviewsByMovie(movieNo);
+	        return new ResponseEntity<>(reviews, HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 
 }

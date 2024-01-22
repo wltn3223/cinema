@@ -40,6 +40,42 @@
                 </tbody>
             </table>
         </div>
+        <main class="container">
+		<div class="container mt-3">
+
+			<div class="page-title">
+				<h2 class="mb-4">답변안내</h2>
+				
+			</div>
+
+			<div class="search-container">
+				<div style="display: flex; align-items: center;">
+					<div style="margin-right: 10px;">
+					
+					</div>
+			
+
+				<div class="action-buttons">
+					<a href="/answer/answerwrite.jsp"><button
+							class="btn btn-dark mb-2">답변 작성</button></a> 
+				</div>
+			</div>
+
+			<table id="cinema-list" class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="width: 5%;">번호</th>
+						<th style="width: 65%;">제목</th>
+						<th style="width: 10%;">작성자</th>
+						<th style="width: 10%;">등록일</th>
+						<th style="width: 10%;">조회수</th>
+					</tr>
+				</thead>
+				<tbody id="answerList">
+				</tbody>
+			</table>
+			
+		</div>
     </main>
     <!-- 푸터-->
     <footer class="container">
@@ -66,7 +102,8 @@
                 }
             });
         });
-
+	
+        
         function appendAskToTable(ask) {
             var tbody = $("#tableBody");
             tbody.empty();
@@ -119,6 +156,117 @@
             var authorCell = $("#authorCell");
             authorCell.text(memberId);
         }
+        
+        
+        document.addEventListener('DOMContentLoaded', function () {
+    	    fetchAnswer(1);
+    	});
+        
+        
+        function displayAnswers(answers) {
+    	    $('#answerList').empty();
+    	    const localStorageAskNo = localStorage.getItem('askNo');
+    	    
+    	    // 특정 키에 대한 세션 스토리지 값 확인
+    	    const sessionStorageValue = sessionStorage.getItem('askTitle');
+    	    const localStorageValue = localStorage.getItem('askTitle');
+    		
+    	    if (sessionStorageValue !== null) {
+    	        console.log('세션 스토리지에 값이 있습니다:', sessionStorageValue);
+    	    } else {
+    	        console.log('세션 스토리지에 값이 없습니다.');
+    	    }
+    		console.log(answers);
+    	        	    
+    		if (answers.length > 0) {
+    	        for (const answer of answers) {
+    	        	let answerInfo =
+    		            '<tr>' +
+    		            '<td>' + answer.ansNo + '</td>' +
+    		            '<td><a href="#" onclick="loadItemInfo(' + answer.ansNo + ')" class="answer-title" data-answer-no=' + answer.ansNo + '>' + answer.ansTitle + '</a></td>' +
+    		            '<td>관리자</td>' +
+    		            '<td>' + answer.ansDate + '</td>' +
+    		            '<td>' + answer.ansViews + '</td>' +
+    		            '</tr>';
+    		        $('#answerList').append(answerInfo);
+    	            
+    	        
+    	        }
+    	            	        
+    	    } else {
+    	        console.error('리뷰 목록이 없습니다.');
+    	    }
+
+    	    $(".answer-title").on("click", function () {
+    	        const ansNo = $(this).data("ans-no");
+    	        sessionStorage.setItem("ansNo", asnNo);
+    	        location.href = "/answer/getanswer.jsp";
+    	    });
+    	}
+
+
+
+
+     function loadItemInfo(ansNo) {
+         $.ajax({
+             type: 'GET',
+             url: '/answer/info/' + ansNo,
+             contentType: 'application/json',
+             success: function (response) {
+                 console.log(response);
+                 localStorage.setItem('selectedItemNo', ansNo);
+                 location.href = '/answer/getasnwer.jsp';
+             },
+             error: function (error) {
+                 const errorMessage = error.responseText;
+                 alert(errorMessage);
+             }
+         });
+     }
+
+     function fetchAnswer(page) {
+         // 리뷰 목록을 페이지 및 제목에 따라 가져오는 함수 추가
+         $.ajax({
+             type: 'GET',
+             url: '/answer/list/ask/' + localStorage.getItem('askNo'),
+             contentType: 'application/json',
+             success: function (response) {
+                 console.log(response);
+                 displayAnswers(response.list);
+                 displayPaging(response.pageMaker);
+             },
+             error: function (error) {
+                 const errorMessage = error.responseText;
+                 alert(errorMessage);
+             }
+         });
+     }
+
+     function loadItemInfo(ansNo) {
+         $.ajax({
+             type: 'GET',
+             url: '/answer/info/' + ansNo,
+             contentType: 'application/json',
+             success: function (response) {
+                 console.log(response);
+                 localStorage.setItem('selectedItemNo', asnNo);
+                 location.href = '/answer/getanswer.jsp';
+             },
+             error: function (error) {
+                 const errorMessage = error.responseText;
+                 alert(errorMessage);
+             }
+         });
+     }
+    </script>
+    <script>
+    $(document).ready(function() {
+        $(".btn-dark.mb-2").on("click", function () {
+            var askNo = sessionStorage.getItem('AskNo');
+            sessionStorage.setItem("askNo", askNo);
+            location.href = "/answer/answerwrite.jsp";
+        });
+    });
     </script>
 </body>
 </html>

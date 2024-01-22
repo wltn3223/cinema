@@ -3,6 +3,7 @@ package com.mire.cinema.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,5 +101,24 @@ public class ReviewServiceImpl implements ReviewService {
 	public void removeReview(Long reviewNO) {
 		reviewMapper.deleteReview(reviewNO);
 	}
+	
+	
+	
+	@Override
+	public List<ReviewDTO.ReviewInfo> getReviewsByMovie(Long movieNo) {
+	    return reviewMapper.getReviewsByMovie(movieNo).stream()
+	            .map(info -> ReviewDTO.ReviewInfo.builder()
+	                    .reviewNo(info.getReviewNo())
+	                    .reviewScore(info.getReviewScore())
+	                    .reviewTitle(info.getReviewTitle())
+	                    .reviewContent(info.getReviewContent())
+	                    .reviewViews(info.getReviewViews())
+	                    .reviewDate(info.getReviewDate())
+	                    .movieNo(info.getMovieNo())
+	                    .build())
+	            .collect(Collectors.toList());
+	}
+
+
 
 }

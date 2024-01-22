@@ -187,6 +187,8 @@ a {
                 $('#pageNum').append('<button onclick="fetchMovies(' + i + ')" class="mx-2">' + i + '</button>');
             }
         };
+        
+           
         function getMovie(movieNo){
         	console.log(movieNo);
         	localStorage.setItem('movieNo',movieNo);

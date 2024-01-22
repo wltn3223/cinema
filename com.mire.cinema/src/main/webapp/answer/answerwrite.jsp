@@ -36,6 +36,7 @@
 					<textarea class="form-control" id="ansContent"
 						placeholder="내용을 입력해주세요" required></textarea>
 				</div>
+				<input type="hidden" id="askNo" name="askNo" value="<%= request.getParameter("askNo") %>">
 				<button type="button" class="btn btn-dark" onclick="writeAnswer()">작성하기</button>
 			</form>
 		</div>
@@ -50,9 +51,12 @@
 	function writeAnswer() {
 		var ansTitle = $('#ansTitle').val();
 		var ansContent = $('#ansContent').val();
+		var askNo = sessionStorage.getItem('askNo');
+		
 		var requestData = {
 			ansTitle : ansTitle,
-			ansContent : ansContent
+			ansContent : ansContent,
+			askNo : askNo
 		};
 		$.ajax({
 			type : 'POST',

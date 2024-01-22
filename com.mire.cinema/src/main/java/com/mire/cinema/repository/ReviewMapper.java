@@ -39,4 +39,7 @@ public interface ReviewMapper {
 	
 	// 글 조회수 증가
 	void updateReviewViews(long reviewNo);
+	
+	List<Review> getReviewsByMovie(Long movieNo);
+
 }

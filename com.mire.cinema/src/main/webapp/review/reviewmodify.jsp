@@ -1,171 +1,238 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>리뷰 수정</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<title>리뷰 게시판</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-    .form-container {
-        margin-top: 50px;
-    }
+.search-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+	margin-top: 100px;
+}
+.search-container input {
+	width: 70%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+.search-container .btn-dark {
+	padding: 8px 12px;
+	border: 1px solid #343a40;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #343a40;
+	color: white;
+}
+.action-buttons {
+	display: flex;
+	gap: 10px;
+}
+.action-buttons a {
+	text-decoration: none;
+}
+.action-buttons .btn-dark {
+	padding: 8px 12px;
+	border: 1px solid #343a40;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #343a40;
+	color: white;
+}
+#cinema-list {
+	width: 100%;
+	margin-top: 20px;
+}
+#cinema-list th, #cinema-list td {
+	text-align: center;
+}
+#cinema-list th, #cinema-list td {
+	font-size: 14px;
+	padding: 10px;
+}
+#paging {
+	margin-top: 20px;
+}
+#paging button {
+	padding: 8px 12px;
+	margin: 0 2px;
+	border: 1px solid #343a40;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #343a40;
+	color: white;
+}
+.page-title {
+	display: flex;
+	align-items: baseline;
+}
+.page-title h2 {
+	margin-bottom: 4px;
+}
+.page-title p {
+	font-size: 14px;
+	color: #6c757d;
+}
+    
 </style>
 </head>
 <body>
-    <!-- 헤더 -->
-    <header>
-        <%@ include file="../WEB-INF/header.jsp"%>
-    </header>
+	<!-- 헤더 -->
+	<header>
+		<%@ include file="../WEB-INF/header.jsp"%>
+	</header>
+	<!-- 메인 -->
+	<main class="container">
 
-    <div class="container">
-        <h2 class="mt-3">리뷰 게시판</h2>
-        <div class="form-container">
-            <form id="editForm" action="/review/update" method="post">
-            <div class="mb-3">
-                     <label for="reviewScore" class="form-label">평점</label>
-                <select class="form-select" id="reviewScore" name="reviewScore" required>
-                    <option value="1">1점</option>
-                    <option value="2">2점</option>
-                    <option value="3">3점</option>
-                    <option value="4">4점</option>
-                    <option value="5">5점</option>
-                </select>
-                </div>
-                <div class="mb-3">
-                <input type="hidden" id="reviewNo" name="reviewNo"
-						value="${review.reviewNo}">
-                    <label for="reviewTitle" class="form-label">제목</label> <input
-                        type="text" class="form-control" id="reviewTitle"
-                        name="reviewTitle" placeholder="수정할 제목을 입력하세요" required>
-                </div>
-                <div class="mb-3">
-                    <label for="reviewContent" class="form-label">리뷰 내용</label> <input
-                        type="text" class="form-control" id="reviewContent"
-                        name="reviewContent" placeholder="수정할 리뷰 내용을 입력하세요" required>
-                </div>
+			<div class="search-container">
+				<div style="display: flex; align-items: center;">
+					<div style="margin-right: 10px; ">
+					리뷰 검색
+					</div>
+					<input type="text" placeholder="제목으로 검색하세요" id="reviewTitle"
+						style="width: 300px; margin-right: 10px;">
+					<div class="btn btn-dark"
+						onclick="fetchReview(1, document.getElementById('reviewTitle').value)">검색</div>
+				</div>
 
-                <button class="btn btn-light bg-dark text-light" type="button" onclick="updateReview()">수정하기</button>
-                <button class="btn btn-light bg-dark text-light" type="button" onclick="removeReview()">삭제하기</button>
-            </form>
-        </div>
-    </div>
+				<div class="action-buttons">
+					<a href="/review/reviewwrite.jsp"><button
+							class="btn btn-dark mb-2">리뷰 작성</button></a> 
+				</div>
+			</div>
 
-    <!-- 푸터 -->
-    <footer class="container">
-        <%@ include file="../WEB-INF/footer.jsp"%>
-    </footer>
+			<table id="cinema-list" class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="width: 5%;">번호</th>
+						<th style="width: 10%;">작성자</th>
+						<th style="width: 5%;">평점</th>
+						<th style="width: 65%;">제목</th>
+						<th style="width: 10%;">등록일</th>
+						<th style="width: 5%;">조회수</th>
+					</tr>
+				</thead>
+				<tbody id="reviewList">
+				</tbody>
+			</table>
+			<div id="paging" class="d-flex container justify-content-center mt-5">
+				<div id="prev" class="mx-4"></div>
+				<div id="pageNum"></div>
+				<div id="next" class="mx-4"></div>
+			</div>
+		</div>
+	</main>
+	<!-- 푸터-->
+	<footer class="container">
+		<%@ include file="../WEB-INF/footer.jsp"%>
+	</footer>
 
-    <script>
-    $(document).ready(function() {
-		getItem();
-	});
+	<script>	   
+	$(document).ready(function () {
+	    fetchReview(1);
 
-	async function getItem() {
-		try {
-			let selectedItemNo = localStorage.getItem('selectedItemNo'); // 로컬 스토리지 사용
-			if (!selectedItemNo) {
-				// selectedItemNo가 없을 경우에 대한 처리
-				console.warn('localStorage에서 선택한 상품 정보를 찾을 수 없습니다.');
-				return;
-			}
+	    function fetchReview(pageNum, reviewTitle) {
+	        const movieNo = localStorage.getItem('movieNo');
+	        const url = (reviewTitle === null || reviewTitle === '' || reviewTitle === undefined) ?
+	            '/review/list/movie/' + movieNo + '/' + pageNum : '/review/list/movie/' + movieNo + '/' + pageNum + '/review/' + reviewTitle;
+	        fetch(url, {
+	            method: 'GET',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	        })
+	            .then(response => {
+	                if (!response.ok) {
+	                    return response.json().then(errorData => {
+	                        alert("서버내부 오류: " + errorData.message);
+	                        throw new Error('서버 오류');
+	                    });
+	                }
+	                return response.json();
+	            })
+	            .then(data => {
+	                console.log(data.list);
+	                console.log(data.searchList);
+	                console.log(data.page);
 
-			// selectedItemNo를 사용하여 해당 아이템 정보 가져오기
-			$
-					.ajax({
-						type : 'GET',
-						url : '/review/info/' + selectedItemNo,
-						contentType : 'application/json',
-						success : function(selectedItem) {
-							console.log(selectedItem);
-							$('#reviewNo').val(selectedItem.reviewNo);
-							$('#reviewScore').val(selectedItem.reviewScore);
-							$('#reviewTitle').val(selectedItem.reviewTitle);
-							$('#reviewContent').val(selectedItem.reviewContent);
-													
-						},
-						error : function(error) {
-							var errorMessage = error.responseText;
-							alert(errorMessage);
-						}
-					});
-		} catch (error) {
-			alert(error);
-		}
-	}
-    
-    
-    
-	function updateReview() {
-	    var reviewNo = $("#reviewNo").val();
-	    var reviewScore = $("#reviewScore").val();
-	    var reviewTitle = $("#reviewTitle").val();
-	    var reviewContent = $("#reviewContent").val();
-
-	 // FormData를 사용하여 파일을 추가
-		var formData = new FormData(document.getElementById('editForm'));
-
-	    // 사용자에게 현재 입력된 값들을 보여줌
-	    var confirmationMessage = "리뷰를 수정하시겠습니까?";
-	    var confirmUpdate = confirm(confirmationMessage);
-
-	    if (confirmUpdate) {
-	    	$.ajax({
-	    	    type: "POST",
-	    	    url: "/review/update",
-	    	    processData: false,
-	    	    contentType: false,
-	    	    data: formData,
-	    	    success: function (response) {
-	    	        console.log("수정 성공:", response);
-	    	        alert("리뷰가 수정되었습니다.");
-
-	    	        // 수정 후 로컬 스토리지에서 선택한 상품 정보 삭제
-	    	        localStorage.removeItem('selectedItemNo');
-
-	    	        location.href = "/review/reviewlist.jsp";
-	    	    },
-	    	    error: function (error) {
-	    	        var errorMessage = error.responseText;
-	    	        alert(errorMessage);
-	    	    }
-	    	});
-
-	    } else {
-	        // 사용자가 수정을 취소한 경우
-	        alert("리뷰 수정이 취소되었습니다.");
+	                let reviews = (data.list === undefined) ? data.searchList : data.list;
+	                let paginationData = data.page;
+	                createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next, data);
+	                displayReviews(reviews);
+	            })
+	            .catch(error => {
+	                console.error('Fetch 오류:', error.message);
+	            });
 	    }
-	}
 
+	    function displayReviews(reviews) {
+	        $('#reviewList').empty();
+	        for (var review of reviews) {
+	            let reviewInfo =
+	                '<tr>' +
+	                '<td>' + review.reviewNo + '</td>' +
+	                '<td>' + member.memberId + '</td>' +
+	                '<td>' + review.reviewScore +'점'+ '</td>' +
+	                '<td><a href="#" onclick="loadItemInfo(' + review.reviewNo + ')" class="review-title" data-review-no=' + review.reviewNo + '>' + review.reviewTitle + '</a></td>' +
+	                '<td>' + review.reviewDate + '</td>' +
+	                '<td>' + review.reviewViews + '</td>' +
+	                '</tr>';
+	            $('#reviewList').append(reviewInfo);
+	        }
+	        $(".review-title").on("click", function() {
+	            var reviewNo = $(this).data("review-no");
+	            sessionStorage.setItem("reviewNo", reviewNo);  
+	            location.href = "/review/getreview.jsp";
+	        });
+	    }
 
-        function removeReview() {
-            var reviewNo = sessionStorage.getItem('reviewNo');
-            var confirmDelete = confirm("정말로 리뷰를 삭제하시겠습니까?");
+	    function createPaginationButtons(begin, end, prev, next, data) {
+	        let prevPage = begin - 1;
+	        let nextPage = end + 1;
+	        $('#pageNum').empty();
+	        if (data.list !== undefined) {
+	            $('#prev').html(prevPage ? '<button onclick="fetchReview(' + prevPage + ')">이전</button>' : '');
+	            $('#next').html(nextPage ? '<button onclick="fetchReview(' + nextPage + ')">다음</button>' : '');
+	            for (let i = begin; i <= end; i++) {
+	                $('#pageNum').append('<button onclick="fetchReview(' + i + ')" class="mx-2">' + i + '</button>');
+	            }
+	        } else {
+	            $('#prev').html(prevPage ? '<button onclick="fetchReview(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
+	            $('#next').html(nextPage ? '<button onclick="fetchReview(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
+	            for (let i = begin; i <= end; i++) {
+	                $('#pageNum').append('<button onclick="fetchReview(' + i + ', \'' + data.keyword + '\')" class="mx-2">' + i + '</button>');
+	            }
+	        }
+	    }
 
-            if (confirmDelete) {
-                // 삭제 요청
-                $.ajax({
-                    type: "DELETE",
-                    url: "/review/" + reviewNo,
-                    success: function (response) {
-                        console.log("Delete successful:", response);
-                        alert("리뷰가 삭제되었습니다.");
-                        location.href = "/review/reviewlist.jsp";
-                    },
-                    error: function (error) {
-                        var errorMessage = error.responseText;
-                        alert(errorMessage);
-                    }
-                });
-            } else {
-                // 사용자가 삭제를 취소한 경우
-                alert("리뷰 삭제가 취소되었습니다.");
-            }
-        }
-    </script>
+	    function loadItemInfo(reviewNo, movieNo) {
+	        $.ajax({
+	            type: 'GET',
+	            url: '/review/info/' + reviewNo + '?movieNo=' + movieNo,
+	            contentType: 'application/json',
+	            success: function (response) {
+	                console.log(response);
+	                localStorage.setItem('selectedItemNo', reviewNo);
+	                location.href = '/review/getreview.jsp';
+	            },
+	            error: function (error) {
+	                var errorMessage = error.responseText;
+	                alert(errorMessage);
+	            }
+	        });
+	    }
+	});
+	</script>
 </body>
 </html>
