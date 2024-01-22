@@ -2,8 +2,6 @@ package com.mire.cinema.domain.answer;
 
 import java.time.LocalDate;
 
-import com.mire.cinema.domain.notice.NoticeDTO;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

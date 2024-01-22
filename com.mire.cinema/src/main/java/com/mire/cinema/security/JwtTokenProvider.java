@@ -59,10 +59,10 @@ public class JwtTokenProvider {
 				.compact();
 		
 		
-	    return TokenDTO.builder()
-	            .grantType("Bearer")
-	            .accessToken(accessTokenString)
-	            .build();
+		return TokenDTO.builder()
+				.grantType("Bearer")
+				.accessToken(accessTokenString)
+				.build();
 	}
 	
 	public Date expirationDate() {

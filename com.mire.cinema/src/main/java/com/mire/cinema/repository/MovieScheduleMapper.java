@@ -30,7 +30,5 @@ public interface MovieScheduleMapper {
 
 	// 스케줄 삭제
 	void scheduleDelete(long scheduleNo);
-	
-	// 예매에 필요한 리스트
-	 List<MovieSchedule> selectMovieSchedule(MovieScheduleDTO.schedule movieSchedule);
+
 }
