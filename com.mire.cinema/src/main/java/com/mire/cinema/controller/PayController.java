@@ -119,7 +119,7 @@ public class PayController {
 	}
 	
 	@GetMapping("/list/reserve/{pageNum}/{memberId}")
-	public ResponseEntity<Map<String,Object>>getAllSeats(@PathVariable Integer pageNum, @PathVariable String memberId) {
+	public ResponseEntity<Map<String,Object>>getAllSeats(@PathVariable Integer pageNum, @PathVariable(required = false) String memberId) {
 		
 		
 		return new ResponseEntity<>(reserveService.getReserveMap(pageNum, memberId),HttpStatus.OK);
