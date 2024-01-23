@@ -136,31 +136,6 @@ input {
 
 			<tr class="trstyle" style="background-color: #393939;">
 
-				<td><input type="text" placeholder="영화명을 입력해주세요"><a
-					href="#"><img src="/image/dot.PNG"
-						style="width: 30px; height: 30px;"></a></td>
-
-				<td>
-					<div class="t-container">
-						<a href="#" class="as"><img src="/image/sy.PNG"
-							style="width: 30px; height: 30px;"> 상영시간표</a>
-					</div>
-				</td>
-
-				<td>
-					<div class="t-container">
-						<a href="#" class="as"><img src="/image/bo.PNG"
-							style="width: 30px; height: 30px;"> 박스오피스</a>
-					</div>
-				</td>
-
-				<td>
-					<div class="t-container">
-						<a href="/cinema/cinemalist.jsp" class="as" id="reservationMenu"><img
-							src="/image/ym.PNG" style="width: 30px; height: 30px;">
-							빠른예매</a>
-					</div>
-				</td>
 			</tr>
 
 			<tr class="trstyle" style="background-color: #503396;">
