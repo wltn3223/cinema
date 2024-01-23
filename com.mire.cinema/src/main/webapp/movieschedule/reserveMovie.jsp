@@ -41,10 +41,10 @@
 				</div>
 				<div class="btn btn-dark" onclick="reserve()">예매하기</div>
 			</div>
-			<div class="container border border-dark" style="height: 500px">
+			<div class="container border border-dark" style="height: 610px">
 				<div class = "text-center d-flex justify-content-center">
 						<div class="w-50 text-center mt-5" style="height: 100px">
-						<div class="my-1" id="screen">스크린</div>
+						<div id="screen">스크린</div>
 						
 						<div id = seats class ="container text-center">
 							
@@ -71,7 +71,7 @@
 	
 	}
 	#seats{
-		margin-top:80px;
+		margin-top:30px;
 		
 	}
 	#reserveSeat{
