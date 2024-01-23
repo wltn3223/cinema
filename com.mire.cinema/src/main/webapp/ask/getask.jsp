@@ -40,6 +40,34 @@
                 </tbody>
             </table>
         </div>
+        <div class="container mt-3">
+            <div class="page-title">
+                <h2 class="mb-4">답변안내</h2>
+            </div>
+            <div class="search-container">
+                <div style="display: flex; align-items: center;">
+                    <div style="margin-right: 10px;"></div>
+                    <div class="action-buttons">
+                        <a href="/answer/answerwrite.jsp">
+                            <button class="btn btn-dark mb-2" id="answerBtn">답변 작성</button>
+                        </a>
+                    </div>
+                </div>
+                <table id="cinema-list" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">번호</th>
+                            <th style="width: 65%;">제목</th>
+                            <th style="width: 10%;">작성자</th>
+                            <th style="width: 10%;">등록일</th>
+                            <th style="width: 10%;">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody id="answerList">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
     <!-- 푸터-->
     <footer class="container">
@@ -48,23 +76,30 @@
 
     <script>
         $(document).ready(function() {
-            var askNo = sessionStorage.getItem('AskNo');
+            var askNo = localStorage.getItem('askNo');
 
             $.ajax({
                 type: 'GET',
                 url: '/ask/' + askNo,
                 contentType: 'application/json',
                 success: function (ask) {
+                    console.log('Ask 정보:', ask);
                     appendAskToTable(ask);
                     // 추가: 작성자 정보 가져와서 표시
-                    var memberId = '<%= session.getAttribute("memberId") %>';
-                    displayAuthor(memberId);
+                    var memberId = '<%=session.getAttribute("memberId")%>';
+        if (memberId === 'admin') {
+            $("#answerBtn").show();
+        } else {
+            $("#answerBtn").hide();
+        }
                 },
                 error: function (error) {
                     var errorMessage = error.responseText;
                     alert(errorMessage);
                 }
             });
+
+            fetchAnswer(askNo); // 수정
         });
 
         function appendAskToTable(ask) {
@@ -91,13 +126,13 @@
             tbody.append(row);
 
             // 추가: 작성자 정보 가져와서 표시
-            var memberId = '<%= session.getAttribute("memberId") %>';
+            var memberId = '<%=session.getAttribute("memberId")%>';
             displayAuthor(memberId);
         }
 
         // 삭제 버튼 클릭 시 호출될 함수
         function deleteAsk() {
-            var askNo = sessionStorage.getItem('AskNo');
+            var askNo = localStorage.getItem('askNo');
 
             $.ajax({
                 type: 'DELETE',
@@ -119,6 +154,88 @@
             var authorCell = $("#authorCell");
             authorCell.text(memberId);
         }
+        
+        function fetchAnswer(askNo) {
+            $.ajax({
+                type: 'GET',
+                url: '/answer/list/ask/' + askNo,
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log('답변 목록 정보:', response);
+                    displayAnswers(response);
+                   
+                },
+                error: function (error) {
+                    const errorMessage = error.responseText;
+                    alert(errorMessage);
+                }
+            });
+        }
+        
+        
+        function displayAnswers(answers) {
+            console.log('Answer 정보:', answers);  // 추가
+            $('#answerList').empty();
+
+            try {
+                // answers가 undefined인 경우 예외를 발생시키도록 체크
+                if (!answers) {
+                    throw new Error('답변 목록이 없습니다.');
+                }
+               
+                if (answers.length > 0) {
+                    for (const answer of answers) {
+                        const answerInfo =
+                            '<tr>' +
+                            '<td>' + answer.ansNo + '</td>' +
+                            '<td><a href="#" onclick="loadItemInfo(' + answer.ansNo + ')" class="answer-title" data-answer-no=' + answer.ansNo + '>' + answer.ansTitle + '</a></td>' +
+                            '<td>관리자</td>' +
+                            '<td>' + answer.ansDate + '</td>' +
+                            '<td>' + answer.ansViews + '</td>' +
+                            '</tr>';
+                        $('#answerList').append(answerInfo);
+                    }
+                    console.log('Answer 정보:', answers);  // 추가
+                } else {
+                    console.error('답변 목록이 없습니다.');
+                }
+
+                $(".answer-title").on("click", function () {
+                    const ansNo = $(this).data("answer-no");
+                    localStorage.setItem("ansNo", ansNo);
+                    location.href = "/answer/getanswer.jsp";
+                });
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+
+        function loadItemInfo(ansNo) {
+            $.ajax({
+                type: 'GET',
+                url: '/answer/info/' + ansNo,
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log(response);
+                    localStorage.setItem('selectedItemNo', ansNo);
+                    location.href = '/answer/getanswer.jsp';
+                },
+                error: function (error) {
+                    const errorMessage = error.responseText;
+                    alert(errorMessage);
+                }
+            });
+        }
+
+        function goToAnswerWrite() {
+            // localStorage에 저장된 askNo를 읽어와서 변수에 저장
+            var localStorageAskNo = localStorage.getItem('askNo');
+
+            // answerwrite.jsp로 이동하면서 askNo를 쿼리 파라미터로 전달
+            location.href = "/answer/answerwrite.jsp?askNo=" + localStorageAskNo;
+        }
+      
     </script>
 </body>
 </html>

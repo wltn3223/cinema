@@ -45,6 +45,7 @@ public class PayServiceImpl implements PayService {
 	@Value("${secretKey}")
 	private String secretKey;
 	
+	@Override
 	public void updateStatus(String orderId) {
 		orderMapper.updateStatus(orderId, OrderStatus.CANCLE);
 		

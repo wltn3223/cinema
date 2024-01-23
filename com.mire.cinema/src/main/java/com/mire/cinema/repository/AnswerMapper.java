@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mire.cinema.domain.answer.Answer;
 import com.mire.cinema.domain.answer.AnswerDTO;
+import com.mire.cinema.domain.review.Review;
 
 @Repository
 @Mapper
@@ -38,4 +39,6 @@ public interface AnswerMapper {
 
 	// 글 조회수 증가
 	void updateAnswerViews(long ansNo);
+	
+	List<Answer> getAnswersByAsk(Long askNo);
 }

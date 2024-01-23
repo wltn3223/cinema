@@ -20,7 +20,7 @@ public class Review {
 	private String reviewContent;
 	private LocalDate reviewDate;
 	private Integer reviewViews;
-	private String movieTitle;
+	private Long movieNo;
 	private String memberId;
 	
 

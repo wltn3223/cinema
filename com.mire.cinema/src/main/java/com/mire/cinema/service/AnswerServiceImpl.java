@@ -3,6 +3,7 @@ package com.mire.cinema.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,6 +101,15 @@ public class AnswerServiceImpl implements AnswerService {
 	@Override
 	public void removeAnswer(Long ansNO) {
 		answerMapper.deleteAnswer(ansNO);
+	}
+
+	@Override
+	public List<AnswerDTO.AnswerInfo> getAnswersByAsk(Long askNo) {
+		return answerMapper.getAnswersByAsk(askNo).stream()
+				.map(info -> AnswerDTO.AnswerInfo.builder().ansNo(info.getAnsNo()).ansTitle(info.getAnsTitle())
+						.ansContent(info.getAnsContent()).ansViews(info.getAnsViews()).ansDate(info.getAnsDate())
+						.askNo(info.getAskNo()).build())
+				.collect(Collectors.toList());
 	}
 
 }

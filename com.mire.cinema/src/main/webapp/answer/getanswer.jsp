@@ -53,7 +53,7 @@
 </body>
 <script>
 	$(document).ready(function() {
-		var ansNo = sessionStorage.getItem('ansNo');
+		var ansNo = localStorage.getItem('ansNo');
 		if (ansNo) {
 			$.ajax({
 				type : 'GET',
@@ -93,7 +93,7 @@
 
 
 	function removeAnswer() {
-		var ansNo = sessionStorage.getItem('ansNo');
+		var ansNo = localStorage.getItem('ansNo');
 		var confirmDelete = confirm("정말로 게시글을 삭제하시겠습니까?");
 
 		if (confirmDelete) {

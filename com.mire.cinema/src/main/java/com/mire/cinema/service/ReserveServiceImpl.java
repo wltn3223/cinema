@@ -35,13 +35,16 @@ public class ReserveServiceImpl implements ReserveService {
 			throw new IllegalArgumentException(ErrorMsg.BADTYPE);
 		}
 		PageCreate pc = new PageCreate();
+		log.info("회원아이디:" + memberId);
+		System.out.println(memberId == null);
 		
-		
-		if(memberId == null || "".equals(memberId.trim())) {
+		if (memberId == null || "".equals(memberId.trim())) {
+			log.info("회원아이디:" + memberId);
 			pc = pc.getPage(pageNum, reserveMapper.getTotal());
+			int n = reserveMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()).size();
+			System.out.println("총예매수" + n);
 			map.put("list",reserveMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()));
 		}
-		
 		
 		
 		else {

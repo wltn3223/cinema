@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.mire.cinema.domain.answer.Answer;
 import com.mire.cinema.domain.answer.AnswerDTO;
+import com.mire.cinema.domain.review.ReviewDTO;
 
 public interface AnswerService {
 	// 등록
@@ -28,4 +29,7 @@ public interface AnswerService {
 	// 삭제
 	public void removeAnswer(Long ansNo);
 
+	
+	
+	public List<AnswerDTO.AnswerInfo> getAnswersByAsk(Long askNo);
 }

@@ -22,7 +22,7 @@ public class ReviewDTO {
 		private String reviewContent;
 		private Integer reviewViews;
 		private LocalDate reviewDate;
-
+		private Long movieNo;
 
 	}
 
@@ -56,6 +56,7 @@ public class ReviewDTO {
 		private String reviewContent;
 		private LocalDate reviewDate;
 		private Integer reviewViews;
+		private Long movieNo;
 		
 
 

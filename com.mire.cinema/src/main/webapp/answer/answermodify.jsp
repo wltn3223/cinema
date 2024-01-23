@@ -121,7 +121,7 @@
 	    }
 	}
         function removeAnswer() {
-            var ansNo = sessionStorage.getItem('ansNo');
+            var ansNo = localStorage.getItem('ansNo');
             var confirmDelete = confirm("정말로 게시글을 삭제하시겠습니까?");
             if (confirmDelete) {
                 // 삭제 요청

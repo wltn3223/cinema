@@ -24,8 +24,6 @@
 	<div class="container mt-5">
 	<div class= "container-fluid  d-flex justify-content-between">
 		<h2 class="mb-4">전체 주문 내역</h2>
-		<div><input type="text" placeholder="아이디로 검색하세요" id = "id">
-		<div class="btn btn-dark ms-1" onclick="fetchMembers(1,document.getElementById('id').value)">회원검색</div>
 		</div>
 		</div>
 		<table id="cinema-list" class="table table-striped container">
@@ -139,7 +137,7 @@ async function cancel(id) {
     const response = await fetch(url, {
         method: "DELETE", // Corrected method name
     });
-
+    location.reload();
     console.log(response);
 	}
 }

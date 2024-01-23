@@ -97,7 +97,7 @@
 
 			<div class="page-title">
 				<h2 class="mb-4">Q&A 게시판</h2>
-				<p>| Q&A게시판 입니다</p>
+				<p>| 답변목록 게시판 입니다</p>
 			</div>
 
 			<div class="search-container">
@@ -112,8 +112,7 @@
 				</div>
 
 				<div class="action-buttons">
-					<a href="/answer/answerwrite.jsp"><button
-							class="btn btn-dark mb-2">답변 작성</button></a> 
+					
 				</div>
 			</div>
 
@@ -193,7 +192,7 @@
 	    }
 	    $(".answer-title").on("click", function() {
 	        var ansNo = $(this).data("answer-no");
-	        sessionStorage.setItem("ansNo", ansNo);  
+	        localStorage.setItem("ansNo", ansNo);  
 	        location.href = "/answer/getanswer.jsp";
 	    });
 	}

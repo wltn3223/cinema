@@ -27,5 +27,8 @@ public interface ReviewService {
 
 	// 삭제
 	public void removeReview(Long reviewNo);
-
+	
+	public List<ReviewDTO.ReviewInfo> getReviewsByMovie(Long movieNo);
+	
+	
 }

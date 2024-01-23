@@ -13,7 +13,7 @@ public interface PayService  {
 	public void refund(String token, String orderId) throws IOException;
 	public void refundReserve(String token, String orderId) throws IOException;
 	public void reserve(ReserveInfo info);
-	
+	public void updateStatus(String orderId);
 	public String getToken() throws IOException;
 
 }
