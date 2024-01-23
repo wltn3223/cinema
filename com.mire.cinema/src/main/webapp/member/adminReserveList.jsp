@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function fetchMembers(pageNum,memberId) {
-	memberId = null;
 	
-	var url =  '/pay/list/reserve/' + pageNum + '/' +memberId;
+	
+	var url =  '/pay/list/reserve/' + pageNum ;
 	console.log(url);
     fetch(url, {
         method: 'GET',
@@ -118,7 +118,7 @@ function displayMovies(reserves) {
             '<td>' + reserve.screenFloor + reserve.screenHall + '</td>' +
             '<td>' + reserve.seatNo + '</td>' +
            
-            '<td>' + '<div class="btn btn-dark" onclick="cancel(\'' + reserve.orderId + '\')">주문취소</div></td>' +
+            '<td>' + '<div class="btn btn-dark" onclick="cancel(\'' + reserve.orderId + '\')">예매취소</div></td>' +
         '</tr>';
            
         $('#orderList').append(reserveInfo);

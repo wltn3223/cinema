@@ -45,7 +45,6 @@ public class WebSecurityConfig {
         	.requestMatchers("/join.html").permitAll()
         	.requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
         	.requestMatchers(HttpMethod.POST,"/member").permitAll();
-
         	
         })
 		 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

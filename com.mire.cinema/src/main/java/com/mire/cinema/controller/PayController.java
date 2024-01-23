@@ -125,6 +125,14 @@ public class PayController {
 		return new ResponseEntity<>(reserveService.getReserveMap(pageNum, memberId),HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/list/reserve/{pageNum}")
+	public ResponseEntity<Map<String,Object>>getAlladminSeats(@PathVariable Integer pageNum) {
+		
+		
+		return new ResponseEntity<>(reserveService.getReserveMap(pageNum,null),HttpStatus.OK);
+		
+	}
 	@DeleteMapping("/{orderId}")
 	public ResponseEntity<String> cancelOrder(@PathVariable String orderId) {
 		int n = orderService.selectOrder(orderId);
@@ -134,6 +142,7 @@ public class PayController {
 		try {
 			String token = payService.getToken();
 			payService.refund(token, orderId);
+			payService.updateStatus(orderId);   
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

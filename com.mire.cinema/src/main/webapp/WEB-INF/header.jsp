@@ -51,27 +51,15 @@
 							<li><a class="dropdown-item" href="/movie/movieList.jsp">전체영화</a></li>
 						</ul></li>
 					<li id="reservationMenu" class="nav-item dropdown mx-2"><a
-						class="nav-link text-light" href="#" role="button"
-						data-bs-toggle="dropdown">예매</a>
-						<ul class="dropdown-menu">
-
-							<li><a class="dropdown-item" href="/movieschedule/shecdule.jsp">영화예매</a></li>
-
-
-							<li><a class="dropdown-item" href="#">영화예매내역</a></li>
-							<li><a class="dropdown-item" href="#">영화예매취소</a></li>
-						</ul></li>
+						class="nav-link text-light" href="/movieschedule/schedule.jsp" role="button">예매</a>
+					</li>
 
 					<li class="nav-item mx-2""><a class="nav-link text-light"
 						id="itemMenu2" href="/itemgiftcard/useritemlist.jsp">상품</a></li>
 					<li class="nav-item dropdown"><a class="nav-link text-light"
 						href="/notice/usernoticelist.jsp" role="button"
-						data-bs-toggle="dropdown">공지사항</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item"
-								href="/notice/usernoticelist.jsp">공지사항</a></li>
-							<li><a class="dropdown-item" href="#">이벤트</a></li>
-						</ul></li>
+						>공지사항</a>
+						</li>
 					<li class="nav-item dropdown mx-2" id="helpMenu"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">고객센터</a>
@@ -109,9 +97,7 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item"
 								href="/movie/adminMovieList.jsp">전체영화조회</a></li>
-							<li><a class="dropdown-item"
-								href="/movie/movieInsertForm.jsp">영화등록</a></li>
-							<li><a class="dropdown-item" href="#">무비포스트</a></li>
+							<li>
 						</ul></li>
 					<li class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="#" role="button"
@@ -127,7 +113,7 @@
 							<li><a class="dropdown-item" href="/notice/noticelist.jsp">공지사항</a></li>
 							<li><a class="dropdown-item" href="/notice/noticewrite.jsp">공지사항글
 									작성</a></li>
-							<li><a class="dropdown-item" href="#">이벤트</a></li>
+						
 						</ul></li>
 					<li class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="#" role="button"

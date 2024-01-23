@@ -195,6 +195,7 @@
 					 success: function (data) {
 			                // [2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
 			                alert(data);
+			                location.href= '/member/myReserveList.jsp';
 			              
 			            },
 			            error:function(){
