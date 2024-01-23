@@ -31,8 +31,7 @@ public class WebSecurityConfig {
 		http
         .httpBasic().disable()
         .csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
+       
         .formLogin().loginPage("/login.html")
         .and()
         .authorizeRequests(authorizeRequests -> {

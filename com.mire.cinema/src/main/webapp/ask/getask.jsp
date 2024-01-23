@@ -49,7 +49,7 @@
                     <div style="margin-right: 10px;"></div>
                     <div class="action-buttons">
                         <a href="/answer/answerwrite.jsp">
-                            <button class="btn btn-dark mb-2">답변 작성</button>
+                            <button class="btn btn-dark mb-2" id="answerBtn">답변 작성</button>
                         </a>
                     </div>
                 </div>
@@ -87,7 +87,11 @@
                     appendAskToTable(ask);
                     // 추가: 작성자 정보 가져와서 표시
                     var memberId = '<%=session.getAttribute("memberId")%>';
-                    displayAuthor(memberId);
+        if (memberId === 'admin') {
+            $("#answerBtn").show();
+        } else {
+            $("#answerBtn").hide();
+        }
                 },
                 error: function (error) {
                     var errorMessage = error.responseText;
