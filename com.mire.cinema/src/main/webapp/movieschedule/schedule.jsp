@@ -354,11 +354,10 @@ body {
 			    }
 			});
 
-		// 선택한 극장, 영화, 날짜에 따라 스케줄을 업데이트하는 함수
-		function updateSchedule() {
-    var cinema = $('#cinemaList').val();
-    var movie = $('#movieList').val();
-    var date = $('#dateList').val();
+			function updateSchedule() {
+			    var cinema = $('#cinemaList').val();
+			    var movie = $('#movieList').val();
+			    var date = $('#dateList').val();
 
     // AJAX를 사용하여 서버에 요청을 보냄
     $.ajax({
@@ -369,7 +368,7 @@ body {
 
             // 서버에서 받아온 스케줄을 업데이트
             var scheduleList = $('#scheduleList');
-            scheduleList.empty(); // 기존 내용 비우기
+            $('#scheduleTable').empty(); // 기존 내용 비우기
             
             var newRow = $("<tr>");
 
@@ -465,7 +464,6 @@ body {
 			            	   option2.value = year + '-' + month +'-22';
 			            	    option2.text = '1/22';
 		            	   
-		            	    
 		            	    selectElement2.appendChild(option);
 		            	    selectElement2.appendChild(option2);
 		         

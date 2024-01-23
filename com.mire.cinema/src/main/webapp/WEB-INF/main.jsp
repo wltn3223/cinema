@@ -129,40 +129,13 @@ input {
 </head>
 <body>
 	<main>
-
+			<div class="trstyle" style="background-color: #1f1d1d;">
+				<div id="movieListContainer" ></div>
+			</div>
 		<table border="0" width="100%" height="600px">
-
-			<tr class="trstyle" style="background-color: #1f1d1d;"
-				id="movieListContainer">
-			</tr>
 
 			<tr class="trstyle" style="background-color: #393939;">
 
-				<td><input type="text" placeholder="영화명을 입력해주세요"><a
-					href="#"><img src="/image/dot.PNG"
-						style="width: 30px; height: 30px;"></a></td>
-
-				<td>
-					<div class="t-container">
-						<a href="#" class="as"><img src="/image/sy.PNG"
-							style="width: 30px; height: 30px;"> 상영시간표</a>
-					</div>
-				</td>
-
-				<td>
-					<div class="t-container">
-						<a href="#" class="as"><img src="/image/bo.PNG"
-							style="width: 30px; height: 30px;"> 박스오피스</a>
-					</div>
-				</td>
-
-				<td>
-					<div class="t-container">
-						<a href="/cinema/cinemalist.jsp" class="as" id="reservationMenu"><img
-							src="/image/ym.PNG" style="width: 30px; height: 30px;">
-							빠른예매</a>
-					</div>
-				</td>
 			</tr>
 
 			<tr class="trstyle" style="background-color: #503396;">
@@ -252,7 +225,6 @@ input {
 
 
 		</table>
-
 	</main>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -298,28 +270,22 @@ input {
 
 			var movieListContainer = $("#movieListContainer");
 
-			// 새로운 행을 생성
-			var newRow = $("<tr class='trstyle' style='background-color: #1f1d1d;'></tr>");
+			// Create a new row
+			var newRow = $("<div class='d-flex justify-content-around'>");
 
 			for (var i = 0; i < 4; i++) {
 				var movie = movieList.list[i];
 				console.log(movie.imageUuid);
-				// movie 객체가 유효한지 확인
+				// Check if the movie object is valid
 				if (movie && typeof movie === "object") {
 
-					var movieHtml = "<td>";
-					movieHtml += "<div class='t-container'>";
-					movieHtml += "<img src='../upload/" + movie.imageUuid + "' alt='" +  movieList.list.movieTitle + "' width='100'>";
-					movieHtml += "<a href='/movieschedule/schedule.jsp'><button class='btn btn-primary'>예매하기</button><a>";
-					movieHtml += "</div>";
-					movieHtml += "</td>";
+					var movieHtml = "<div class='mt-3'><div><img src='../upload/" + movie.imageUuid + "' alt='" +  movie.movieTitle + "' width='200' height='400'></div>";
+					movieHtml += "<div><a href='/movieschedule/schedule.jsp'><button class='btn btn-primary'>예매하기</button></a></div></div></div>";
 
-					// 새로운 셀에 영화 정보 추가
 					newRow.append(movieHtml);
 				}
+			
 			}
-
-			// 행을 테이블에 추가
 			movieListContainer.append(newRow);
 		}
 	</script>
