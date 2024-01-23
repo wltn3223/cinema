@@ -390,7 +390,7 @@ body {
                 movieHtml += "<p>"+ " | "  + schedule.screenFloor + " | " + schedule.screenHall + " | " +
                     "남은좌석: " + schedule.screenRestSeat + " | 총좌석: " + schedule.screenTotalSeat + " | " + "</p>";
                 movieHtml += "</div>";
-                movieHtml += "<a href='#'><span class='badge bg-white rounded-pill'>예매하기</span></a>";
+                movieHtml += "<a href='#'><span class='badge bg-white rounded-pill' onclick='reserve(" + schedule.scheduleNo + ")'>예매하기</span></a>";
                 movieHtml += "</li>";
                 movieHtml += "</ol>";
                 movieHtml += "</td>";
@@ -474,6 +474,11 @@ body {
 		            toastr.error('스케줄을 가져오는데 실패했습니다.');
 		        }
 		    });
+		}
+		function reserve(scheduleNo){
+			console.log(scheduleNo);
+			localStorage.setItem("scheduleNo",scheduleNo);
+			location.href = './reserveMovie.jsp';
 		}
 	</script>
 </body>

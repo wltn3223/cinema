@@ -49,14 +49,15 @@
 						data-bs-toggle="dropdown">영화</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="/movie/movieList.jsp">전체영화</a></li>
-							<li><a class="dropdown-item" href="#">큐레이션</a></li>
-							<li><a class="dropdown-item" href="#">무비포스트</a></li>
 						</ul></li>
 					<li id="reservationMenu" class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="#" role="button"
 						data-bs-toggle="dropdown">예매</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/cinema/cinemalist.jsp">영화예매</a></li>
+
+							<li><a class="dropdown-item" href="/movieschedule/shecdule.jsp">영화예매</a></li>
+
+
 							<li><a class="dropdown-item" href="#">영화예매내역</a></li>
 							<li><a class="dropdown-item" href="#">영화예매취소</a></li>
 						</ul></li>
@@ -87,7 +88,7 @@
 									정보 조회</a></li>
 							<li><a class="dropdown-item"
 								href="../member/myOrderList.jsp"> 내 주문 내역 조회</a></li>
-							<li><a class="dropdown-item" href="../member/memberInfo.jsp">
+							<li><a class="dropdown-item" href="../member/myReserveList.jsp">
 									내 예매 내역 조회</a></li>
 
 							<li><a class="dropdown-item" href="#"></a></li>
@@ -144,7 +145,7 @@
 									정보 조회</a></li>
 							<li><a class="dropdown-item" href="../member/AllOrderList.jsp">모든 상품 주문 내역</a></li>
 
-							<li><a class="dropdown-item" href="#"></a></li>
+							<li><a class="dropdown-item" href="../member/adminReserveList.jsp">모든 예매 내역</a></li>
 						</ul></li>
 				</ul>
 			</nav>

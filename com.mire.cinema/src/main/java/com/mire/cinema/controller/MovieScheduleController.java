@@ -32,7 +32,8 @@ import com.siot.IamportRestClient.response.Schedule;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/movieschedule")
@@ -76,6 +77,8 @@ public class MovieScheduleController {
 	@GetMapping("/{scheduleNo}")
 	public ResponseEntity<Long> findSchedule(@PathVariable long scheduleNo) {
 		MovieSchedule foundSchedule = service.findSchedule(scheduleNo);
+		
+		
 		if (scheduleNo == 0) {
 			throw new NullPointerException(ErrorMsg.NOTFOUNDSEARCH);
 		}
@@ -88,7 +91,17 @@ public class MovieScheduleController {
 		if (info == null) {
 			throw new IllegalArgumentException(ErrorMsg.USERINFO);
 		}
-		MovieScheduleDTO.Info schedule = MovieScheduleDTO.Info.builder().scheduleNo(info.getScheduleNo()).build();
+		MovieScheduleDTO.Info schedule = MovieScheduleDTO.Info.builder().scheduleNo(info.getScheduleNo())
+				.scheduleDate(info.getScheduleDate())
+				.scheduleStartTime(info.getScheduleStartTime())
+				.scheduleFinishTime(info.getScheduleFinishTime())
+				.movieNo(info.getMovieNo())
+				.screenNo(info.getScreenNo())
+				.screenRestSeat(info.getScreenRestSeat())
+				.screenTotalSeat(info.getScreenTotalSeat())
+		
+				
+				.build();
 		return new ResponseEntity<>(schedule, SucessMsg.statusOK);
 	}
 

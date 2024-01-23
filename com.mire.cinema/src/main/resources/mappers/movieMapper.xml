@@ -16,9 +16,6 @@
 		<result property="imageUuid" column="image_uuid" />
 	</resultMap>
 	
-	
-	
-
 	<insert id="insertMovie">
 		insert into movie (
 		movie_no, movie_title,
@@ -55,9 +52,45 @@
 		SELECT * FROM movie
 	</select>
 	
+	<update id="updateMovie">
+			update  movie set movie_title = #{movieTitle},
+			movie_intro = #{movieIntro},
+			movie_actors = #{movieActors},
+			movie_genre =  #{movieGenre},
+			movie_playTime = #{moviePlayTime},
+			movie_limit = #{movieLimit}, 
+			image_uuid = #{imageUuid}
+			where movie_no = #{movieNo}
+	</update>
 	
+	<delete id="deleteMovie">
+		delete from movie where movie_no = #{movieNo}
+	</delete>
 	
-
+	<!-- 페이징 및 검색처리 -->
+	<!-- 검색기능 -->
+	 <select id="searchMovieList" resultType="com.mire.cinema.domain.movie.MovieDTO$Movies"
+            parameterType="com.mire.cinema.domain.movie.MovieDTO$Search">
+        <![CDATA[
+        SELECT a.*
+        FROM (
+            SELECT a.*, rownum rn
+            FROM (
+                SELECT *
+                FROM movie
+                WHERE LOWER(movie_title) LIKE '%' || LOWER(#{movieTitle}) || '%'
+                ORDER BY movie_no DESC
+            ) a
+            WHERE rownum <= #{endNum}
+        ) a
+        WHERE rn >= #{startNum}
+        ]]>
+    </select>
+	
+	<select id="countMovie" resultType="int">
+		SELECT count(*) FROM movie
+	</select>
+	
 	<select id="getPartList" resultType="com.mire.cinema.domain.movie.MovieDTO$Movies" parameterType="int">
 		 <![CDATA[
 SELECT a.movie_no, a.movie_title, a.movie_limit, a.image_uuid, to_char(a.movie_date, 'YYYY-MM-DD') as movie_date
@@ -74,25 +107,16 @@ WHERE rn >= #{start}
 
   ]]>
 	</select>
-
-	<select id="countMovie" resultType="int">
-		SELECT count(*) FROM movie
-	</select>
-
-	<delete id="deleteMovie">
-		delete from movie where movie_no = #{movieNo}
-	</delete>
-
-	<update id="updateMovie">
-			update  movie set movie_title = #{movieTitle},
-			movie_intro = #{movieIntro},
-			movie_actors = #{movieActors},
-			movie_genre =  #{movieGenre},
-			movie_playTime = #{moviePlayTime},
-			movie_limit = #{movieLimit}, 
-			image_uuid = #{imageUuid}
-			where movie_no = #{movieNo}
 	
-	</update>
+	<select id="countMovieTitle" resultType="int"
+		parameterType="String">
+		SELECT count(*) FROM movie where movie_title =
+		#{movieTitle}
+	</select>
+	
+	<select id="countSearchMovie" resultType="int" parameterType="String">
+		SELECT count(*) FROM movie where movie_title like '%'||#{movieTitle}||'%' 
+	</select>
+	
 
 </mapper>

@@ -21,44 +21,43 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-	
-	private final JwtTokenProvider jwtTokenProvider;
-	
-	@SuppressWarnings("deprecation")
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-		
-		http
+   
+   private final JwtTokenProvider jwtTokenProvider;
+   
+   @SuppressWarnings("deprecation")
+   @Bean
+   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+      
+      http
         .httpBasic().disable()
         .csrf().disable()
-       
         .formLogin().loginPage("/login.html")
         .and()
         .authorizeRequests(authorizeRequests -> {
-        	authorizeRequests
-        	.requestMatchers("/member/memberInfo.jsp").authenticated()
-        	.requestMatchers("/pay/**").authenticated()
-        	.requestMatchers("/index.jsp").permitAll()
-        	.requestMatchers("/login.html").permitAll()
-        	.requestMatchers("/WEB-INF/header.jsp").permitAll()
-        	.requestMatchers("/WEB-INF/footer.jsp").permitAll()
-        	.requestMatchers("/member/login").permitAll()
-        	.requestMatchers("/join.html").permitAll()
-        	.requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
-        	.requestMatchers(HttpMethod.POST,"/member").permitAll();
+           authorizeRequests
+           .requestMatchers("/member/memberInfo.jsp").authenticated()
+           .requestMatchers("/pay/**").authenticated()
+           .requestMatchers("/index.jsp").permitAll()
+           .requestMatchers("/login.html").permitAll()
+           .requestMatchers("/WEB-INF/header.jsp").permitAll()
+           .requestMatchers("/WEB-INF/footer.jsp").permitAll()
+           .requestMatchers("/member/login").permitAll()
+           .requestMatchers("/join.html").permitAll()
+           .requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
+           .requestMatchers(HttpMethod.POST,"/member").permitAll();
 
-        	
+           
         })
-		 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-//		   .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-		
-		
-		return http.build();
-		
-	
-	}
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
+       .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+//         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+      
+      
+      return http.build();
+      
+   
+   }
+   @Bean
+   public PasswordEncoder passwordEncoder() {
+      return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+   }
 }

@@ -19,8 +19,12 @@ import com.google.gson.JsonObject;
 import com.mire.cinema.domain.order.Order;
 import com.mire.cinema.domain.order.OrderStatus;
 import com.mire.cinema.domain.pay.PayDTO;
+import com.mire.cinema.domain.pay.PayDTO.ReserveInfo;
+import com.mire.cinema.domain.reserve.Reserve;
 import com.mire.cinema.exception.ErrorMsg;
+import com.mire.cinema.repository.MovieScheduleMapper;
 import com.mire.cinema.repository.OrderMapper;
+import com.mire.cinema.repository.ReserveMapper;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Payment;
@@ -32,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PayServiceImpl implements PayService {
 	private final OrderMapper orderMapper;
+	private final ReserveMapper reserveMapper;
+	private final MovieScheduleMapper movieScheduleMapper;
 	
 	@Value("${impKey}")
 	private String impKey;
@@ -146,6 +152,86 @@ public class PayServiceImpl implements PayService {
 	        
 	        log.info("Iamport 엑세스 토큰 발급 성공 : {}" + accessToken);
 	        return accessToken;
+	}
+
+
+	@Override
+	public void verifyReserve(ReserveInfo imp_uid) throws IamportResponseException, IOException {
+		log.info(impKey.toString());
+		log.info(secretKey.toString());
+		
+		IamportClient api =  new IamportClient(impKey, secretKey);
+		Payment payInfo = api.paymentByImpUid(imp_uid.getImp_uid()).getResponse();
+		String orderId = imp_uid.getMerchant_uid();
+	
+		
+	
+	
+		if(payInfo.getAmount().intValue() != 10000 || !payInfo.getBuyerName().equals(imp_uid.getMemberId())
+			||	!payInfo.getMerchantUid().equals(orderId)) {
+			String accessToken = getToken();
+			log.info("토큰발급:" +  accessToken.toString());
+			refundReserve(accessToken, orderId);
+			throw new IllegalArgumentException(ErrorMsg.BADPAYINFO);
+		} 
+		
+		reserve(imp_uid);
+		
+		
+	}
+	public void reserve(ReserveInfo info) {
+		Reserve reserve = Reserve.builder()
+				.seatNo(info.getSeatNo())
+				.orderId(info.getMerchant_uid())
+				.reservePrice(10000)
+				.memberId(info.getMemberId())
+				.scheduleNo(info.getScheduleNo())
+				.build();
+		reserveMapper.insertReserve(reserve);
+		
+		movieScheduleMapper.updateSeat(-1, reserve.getScheduleNo());
+		
+	}
+
+
+	@Override
+	public void refundReserve(String token, String orderId) throws IOException {
+		URL url = new URL("https://api.iamport.kr/payments/cancel");
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+        
+        conn.setRequestMethod("POST");
+        
+        // 요청의 Content-Type, Accept, Authorization 헤더 설정
+        conn.setRequestProperty("Content-type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Authorization", token);
+        
+        // 해당 연결을 출력 스트림(요청)으로 사용
+        conn.setDoOutput(true);
+ 
+        // JSON 객체에 해당 API가 필요로하는 데이터 추가.
+        JsonObject json = new JsonObject();
+        json.addProperty("merchant_uid", orderId);
+        json.addProperty("reason", "정보 불일치");
+        
+        // 출력 스트림으로 해당 conn에 요청
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(json.toString());
+        bw.flush();
+        bw.close();
+ 
+        // 입력 스트림으로 conn 요청에 대한 응답 반환
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        br.close();
+        conn.disconnect();
+    	Reserve reserve = reserveMapper.getReserve(orderId);
+    	log.info("예약정보:" + reserve.toString());
+        movieScheduleMapper.updateSeat(1, reserve.getScheduleNo()); 
+        
+        
+        log.info("결제 취소 완료 : 주문 번호 {}", orderId);
+        
+		
 	}
 	
 	
