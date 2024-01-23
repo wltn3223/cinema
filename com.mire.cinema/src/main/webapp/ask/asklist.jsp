@@ -1,123 +1,120 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIRE MOVIE - 문의사항</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<style>
-.search-container {
-	margin-bottom: 20px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRE MOVIE - 문의사항</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .search-container {
+            margin-bottom: 20px;
+        }
 
-.search-container input {
-	width: 300px;
-	margin-right: 10px;
-}
+        .search-container input {
+            width: 300px;
+            margin-right: 10px;
+        }
 
-.search-container button {
-	margin-right: 10px;
-}
+        .search-container button {
+            margin-right: 10px;
+        }
 
-.btn-dark {
-	background-color: #343a40;
-	border-color: #343a40;
-}
+        .btn-dark {
+            background-color: #343a40;
+            border-color: #343a40;
+        }
 
-.btn-dark:hover {
-	background-color: #1d2124;
-	border-color: #1d2124;
-}
+        .btn-dark:hover {
+            background-color: #1d2124;
+            border-color: #1d2124;
+        }
 
-.table thead {
-	background-color: #343a40;
-	color: white;
-}
+        .table thead {
+            background-color: #343a40;
+            color: white;
+        }
 
-#paging {
-	margin-top: 20px;
-}
+        #paging {
+            margin-top: 20px;
+        }
 
-#paging button {
-	padding: 8px 12px;
-	margin: 0 2px;
-	border: 1px solid #343a40;
-	border-radius: 4px;
-	cursor: pointer;
-	background-color: #343a40;
-	color: white;
-}
+        #paging button {
+            padding: 8px 12px;
+            margin: 0 2px;
+            border: 1px solid #343a40;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #343a40;
+            color: white;
+        }
 
-.page-title {
-	display: flex;
-	align-items: baseline;
-}
+        .page-title {
+            display: flex;
+            align-items: baseline;
+        }
 
-.page-title h2 {
-	margin-bottom: 4px;
-}
+        .page-title h2 {
+            margin-bottom: 4px;
+        }
 
-.page-title p {
-	font-size: 14px;
-	color: #6c757d;
-}
-</style>
+        .page-title p {
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-	<!-- 헤더 -->
-	<header>
-		<%@ include file="../WEB-INF/header.jsp"%>
-	</header>
-	<!-- 메인 -->
-	<main class="container mt-3">
-		<h2>문의사항</h2>
-		<div class="search-container">
-			<div style="display: flex; align-items: center;">
-				<div style="margin-right: 10px;">문의사항 검색</div>
-				<input type="text" placeholder="제목으로 검색하세요" id="askTitle">
-				<button class="btn btn-dark"
-					onclick="fetchAsk(1, document.getElementById('askTitle').value)">검색</button>
-			</div>
-		</div>
-		<a href="/ask/askwrite.jsp">
-			<button class="btn btn-dark mb-2">문의사항 작성</button>
-		</a>
-		<!-- 문의사항 리스트 테이블 -->
-		<table class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th scope="col">일련번호</th>
-					<th scope="col">제목</th>
-					<th scope="col">작성자</th>
-					<th scope="col">등록일</th>
-				</tr>
-			</thead>
-			<tbody id="askList">
-			</tbody>
-		</table>
+    <!-- 헤더 -->
+    <header>
+        <%@ include file="../WEB-INF/header.jsp"%>
+    </header>
+    <!-- 메인 -->
+    <main class="container mt-3">
+        <h2>문의사항</h2>
+        <div class="search-container">
+            <div style="display: flex; align-items: center;">
+                <div style="margin-right: 10px;">문의사항 검색</div>
+                <input type="text" placeholder="제목으로 검색하세요" id="askTitle">
+                <button class="btn btn-dark" onclick="fetchAsk(1, document.getElementById('askTitle').value)">검색</button>
+            </div>
+        </div>
+        <a href="/ask/askwrite.jsp">
+            <button class="btn btn-dark mb-2">문의사항 작성</button>
+        </a>
+        <!-- 문의사항 리스트 테이블 -->
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">일련번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">등록일</th>
+                </tr>
+            </thead>
+            <tbody id="askList">
+            </tbody>
+        </table>
 
-		<!-- 페이징 부분에서도 ID 수정 -->
-		<div id="paging" class="d-flex container justify-content-center mt-5">
-			<div id="prev" class="mx-4"></div>
-			<div id="pageNum"></div>
-			<div id="next" class="mx-4"></div>
-		</div>
-	</main>
-	<!-- 푸터-->
-	<footer class="container">
-		<%@ include file="../WEB-INF/footer.jsp"%>
-	</footer>
+        <!-- 페이징 부분에서도 ID 수정 -->
+        <div id="paging" class="d-flex container justify-content-center mt-5">
+            <div id="prev" class="mx-4"></div>
+            <div id="pageNum"></div>
+            <div id="next" class="mx-4"></div>
+        </div>
+    </main>
+    <!-- 푸터-->
+    <footer class="container">
+        <%@ include file="../WEB-INF/footer.jsp"%>
+    </footer>
 
-	<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             fetchAsk(1);
+            
         });
 
         function fetchAsk(pageNum, askTitle) {
@@ -156,7 +153,7 @@
                 let askInfo =
                     '<tr>' +
                     '<td>' + ask.askNo + '</td>' +
-                    '<td><a href="#" id="askTitle" class="ask-title" data-ask-no=' + ask.askNo + '>' + ask.askTitle + '</a></td>' +
+                    '<td><a href="#" class="ask-title" data-ask-no=' + ask.askNo + '>' + ask.askTitle + '</a></td>' +
                     '<td>' + ask.memberId + '</td>' +
                     '<td>' + ask.askDate + '</td>' +
                     '</tr>';
@@ -166,7 +163,7 @@
 
             $(".ask-title").on("click", function () {
                 var askNo = $(this).data("ask-no");
-                sessionStorage.setItem("AskNo", askNo);
+                localStorage.setItem("askNo", askNo);
                 location.href = "/ask/getask.jsp";
             });
         }

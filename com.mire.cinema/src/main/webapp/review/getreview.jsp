@@ -89,7 +89,7 @@
 				+ "</h4>" + "<p class='card-text'><strong>평점 </strong>"
 				+ review.reviewScore +"점" + "</p>" + 
 				"</div>" + "<div class='card-body'>"
-				+ "<p class='card-text'><strong>작성자 | </strong>관리자</p>"
+				
 				+ "<p class='card-text'>" + review.reviewContent + "</p>"
 				+ "</div>" + "</div>";
 
