@@ -21,6 +21,7 @@ public class AnswerDTO {
 		private String ansContent;
 		private Integer ansViews;
 		private LocalDate ansDate;
+		private Long askNo;
 
 
 	}
@@ -33,7 +34,6 @@ public class AnswerDTO {
 		private String ansTitle;
 		private String ansContent;
 //		private Integer ansStatus;
-
 	}
 
 	@Data
@@ -54,6 +54,7 @@ public class AnswerDTO {
 		private Integer ansViews;
 		private LocalDate ansDate;
 		private Integer ansStatus;
+		private Long askNo;
 
 
 	}

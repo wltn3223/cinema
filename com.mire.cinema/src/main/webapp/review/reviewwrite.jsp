@@ -46,6 +46,7 @@
 					<textarea class="form-control" id="reviewContent"
 						placeholder="내용을 입력해주세요" required></textarea>
 				</div>
+				  <input type="hidden" id="movieNo" name="movieNo" value="<%= request.getParameter("movieNo") %>">
 				<button type="button" class="btn btn-dark" onclick="writeReview()">작성하기</button>
 			</form>
 		</div>
@@ -57,32 +58,39 @@
 </body>
 
 <script>
-	function writeReview() {
-		var reviewScore = $('#reviewScore').val();
-		var reviewTitle = $('#reviewTitle').val();
-		var reviewContent = $('#reviewContent').val();
+function writeReview() {
+    var reviewScore = $('#reviewScore').val();
+    var reviewTitle = $('#reviewTitle').val();
+    var reviewContent = $('#reviewContent').val();
+    var movieNo = localStorage.getItem('movieNo');
+    var memberId = '<%= session.getAttribute("memberId") %>';
 
-		var requestData = {
-			reviewScore : reviewScore,
-			reviewTitle : reviewTitle,
-			reviewContent : reviewContent
-		};
+    var requestData = {
+        reviewScore: reviewScore,
+        reviewTitle: reviewTitle,
+        reviewContent: reviewContent,
+        movieNo: movieNo,
+        memberId: memberId
+    };
 
-		$.ajax({
-			type : 'POST',
-			url : '/review',
-			contentType : 'application/json',
-			data : JSON.stringify(requestData),
-			success : function(response) {
-				alert(response);
-				location.href = "/review/reviewlist.jsp";
-			},
-			error : function(error) {
-				var errorMessage = error.responseText;
-				alert(errorMessage);
-			}
-		});
-	}
+    console.log(requestData);
+
+    $.ajax({
+        type: 'POST',
+        url: '/review',
+        contentType: 'application/json',
+        data: JSON.stringify(requestData),
+        success: function (response) {
+            console.log(response);
+            alert('리뷰가 성공적으로 작성되었습니다.');
+            location.href = '/movie/movieInfo.jsp';
+        },
+        error: function (error) {
+            const errorMessage = error.responseText;
+            alert(errorMessage);
+        }
+    });
+}
 </script>
 
 </html>

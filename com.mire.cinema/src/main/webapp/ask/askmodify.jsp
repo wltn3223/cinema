@@ -33,7 +33,7 @@
 				</div>
 				<script>
 					$(document).ready(function() {
-						var askNo = sessionStorage.getItem('AskNo');
+						var askNo = localStorage.getItem('askNo');
 
 						$.ajax({
 							type : 'GET',

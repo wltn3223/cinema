@@ -5,11 +5,14 @@
 
 	<insert id="insertAnswer">
 		insert into
-		answer(ans_no,ans_title,ans_content)
+		answer(ans_no,ans_title,ans_content,ask_no)
 		values
-		(ans_seq.nextval,#{ansTitle},#{ansContent})
+		(ans_seq.nextval,#{ansTitle},#{ansContent},#{askNo})
 	</insert>
 
+<select id="getAnswersByAsk" resultType="Answer"> select * from answer
+		where ask_no = #{askNo} </select>
+	
 
 	<select id="selectAnswer" resultType="Answer">
 		SELECT * FROM answer

@@ -1,5 +1,6 @@
 package com.mire.cinema.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -9,18 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.mire.cinema.domain.answer.Answer;
 import com.mire.cinema.domain.answer.AnswerDTO;
-import com.mire.cinema.domain.itemgiftcard.ItemGiftCard;
-import com.mire.cinema.domain.itemgiftcard.ItemGiftCardDTO;
-import com.mire.cinema.domain.notice.Notice;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.AnswerService;
@@ -46,7 +41,7 @@ public class AnswerController {
 		}
 
 		Answer ans = Answer.builder().ansNo(ansDTO.getAnsNo()).ansTitle(ansDTO.getAnsTitle())
-				.ansContent(ansDTO.getAnsContent()).build();
+				.ansContent(ansDTO.getAnsContent()).askNo(ansDTO.getAskNo()).build();
 
 		answerService.saveAnswer(ans);
 		return new ResponseEntity<>(SucessMsg.INSERT, SucessMsg.statusOK);
@@ -57,7 +52,7 @@ public class AnswerController {
 		Answer info = answerService.findAnswer(ansNo);
 		AnswerDTO.AnswerInfo ans = AnswerDTO.AnswerInfo.builder().ansNo(info.getAnsNo()).ansTitle(info.getAnsTitle())
 				.ansContent(info.getAnsContent()).ansViews(info.getAnsViews()).ansDate(info.getAnsDate())
-				.ansStatus(info.getAnsStatus()).build();
+				.ansStatus(info.getAnsStatus()).askNo(info.getAskNo()).build();
 
 		return new ResponseEntity<>(ans, SucessMsg.statusOK);
 	}
@@ -83,7 +78,7 @@ public class AnswerController {
 			throw new IllegalArgumentException(ErrorMsg.BoardNOTFOUND);
 		}
 		AnswerDTO.AnswerInfo ans = AnswerDTO.AnswerInfo.builder().ansNo(info.getAnsNo()).ansTitle(info.getAnsTitle())
-				.ansContent(info.getAnsContent()).ansViews(info.getAnsViews()).ansDate(info.getAnsDate()).build();
+				.ansContent(info.getAnsContent()).ansViews(info.getAnsViews()).ansDate(info.getAnsDate()).askNo(info.getAskNo()).build();
 
 		return new ResponseEntity<>(ans, SucessMsg.statusOK);
 	}
@@ -104,4 +99,14 @@ public class AnswerController {
 		return new ResponseEntity<>(answerService.getAnswerMap(pageNum, ansTitle), HttpStatus.OK);
 	}
 
+	@GetMapping("/list/ask/{askNo}")
+	public ResponseEntity<List<AnswerDTO.AnswerInfo>> getAnswersByAsk(@PathVariable Long askNo) {
+		try {
+			List<AnswerDTO.AnswerInfo> answers = answerService.getAnswersByAsk(askNo);
+			return new ResponseEntity<>(answers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
