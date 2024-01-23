@@ -1,7 +1,10 @@
 package com.mire.cinema.domain.movie;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
+
+import com.mire.cinema.domain.notice.NoticeDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -31,7 +34,6 @@ public class MovieDTO {
 		private String movieLimit;
 		@Past(message = "입력한 날짜형식이 올바르지않습니다.")
 		private Date movieDate;
-
 	}
 
 	@Data
@@ -47,10 +49,21 @@ public class MovieDTO {
 	}
 
 	@Data
+	@Builder
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Info {
+		private long movieNo;
+		private String movieTitle;
+		private int movieLimit;
+		private String imageUuid;
+		private LocalDate movieDate;
+	}
+
+	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class update {
-			
 			private long movieNo;
 			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
 			private String movieTitle;
@@ -65,8 +78,15 @@ public class MovieDTO {
 			@NotBlank(message = "제출 한 항목중 공백이 있습니다. 다시 시도해주세요.")
 			private String movieLimit;
 			private String imageUuid;
-			
-	
 	}
 
+	@Data
+	@Builder
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class Search {
+		private String movieTitle;
+		private int startNum;
+		private int endNum;
+	}
 }
