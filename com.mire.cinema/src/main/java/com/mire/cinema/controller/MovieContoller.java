@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mire.cinema.domain.movie.Movie;
 import com.mire.cinema.domain.movie.MovieDTO;
+import com.mire.cinema.domain.notice.Notice;
+import com.mire.cinema.domain.notice.NoticeDTO;
 import com.mire.cinema.exception.ErrorMsg;
 import com.mire.cinema.exception.SucessMsg;
 import com.mire.cinema.service.ImageService;
@@ -34,6 +36,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+
 @Log
 @RequiredArgsConstructor
 @RestController
@@ -41,133 +44,129 @@ import lombok.extern.java.Log;
 public class MovieContoller {
 	private final MovieService movieService;
 	private final ImageService imageService;
-	
-	
+
 	@PostMapping
-	public ResponseEntity<String> saveMovie(@Valid MovieDTO.Save dto, BindingResult bindingResult,@RequestParam(name = "file",required = false) MultipartFile movieImage
-			, HttpServletRequest request) {
-		if(bindingResult.hasErrors()) {
+	public ResponseEntity<String> saveMovie(@Valid MovieDTO.Save dto, BindingResult bindingResult,
+			@RequestParam(name = "file", required = false) MultipartFile movieImage, HttpServletRequest request) {
+		if (bindingResult.hasErrors()) {
 			throw new IllegalArgumentException(bindingResult.getFieldErrors().get(0).getDefaultMessage());
 		}
-		
 
-		if(movieImage == null) {
+		if (movieImage == null) {
 			throw new NullPointerException(ErrorMsg.IMAGENOTFOUND);
 		}
 		String uuidName = imageService.saveImage(movieImage);
-		
-DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        
-        LocalDate parsedDate = LocalDate.parse(dto.getMovieDate().toString(), formatter);
-  
-		
-		
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
+		LocalDate parsedDate = LocalDate.parse(dto.getMovieDate().toString(), formatter);
+
 		log.info(dto.getMovieDate().toString());
-		Movie movie = Movie.builder()
-				.movieTitle(dto.getMovieTitle())
-				.movieIntro(dto.getMovieIntro())
-				.movieActors(dto.getMovieActors())
-				.movieGenre(dto.getMovieGenre())
+		Movie movie = Movie.builder().movieTitle(dto.getMovieTitle()).movieIntro(dto.getMovieIntro())
+				.movieActors(dto.getMovieActors()).movieGenre(dto.getMovieGenre())
 				.moviePlayTime(Integer.parseInt(dto.getMoviePlayTime()))
-				.movieLimit(Integer.parseInt(dto.getMovieLimit()))
-				.movieDate(parsedDate)
-				.imageUuid(uuidName)
-				.build();
-				
-		
+				.movieLimit(Integer.parseInt(dto.getMovieLimit())).movieDate(parsedDate).imageUuid(uuidName).build();
+
 		log.info("날짜:" + dto.getMovieDate().toString());
-		
+
 		movieService.saveMovie(movie);
-	
+
 		log.info(dto.toString());
-		log.info( "path =" + request.getContextPath());
-		
-		
-		return new ResponseEntity<>(SucessMsg.INSERT,HttpStatus.OK);
+		log.info("path =" + request.getContextPath());
+
+		return new ResponseEntity<>(SucessMsg.INSERT, HttpStatus.OK);
 	}
+	
+		@GetMapping("/info/{boardTitle}")
+		public ResponseEntity<MovieDTO.Info> findNoticeInfo(@PathVariable String boardTitle) {
+			Movie info = movieService.findSearchMovie(boardTitle);
+			if (info == null) {
+				throw new IllegalArgumentException(ErrorMsg.BoardNOTFOUND);
+			}
+			MovieDTO.Info movie = MovieDTO.Info.builder()
+					.movieNo(info.getMovieNo())
+					.movieTitle(info.getMovieTitle())
+					.movieLimit(info.getMovieLimit())
+					.imageUuid(info.getImageUuid())
+					.movieDate(info.getMovieDate())
+					.build();
+			
+					return new ResponseEntity<>(movie, SucessMsg.statusOK);
+		}
 	
 	@GetMapping("/list/{pageNum}")
-	public ResponseEntity<Map<String,Object>> getMovieList(@PathVariable Integer pageNum){
-		log.info(pageNum.toString());
-		
-		
-		
-		return new ResponseEntity<>(movieService.getPageMap(pageNum),HttpStatus.OK);
-		
+	public ResponseEntity<Map<String, Object>> getMovieList(@PathVariable Integer pageNum) {
+		try {
+			return new ResponseEntity<>(movieService.getPageMap(pageNum, null), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
+
 	@GetMapping("/{movieNo}")
-	public ResponseEntity<Movie> getMovie(@PathVariable Integer movieNo){
-		
-		
-		if(movieNo == null) {
+	public ResponseEntity<Movie> getMovie(@PathVariable Integer movieNo) {
+		if (movieNo == null) {
 			throw new NullPointerException(ErrorMsg.BADTYPE);
 		}
-		
-		
-	
-		
-		return new ResponseEntity<>(movieService.findMovie(movieNo),HttpStatus.OK);
-		
+		return new ResponseEntity<>(movieService.findMovie(movieNo), HttpStatus.OK);
 	}
+	
+	@GetMapping("/list/{pageNum}/movie/{movieTitle}")
+	public ResponseEntity<Map<String, Object>> getMovieList(@PathVariable Integer pageNum,@PathVariable String movieTitle) {
+		
+		return new ResponseEntity<>(movieService.getPageMap(pageNum, movieTitle), HttpStatus.OK);
+	}
+	
 	@PostMapping("/update")
-	 public ResponseEntity<String> updateMovie(@Valid MovieDTO.update movie ,@RequestParam(required = false) MultipartFile file){
+	public ResponseEntity<String> updateMovie(@Valid MovieDTO.update movie,
+			@RequestParam(required = false) MultipartFile file) {
 		String uuid = null;
 		Movie findMovie = null;
-	
-		
+
 		try {
 			int a = Integer.parseInt(movie.getMovieLimit());
 			int b = Integer.parseInt(movie.getMoviePlayTime());
 		} catch (Exception e) {
 			throw new NumberFormatException(ErrorMsg.BADTYPE);
 		}
-		
+
 		findMovie = movieService.findMovie(movie.getMovieNo());
-		
-		if(file != null && !file.getOriginalFilename().equals("") ) {
-			if(	imageService.findImage(findMovie.getImageUuid()) != null) {
+
+		if (file != null && !file.getOriginalFilename().equals("")) {
+			if (imageService.findImage(findMovie.getImageUuid()) != null) {
 				imageService.removeImage(findMovie.getImageUuid());
 			}
-			
+
 			uuid = imageService.saveImage(file);
 			movie.setImageUuid(uuid);
-			
-		}else {
+
+		} else {
 			movie.setImageUuid(findMovie.getImageUuid());
 		}
-		
-		
-		movieService.modifyMovie(movie);
-		
-		
 
-		
-		return new ResponseEntity<>(SucessMsg.UPDATE,HttpStatus.OK);
+		movieService.modifyMovie(movie);
+
+		return new ResponseEntity<>(SucessMsg.UPDATE, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{movieNo}")
 	public ResponseEntity<String> deleteMovie(@PathVariable Integer movieNo) {
-		if(movieNo == null) {
+		if (movieNo == null) {
 			throw new NullPointerException(ErrorMsg.BADTYPE);
 		}
-		Movie movie  = movieService.findMovie(movieNo);
-		
-		if(movie == null) {
+		Movie movie = movieService.findMovie(movieNo);
+
+		if (movie == null) {
 			throw new NullPointerException(ErrorMsg.DataNOTFOUND);
 		}
-		String uuid  = movie.getImageUuid();
-		if(uuid != null) {
+		String uuid = movie.getImageUuid();
+		if (uuid != null) {
 			imageService.removeImage(uuid);
 		}
 		movieService.removeMovie(movieNo);
-		
-		
-		
-		return   new ResponseEntity<>(SucessMsg.DELETE,HttpStatus.OK); 
+
+		return new ResponseEntity<>(SucessMsg.DELETE, HttpStatus.OK);
 	}
-	
-	
-	
-	
+
 }
