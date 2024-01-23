@@ -39,4 +39,6 @@ public interface MovieScheduleMapper {
 
 	// 예매에 필요한 리스트
 	List<MovieScheduleDTO.schedule> selectMovieSchedule(MovieScheduleDTO.schedule movieSchedule);
+	
+	void updateSeat(int no, long scheduleNo);
 }

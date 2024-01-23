@@ -87,7 +87,7 @@
 									정보 조회</a></li>
 							<li><a class="dropdown-item"
 								href="../member/myOrderList.jsp"> 내 주문 내역 조회</a></li>
-							<li><a class="dropdown-item" href="../member/memberInfo.jsp">
+							<li><a class="dropdown-item" href="../member/myReserveList.jsp">
 									내 예매 내역 조회</a></li>
 
 							<li><a class="dropdown-item" href="#"></a></li>
@@ -144,7 +144,7 @@
 									정보 조회</a></li>
 							<li><a class="dropdown-item" href="../member/AllOrderList.jsp">모든 상품 주문 내역</a></li>
 
-							<li><a class="dropdown-item" href="#"></a></li>
+							<li><a class="dropdown-item" href="../member/adminReserveList.jsp">모든 예매 내역</a></li>
 						</ul></li>
 				</ul>
 			</nav>
