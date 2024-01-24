@@ -71,7 +71,7 @@ public class WebSecurityConfig {
            .requestMatchers("/item/info/**").permitAll()
            .requestMatchers("/itemgiftcard/**").permitAll()
            .requestMatchers("/itemgiftcard/#tab01").permitAll()
-           .requestMatchers(HttpMethod.GET,"/notice/**").permitAll()
+         
            .anyRequest().authenticated();
 
            

@@ -40,6 +40,7 @@ public class ReserveServiceImpl implements ReserveService {
 		
 		if (memberId == null || "".equals(memberId.trim())) {
 			log.info("회원아이디:" + memberId);
+			log.info("안녕");
 			pc = pc.getPage(pageNum, reserveMapper.getTotal());
 			int n = reserveMapper.getPartList(pc.getPaging().getStartNum(), pc.getPaging().getEndNum()).size();
 			System.out.println("총예매수" + n);

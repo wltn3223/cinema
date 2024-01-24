@@ -24,8 +24,8 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String home(HttpServletRequest request) {
-		
 			CheckedLogin(request);
+			
 	
 		return "redirect:/index.jsp";// template> home.html 으로 보내줌
 	}
