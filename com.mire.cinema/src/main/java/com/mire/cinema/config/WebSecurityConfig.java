@@ -36,16 +36,43 @@ public class WebSecurityConfig {
         .authorizeRequests(authorizeRequests -> {
 
            authorizeRequests
-           .requestMatchers("/member/memberInfo.jsp").authenticated()
            .requestMatchers("/pay/**").authenticated()
+           .requestMatchers("/member/memberInfo.jsp").authenticated()
+           .requestMatchers("/review/reviewwrite.jsp").authenticated()
+           .requestMatchers("/notice/noticemodify.jsp").hasRole("ADMIN")
+           .requestMatchers("/notice/noticewrite.jsp").hasRole("ADMIN")
+           .requestMatchers("/notice/deletenotice.jsp").hasRole("ADMIN")
+           .requestMatchers("/member/myOrderList.jsp").hasRole("USER")
+           .requestMatchers("/member/myReserveList.jsp").hasRole("USER")
+           .requestMatchers("/").permitAll()
            .requestMatchers("/index.jsp").permitAll()
            .requestMatchers("/login.html").permitAll()
            .requestMatchers("/WEB-INF/header.jsp").permitAll()
            .requestMatchers("/WEB-INF/footer.jsp").permitAll()
+           .requestMatchers("/WEB-INF/main.jsp").permitAll()
            .requestMatchers("/member/login").permitAll()
            .requestMatchers("/join.html").permitAll()
            .requestMatchers(HttpMethod.GET ,"/member/*").permitAll()
-           .requestMatchers(HttpMethod.POST,"/member").permitAll();
+           .requestMatchers(HttpMethod.POST,"/member").permitAll()
+           .requestMatchers("/upload/**").permitAll()
+           .requestMatchers("/image/**").permitAll()
+           .requestMatchers("/movie/list/**").permitAll()
+           .requestMatchers("/movie/movieList.jsp").permitAll()
+           .requestMatchers("movieInfo.jsp").permitAll()
+           .requestMatchers(HttpMethod.GET,"/movie/**").permitAll()
+           .requestMatchers(HttpMethod.GET,"/review/list/**").permitAll()
+           .requestMatchers(HttpMethod.GET,"/review/info/**").permitAll()
+           .requestMatchers(HttpMethod.GET,"/movieschedule/getMovieSchedule/**").permitAll()
+           .requestMatchers(HttpMethod.GET,"/movieschedule/MovieInfo/**").permitAll()
+           .requestMatchers("/movieschedule/schedule.jsp").permitAll()
+           .requestMatchers("/movieschedule/schedule.jsp").permitAll()
+           .requestMatchers("/itemgiftcard/useritemlist.jsp").permitAll()
+           .requestMatchers("/item/list/**").permitAll()
+           .requestMatchers("/item/info/**").permitAll()
+           .requestMatchers("/itemgiftcard/**").permitAll()
+           .requestMatchers("/itemgiftcard/#tab01").permitAll()
+         
+           .anyRequest().authenticated();
 
            
 

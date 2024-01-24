@@ -189,7 +189,6 @@
 				<thead>
 					<tr>
 						<th style="width: 5%;">번호</th>
-						<th style="width: 10%;">작성자</th>
 			
 						<th style="width: 5%;">평점</th>
 						<th style="width: 60%;">제목</th>
@@ -304,7 +303,6 @@
 	                    '<tr>' +
 	                    
 	                    '<td>' + review.reviewNo + '</td>' +
-	                    '<td>' + memberId + '</td>' +
 	                    '<td>' + review.reviewScore + '점' + '</td>' +
 	                    '<td><a href="#" onclick="loadItemInfo(' + review.reviewNo + ')" class="review-title" data-review-no=' + review.reviewNo + '>' + review.reviewTitle + '</a></td>' +
 	                    '<td>' + review.reviewDate + '</td>' +

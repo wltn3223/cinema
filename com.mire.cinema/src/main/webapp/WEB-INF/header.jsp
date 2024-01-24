@@ -97,7 +97,14 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item"
 								href="/movie/adminMovieList.jsp">전체영화조회</a></li>
+								<li><a class="dropdown-item"
+								href="/movie/movieInsertForm.jsp">영화등록</a></li>
 							<li>
+								<li><a class="dropdown-item"
+								href="/movieschedule/schedulelist.jsp">영화스케줄</a></li>
+							<li>
+							
+							
 						</ul></li>
 					<li class="nav-item dropdown mx-2"><a
 						class="nav-link text-light" href="#" role="button"

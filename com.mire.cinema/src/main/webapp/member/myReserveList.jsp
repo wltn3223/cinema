@@ -133,6 +133,7 @@ async function cancel(id) {
     var url = '/pay/reserve/' + id;
     const response = await fetch(url, {
         method: "DELETE", // Corrected method name
+        location.reload(true);
     });
 
     console.log(response);
