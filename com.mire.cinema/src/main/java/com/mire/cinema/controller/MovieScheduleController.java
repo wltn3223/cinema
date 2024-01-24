@@ -124,9 +124,8 @@ public class MovieScheduleController {
 				request.getScheduleFinishTime())) {
 			return new ResponseEntity<>(ErrorMsg.SCHEDULEOVERLAP, HttpStatus.BAD_REQUEST);
 		}
-
+		System.out.println("안녕");	
 		service.modifyMovieSchedule(request);
-
 		return new ResponseEntity<>(SucessMsg.UPDATE, HttpStatus.OK);
 	}
 

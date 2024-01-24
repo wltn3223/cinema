@@ -232,10 +232,16 @@ p {
 				contentType: "application/json;charset=UTF-8",
 				success: function(data) {
 					console.log(data);
+					if(memberId === "" || memberId === null
+							|| memberId === undefined){
+						alert("로그인 후 이용해주세요");
+						return;
+					}
 					// 서버에서 받아온 정보를 폼에 넣기
 					if(data!== null && data !== "" && data !== undefined){
 						openPopUp(data);
 					}
+					
 				},
 				error: function(error) {
 					var errorMessage = error.responseText;

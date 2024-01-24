@@ -91,7 +91,7 @@ p {
 			</ul>
 			<div class="tabcontent">
 				<div id="tab01">
-					<a href="#"><img src="/img/item01.PNG" width="1100px"
+					<a href="#"><img src="/upload/item01.PNG" width="1100px"
 						height="400px" style="margin-bottom: 120px; margin-left: 70px;"></a>
 					<div class="item-container" id="itemList">
 

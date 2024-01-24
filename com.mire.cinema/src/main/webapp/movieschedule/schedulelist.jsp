@@ -49,11 +49,12 @@
 				<thead>
 					<tr>
 						<th>일련번호</th>
-						<th>영화</th>
 						<th>상영관</th>
+						<th>영화</th>
 						<th>영화상영시간</th>
 						<th>영화상영종료시간</th>
 						<th>상영관 총 좌석</th>
+						
 					</tr>
 				</thead>
 				<tbody id="scheduleList">

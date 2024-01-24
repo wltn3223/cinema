@@ -141,7 +141,7 @@ input {
 			<tr class="trstyle" style="background-color: #503396;">
 				<td>
 					<div class="t-container">
-						<a class="window" href="#" class="as"><img
+						<a class="window" href="/notice/getnotice.jsp" class="as"><img
 							src="/image/member.PNG" style="width: 100%; height: 100%;"></a>
 					</div>
 				</td>
