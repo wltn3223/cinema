@@ -45,44 +45,67 @@
 						placeholder="상영관에 상영할 영화 일련번호를 입력해주세요" required>
 				</div>
 				<button type="button" class="btn btn-dark"
-					onclick="scheduleInsert()">작성하기</button>
+					onclick="loadAndShowData()">데이터 불러오기</button>
+				<button type="button" class="btn btn-primary"
+					onclick="updateAndRedirect()">작성하기</button>
 			</form>
 		</div>
 	</div>
 	<footer class="container">
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
-</body>
 
-<script>
-	function scheduleInsert() {
-		var screenNo = $('#screenNo').val();
-		var scheduleStartTime = $('#scheduleStartTime').val();
-		var screenTotalSeat = $('#screenTotalSeat').val();
-		var movieNo = $('#movieNo').val();
-
-		var ScheduleData = {
-			screenNo : screenNo,
-			scheduleStartTime : scheduleStartTime,
-			screenTotalSeat : screenTotalSeat,
-			movieNo : movieNo
-		};
-
-		$.ajax({
-			type : 'POST',
-			url : '/movieschedule',
-			contentType : 'application/json',
-			data : JSON.stringify(ScheduleData),
-			success : function(response) {
-				alert(response);
-				location.href = "/movieschedule/schedulelist.jsp";
-			},
-			error : function(error) {
-				var errorMessage = error.responseText;
-				console.error(errorMessage); // 에러 메시지를 콘솔에 출력
-				alert(errorMessage);
-			}
+	<script>
+		$(document).ready(function() {
+			// 페이지 로드 시 로컬 스토리지에서 값 가져와 폼에 표시
+			loadAndShowData();
 		});
-	}
-</script>
+
+		function loadAndShowData() {
+			var storedScreenNo = localStorage.getItem('screenNo');
+			var storedScheduleStartTime = localStorage
+					.getItem('scheduleStartTime');
+			var storedScreenTotalSeat = localStorage.getItem('screenTotalSeat');
+			var storedMovieNo = localStorage.getItem('movieNo');
+
+			if (storedScreenNo && storedScheduleStartTime
+					&& storedScreenTotalSeat && storedMovieNo) {
+				$('#screenNo').val(storedScreenNo);
+				$('#scheduleStartTime').val(storedScheduleStartTime);
+				$('#screenTotalSeat').val(storedScreenTotalSeat);
+				$('#movieNo').val(storedMovieNo);
+			}
+		}
+
+		function updateAndRedirect() {
+			var screenNo = $('#screenNo').val();
+			var scheduleStartTime = $('#scheduleStartTime').val();
+			var screenTotalSeat = $('#screenTotalSeat').val();
+			var movieNo = $('#movieNo').val();
+
+			var ScheduleData = {
+				screenNo : screenNo,
+				scheduleStartTime : scheduleStartTime,
+				screenTotalSeat : screenTotalSeat,
+				movieNo : movieNo
+			};
+
+			$.ajax({
+				type : 'POST',
+				url : '/movieschedule',
+				contentType : 'application/json',
+				data : JSON.stringify(ScheduleData),
+				success : function(response) {
+					alert(response);
+					location.href = "/movieschedule/schedulelist.jsp";
+				},
+				error : function(error) {
+					var errorMessage = error.responseText;
+					console.error(errorMessage);
+					alert(errorMessage);
+				}
+			});
+		}
+	</script>
+</body>
 </html>

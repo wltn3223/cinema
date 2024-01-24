@@ -10,11 +10,6 @@
 		movie_schedule ORDER BY schedule_startTime DESC
 	</select>
 
-	<select id="getScheduleSelect" resultType="MovieSchedule">
-		select * from
-		movie_schedule where = #{scheduleNo}ORDER BY schedule_startTime DESC
-	</select>
-
 	<!-- 페이징처리 및 검색기능 -->
 	<!-- 페이징 -->
 	<select id="getPartList" resultType="MovieSchedule"
@@ -50,7 +45,8 @@ WHERE rn >= #{startNum}
 
 	<!-- 검색과 페이징 기능을 돕기위한것 -->
 	<select id="selectSchedule" resultType="MovieSchedule">
-		SELECT * FROM movie_schedule WHERE schedule_no =
+		SELECT * FROM
+		movie_schedule WHERE schedule_no =
 		#{scheduleNo}
 	</select>
 
@@ -107,15 +103,17 @@ WHERE rn >= #{startNum}
 		WHERE schedule_no =
 		#{scheduleNo}
 	</update>
-	
-	<update id="updateSeat" >
+
+	<update id="updateSeat">
 		UPDATE movie_schedule
 		SET
-		screen_restSeat = screen_restSeat + #{no}
+		screen_restSeat
+		=
+		screen_restSeat + #{no}
 		where
 		schedule_no =
 		#{scheduleNo}
-		</update>
+	</update>
 
 
 	<!-- 스케줄 삭제 -->
