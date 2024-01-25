@@ -107,12 +107,9 @@ WHERE rn >= #{startNum}
 	<update id="updateSeat">
 		UPDATE movie_schedule
 		SET
-		screen_restSeat
-		=
-		screen_restSeat + #{no}
+		screen_restSeat = screen_restSeat + #{no}
 		where
-		schedule_no =
-		#{scheduleNo}
+		schedule_no = #{scheduleNo}
 	</update>
 
 

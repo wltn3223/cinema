@@ -119,8 +119,8 @@ public class MovieScheduleController {
 	}
 
 	// 스케줄 업데이트
-	@PostMapping("/update")
-	public ResponseEntity<String> updateMovieSchedule(@Valid MovieScheduleDTO.Update updateDTO) {
+	@PutMapping("/update")
+	public ResponseEntity<String> updateMovieSchedule(@RequestBody @Valid MovieScheduleDTO.Update updateDTO) {
 		service.modifyMovieSchedule(updateDTO);
 		return new ResponseEntity<>(SucessMsg.UPDATE, HttpStatus.OK);
 	}

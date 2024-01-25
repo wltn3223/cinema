@@ -81,19 +81,38 @@
 			var screenTotalSeat = $('#screenTotalSeat').val();
 			var movieNo = $('#movieNo').val();
 
-			// AJAX로 영화의 상영 시간을 가져오는 요청
 			$.ajax({
 				type : "GET",
 				url : "/movie/" + movieNo,
 				success : function(response) {
-					// 성공적으로 상영 시간을 가져오면 종료 시간을 계산
-					var moviePlayTime = response; // 가정: 서버에서 반환한 상영 시간
-					var scheduleFinishTime = calculateFinishTime(
-							scheduleStartTime, moviePlayTime);
+					// Extract moviePlayTime from the response
+					var moviePlayTime = response.moviePlayTime;
 
-					// 수정된 값을 서버에 보냄
-					sendUpdatedData(screenNo, scheduleStartTime,
-							scheduleFinishTime, screenTotalSeat, movieNo);
+					// Check if moviePlayTime is a valid number
+					if (!isNaN(moviePlayTime)) {
+						// Calculate scheduleFinishTime
+						var scheduleFinishTime = calculateFinishTime(
+								scheduleStartTime, moviePlayTime);
+
+						// Update local storage with the new data
+						var storedSchedule = {
+							screenNo : screenNo,
+							scheduleStartTime : scheduleStartTime,
+							scheduleFinishTime : scheduleFinishTime,
+							screenTotalSeat : screenTotalSeat,
+							movieNo : movieNo
+						};
+						localStorage.setItem('selectedMovieSchedule', JSON
+								.stringify(storedSchedule));
+
+						// Proceed with sending updated data
+						sendUpdatedData(screenNo, scheduleStartTime,
+								scheduleFinishTime, screenTotalSeat, movieNo);
+					} else {
+						console.error('Invalid moviePlayTime value:',
+								moviePlayTime);
+						alert('영화의 상영 시간이 올바르지 않습니다.');
+					}
 				},
 				error : function(error) {
 					console.error(error);
@@ -103,28 +122,41 @@
 		}
 
 		function calculateFinishTime(startTime, playTime) {
-		    try {
-		        var startTimeObj = new Date(startTime);
+			try {
+				console.log('startTime:', startTime);
+				console.log('playTime:', playTime);
 
-		        if (isNaN(playTime)) {
-		            throw new Error('Invalid playTime value.');
-		        }
+				var startTimeObj = new Date(startTime);
 
-		        var finishTimeObj = new Date(startTimeObj.getTime() + playTime * 60000);
+				// Convert playTime to a number
+				playTime = parseFloat(playTime);
 
-		        var finishTime = finishTimeObj.toISOString().slice(0, 16).replace("T", " ");
+				if (isNaN(playTime)) {
+					throw new Error('Invalid playTime value.');
+				}
 
-		        return finishTime;
-		    } catch (error) {
-		        console.error('Error in calculateFinishTime:', error);
-		        return null; // 또는 에러 처리에 맞게 반환값 설정
-		    }
+				var finishTimeObj = new Date(startTimeObj.getTime() + playTime
+						* 60000);
+
+				// Format the finish time to match the format of startTime
+				var finishTime = finishTimeObj.toISOString().slice(0, 16);
+
+				console.log('finishTime:', finishTime);
+
+				return finishTime;
+			} catch (error) {
+				console.error('Error in calculateFinishTime:', error);
+				return null; // Handle the error appropriately or modify as needed
+			}
 		}
 
 		function sendUpdatedData(screenNo, scheduleStartTime,
 				scheduleFinishTime, screenTotalSeat, movieNo) {
+			console.log('scheduleFinishTime in sendUpdatedData:',
+					scheduleFinishTime);
+
 			$.ajax({
-				type : "POST",
+				type : "PUT",
 				url : "/movieschedule/update",
 				data : JSON.stringify({
 					screenNo : screenNo,
@@ -137,8 +169,8 @@
 				success : function(response) {
 					console.log(response);
 					alert(response);
-
 					// 리다이렉트 처리
+					localStorage.removeItem('selectedMovieSchedule');
 					window.location.href = '/movieschedule/schedulelist.jsp';
 				},
 				error : function(error) {

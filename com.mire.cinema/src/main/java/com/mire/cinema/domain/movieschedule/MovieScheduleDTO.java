@@ -35,7 +35,7 @@ public class MovieScheduleDTO {
 		private LocalDateTime scheduleFinishTime;
 		private long screenNo;
 		private long movieNo;
-		private int moviePlayTime;
+		private float moviePlayTime;
 	}
 
 	@Data
