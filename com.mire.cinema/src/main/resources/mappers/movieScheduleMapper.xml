@@ -95,19 +95,20 @@ WHERE rn >= #{startNum}
 		parameterType="com.mire.cinema.domain.movieschedule.MovieScheduleDTO$Update">
 		UPDATE movie_schedule
 		SET
-		schedule_startTime =
-		#{scheduleStartTime},
-		schedule_finishTime = #{scheduleFinishTime},
+		schedule_startTime = #{scheduleStartTime},
+		schedule_finishTime =#{scheduleFinishTime},
 		screen_no = #{screenNo},
-		movie_no = #{movieNo}
-		WHERE schedule_no =
-		#{scheduleNo}
+		movie_no = #{movieNo},
+		screen_totalseat = #{screenTotalSeat}
+		WHERE schedule_no = #{scheduleNo}
 	</update>
+
 
 	<update id="updateSeat">
 		UPDATE movie_schedule
 		SET
-		screen_restSeat = screen_restSeat + #{no}
+		screen_restSeat =
+		screen_restSeat + #{no}
 		where
 		schedule_no = #{scheduleNo}
 	</update>

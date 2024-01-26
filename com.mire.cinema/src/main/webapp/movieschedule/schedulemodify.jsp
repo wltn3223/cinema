@@ -25,6 +25,10 @@
 		<div class="form-container">
 			<form>
 				<div class="mb-3">
+					<label for="scheduleNo" class="form-label">스케줄 일련번호</label> <input
+						type="text" class="form-control" id="scheduleNo" required>
+				</div>
+				<div class="mb-3">
 					<label for="screenNo" class="form-label">상영관 일련번호</label> <input
 						type="text" class="form-control" id="screenNo"
 						placeholder="상영관 일랸번호를 입력해주세요" required>
@@ -67,6 +71,7 @@
 			if (storedSchedule) {
 				var schedule = JSON.parse(storedSchedule);
 
+				$('#scheduleNo').val(schedule.scheduleNo);
 				$('#screenNo').val(schedule.screenNo);
 				$('#scheduleStartTime').val(schedule.scheduleStartTime);
 				$('#screenTotalSeat').val(schedule.screenTotalSeat);
@@ -75,12 +80,12 @@
 		}
 
 		function updateAndRedirect() {
-			// 수정된 값을 서버로 보내기 위해 AJAX 사용
+			var scheduleNo = $('#scheduleNo').val();
 			var screenNo = $('#screenNo').val();
 			var scheduleStartTime = $('#scheduleStartTime').val();
 			var screenTotalSeat = $('#screenTotalSeat').val();
 			var movieNo = $('#movieNo').val();
-
+		
 			$.ajax({
 				type : "GET",
 				url : "/movie/" + movieNo,
@@ -96,17 +101,19 @@
 
 						// Update local storage with the new data
 						var storedSchedule = {
+							scheduleNo : scheduleNo,
 							screenNo : screenNo,
 							scheduleStartTime : scheduleStartTime,
 							scheduleFinishTime : scheduleFinishTime,
 							screenTotalSeat : screenTotalSeat,
 							movieNo : movieNo
 						};
+
 						localStorage.setItem('selectedMovieSchedule', JSON
 								.stringify(storedSchedule));
 
 						// Proceed with sending updated data
-						sendUpdatedData(screenNo, scheduleStartTime,
+						sendUpdatedData(scheduleNo,screenNo, scheduleStartTime,
 								scheduleFinishTime, screenTotalSeat, movieNo);
 					} else {
 						console.error('Invalid moviePlayTime value:',
@@ -150,15 +157,16 @@
 			}
 		}
 
-		function sendUpdatedData(screenNo, scheduleStartTime,
+		function sendUpdatedData(scheduleNo,screenNo, scheduleStartTime,
 				scheduleFinishTime, screenTotalSeat, movieNo) {
 			console.log('scheduleFinishTime in sendUpdatedData:',
 					scheduleFinishTime);
 
 			$.ajax({
-				type : "PUT",
+				type : "POST",
 				url : "/movieschedule/update",
 				data : JSON.stringify({
+					scheduleNo : scheduleNo,
 					screenNo : screenNo,
 					scheduleStartTime : scheduleStartTime,
 					scheduleFinishTime : scheduleFinishTime,
@@ -169,7 +177,7 @@
 				success : function(response) {
 					console.log(response);
 					alert(response);
-					// 리다이렉트 처리
+					// Redirect handling
 					localStorage.removeItem('selectedMovieSchedule');
 					window.location.href = '/movieschedule/schedulelist.jsp';
 				},

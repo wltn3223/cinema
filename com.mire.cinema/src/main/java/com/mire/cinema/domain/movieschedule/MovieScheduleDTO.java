@@ -30,12 +30,12 @@ public class MovieScheduleDTO {
 	@NoArgsConstructor
 	// MovieScheduleDTO.java
 	public static class Update {
-		private long scheduleNo;
+		private String scheduleNo;
 		private LocalDateTime scheduleStartTime;
 		private LocalDateTime scheduleFinishTime;
 		private long screenNo;
 		private long movieNo;
-		private float moviePlayTime;
+		private String screenTotalSeat;
 	}
 
 	@Data
