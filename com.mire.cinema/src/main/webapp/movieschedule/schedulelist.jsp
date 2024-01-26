@@ -32,10 +32,7 @@
 		<div class="container">
 			<h2>영화스케줄</h2>
 			<br> <a href="/movieschedule/scheduleinsert.jsp"
-				class="btn btn-dark mb-2">스케줄 추가</a> <a
-				href="/movieschedule/schedulemodify.jsp" class="btn btn-dark mb-2">스케줄 수정</a>
-			<a href="/movieschedule/removeschedule.jsp" class="btn btn-dark mb-2">스케줄
-				삭제</a>
+				class="btn btn-dark mb-2">스케줄 추가</a> 
 		</div>
 		<div class="search-container">
 			<div style="display: flex; align-items: center;">
@@ -54,7 +51,7 @@
 						<th>영화상영시간</th>
 						<th>영화상영종료시간</th>
 						<th>상영관 총 좌석</th>
-						
+						<th>관리자 기능</th>
 					</tr>
 				</thead>
 				<tbody id="scheduleList">
@@ -73,9 +70,8 @@
 	</footer>
 
 	<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    	fetchSchedule(1);
-    	localStorage.clear();
+	document.addEventListener('DOMContentLoaded', function () {
+	    fetchSchedule(1);
 	});
 
 	function fetchSchedule(pageNum, scheduleNo) {
@@ -101,48 +97,67 @@
 	            let paginationData = data.page;
 	            createPaginationButtons(paginationData.beginPage, paginationData.endPage, paginationData.prev, paginationData.next, data);
 	            displaySchedules(schedules);
+	            attachClickEventToRows(schedules); // 클릭 이벤트 추가
 	        })
 	        .catch(error => {
 	            console.error('Fetch 오류:', error.message);
 	        });
 	}
+
+	function saveScheduleToLocalStorage(schedule) {
+	    // 이전에 저장된 정보 초기화
+	    localStorage.removeItem('selectedMovieSchedule');
+
+	    // 클릭한 열의 정보를 저장
+	    localStorage.setItem('selectedMovieSchedule', JSON.stringify(schedule));
+	}
+
 	function displaySchedules(schedules) {
 	    $('#scheduleList').empty();
 
 	    for (var movieSchedule of schedules) {
 	        let scheduleInfo =
-	            '<tr>' +
+	            '<tr onclick="saveScheduleToLocalStorage(' + JSON.stringify(movieSchedule) + ')">' +
 	            '<td>' + movieSchedule.scheduleNo + '</td>' +
 	            '<td>' + movieSchedule.screenNo + '</td>' +
 	            '<td>' + movieSchedule.movieNo + '</td>' +
 	            '<td>' + movieSchedule.scheduleStartTime + '</td>' +
 	            '<td>' + movieSchedule.scheduleFinishTime + '</td>' +
 	            '<td>' + movieSchedule.screenTotalSeat + '</td>' +
+	            '<td><a href="/movieschedule/schedulemodify.jsp" class="btn btn-dark mb-2">스케줄수정</a>or<a href="/movieschedule/removeschedule.jsp" class="btn btn-dark mb-2">스케줄삭제</a></td>' +
 	            '</tr>';
 
 	        $('#scheduleList').append(scheduleInfo);
 	    }
 	}
-        
-        function createPaginationButtons(begin, end, prev, next, data) {
-    	    let prevPage = begin - 1;
-    	    let nextPage = end + 1;
-    	    $('#pageNum').empty();
 
-    	    if (data.list !== undefined) {
-    	        $('#prev').html(prev ? '<button onclick="fetchSchedule(' + prevPage + ')">이전</button>' : '');
-    	        $('#next').html(next ? '<button onclick="fetchSchdule(' + nextPage + ')">다음</button>' : '');
-    	        for (let i = begin; i <= end; i++) {
-    	            $('#pageNum').append('<button onclick="fetchSchedule(' + i + ')" class="mx-2">' + i + '</button>');
-    	        }
-    	    } else {
-    	        $('#prev').html(prev ? '<button onclick="fetchSchedule(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
-    	        $('#next').html(next ? '<button onclick="fetchSchedule(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
-    	        for (let i = begin; i <= end; i++) {
-    	            $('#pageNum').append('<button onclick="fetchSchedule(' + i + ', \'' + data.keyword + '\')" class="mx-2">' + i + '</button>');
-    	        }
-    	    }
-    	}
+	function createPaginationButtons(begin, end, prev, next, data) {
+	    let prevPage = begin - 1;
+	    let nextPage = end + 1;
+	    $('#pageNum').empty();
+
+	    if (data.list !== undefined) {
+	        $('#prev').html(prev ? '<button onclick="fetchSchedule(' + prevPage + ')">이전</button>' : '');
+	        $('#next').html(next ? '<button onclick="fetchSchedule(' + nextPage + ')">다음</button>' : '');
+	        for (let i = begin; i <= end; i++) {
+	            $('#pageNum').append('<button onclick="fetchSchedule(' + i + ')" class="mx-2">' + i + '</button>');
+	        }
+	    } else {
+	        $('#prev').html(prev ? '<button onclick="fetchSchedule(' + prevPage + ', \'' + data.keyword + '\')">이전</button>' : '');
+	        $('#next').html(next ? '<button onclick="fetchSchedule(' + nextPage + ', \'' + data.keyword + '\')">다음</button>' : '');
+	        for (let i = begin; i <= end; i++) {
+	            $('#pageNum').append('<button onclick="fetchSchedule(' + i + ', \'' + data.keyword + '\')" class="mx-2">' + i + '</button>');
+	        }
+	    }
+	}
+
+	function attachClickEventToRows(schedules) {
+	    for (let i = 0; i < schedules.length; i++) {
+	        $('#scheduleList tr:eq(' + i + ')').on('click', function () {
+	            saveScheduleToLocalStorage(schedules[i]);
+	        });
+	    }
+	}
     </script>
 </body>
 </html>

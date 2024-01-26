@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>상영관 업데이트</title>
+<title>Insert Notice</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -17,108 +17,176 @@
 </style>
 </head>
 <body>
-	<!-- 헤더 -->
 	<header>
 		<%@ include file="../WEB-INF/header.jsp"%>
 	</header>
-
 	<div class="container">
-		<h2 class="mt-3">상영관 수정</h2>
+		<h2 class="mt-3">MOVIE SCHEDULE</h2>
 		<div class="form-container">
 			<form>
 				<div class="mb-3">
 					<label for="scheduleNo" class="form-label">스케줄 일련번호</label> <input
-						type="text" class="form-control" id="scheduleNo"
-						placeholder="업데이트할 스케줄 번호를 입력하세요" required>
+						type="text" class="form-control" id="scheduleNo" required>
 				</div>
 				<div class="mb-3">
 					<label for="screenNo" class="form-label">상영관 일련번호</label> <input
 						type="text" class="form-control" id="screenNo"
-						placeholder="업데이트할 상영관 번호를 입력하세요" required>
+						placeholder="상영관 일랸번호를 입력해주세요" required>
+				</div>
+				<div class="mb-3">
+					<label for="scheduleStartTime" class="form-label">영화시작시간</label> <input
+						type="datetime-local" class="form-control" id="scheduleStartTime"
+						placeholder="영화 시작시간을 입력해주세요" required>
+				</div>
+				<div class="mb-3">
+					<label for="screenTotalSeat" class="form-label">상영관 총좌석</label> <input
+						type="text" class="form-control" id="screenTotalSeat"
+						placeholder="상영관의 총좌석을 입력해주세요" required>
 				</div>
 				<div class="mb-3">
 					<label for="movieNo" class="form-label">영화 일련번호</label> <input
 						type="text" class="form-control" id="movieNo"
-						placeholder="업데이트할 영화를 숫자로 입력하세요" required>
+						placeholder="상영관에 상영할 영화 일련번호를 입력해주세요" required>
 				</div>
-				<div class="mb-3">
-					<label for="scheduleStartTime" class="form-label">상영시작시간</label> <input
-						type="datetime-local" class="form-control" id="scheduleStartTime"
-						placeholder="업데이트할 상영시간을 입력하세요" required>
-				</div>
-				<button class="btn btn-primary" onclick="update()">상영관 업데이트</button>
+				<button type="button" class="btn btn-dark"
+					onclick="loadAndShowData()">데이터 불러오기</button>
+				<button type="button" class="btn btn-primary"
+					onclick="updateAndRedirect()">작성하기</button>
 			</form>
 		</div>
 	</div>
-
-
-	<!-- 푸터 -->
 	<footer class="container">
 		<%@ include file="../WEB-INF/footer.jsp"%>
 	</footer>
 
 	<script>
-		function update() {
+		$(document).ready(function() {
+			// 페이지 로드 시 로컬 스토리지에서 값 가져와 폼에 표시
+			loadAndShowData();
+		});
+
+		function loadAndShowData() {
+			var storedSchedule = localStorage.getItem('selectedMovieSchedule');
+
+			if (storedSchedule) {
+				var schedule = JSON.parse(storedSchedule);
+
+				$('#scheduleNo').val(schedule.scheduleNo);
+				$('#screenNo').val(schedule.screenNo);
+				$('#scheduleStartTime').val(schedule.scheduleStartTime);
+				$('#screenTotalSeat').val(schedule.screenTotalSeat);
+				$('#movieNo').val(schedule.movieNo);
+			}
+		}
+
+		function updateAndRedirect() {
 			var scheduleNo = $('#scheduleNo').val();
 			var screenNo = $('#screenNo').val();
-			var movieNo = $('#movieNo').val();
 			var scheduleStartTime = $('#scheduleStartTime').val();
-
-			// 필수 항목 검사
-			if (!scheduleNo || !screenNo || !movieNo || !scheduleStartTime) {
-				alert("모든 필수 항목을 입력하세요.");
-				return;
-			}
-
-			// scheduleStartTime을 Date 객체로 변환
-			var scheduleStartTime = new Date(scheduleStartTimeStr);
-
-			// 서버에서 영화 정보를 받아오기
+			var screenTotalSeat = $('#screenTotalSeat').val();
+			var movieNo = $('#movieNo').val();
+		
 			$.ajax({
 				type : "GET",
 				url : "/movie/" + movieNo,
-				contentType : "application/json",
-				success : function(movieResponse) {
-					var moviePlayTime = movieResponse.moviePlayTime;
+				success : function(response) {
+					// Extract moviePlayTime from the response
+					var moviePlayTime = response.moviePlayTime;
 
-					// scheduleFinishTime 계산
-					var scheduleFinishTime = new Date(scheduleStartTime
-							.getTime()
-							+ (moviePlayTime * 60000));
+					// Check if moviePlayTime is a valid number
+					if (!isNaN(moviePlayTime)) {
+						// Calculate scheduleFinishTime
+						var scheduleFinishTime = calculateFinishTime(
+								scheduleStartTime, moviePlayTime);
 
-					var data = {
-						scheduleNo : scheduleNo,
-						screenNo : screenNo,
-						movieNo : movieNo,
-						scheduleStartTime : scheduleStartTime,
-						scheduleFinishTime : scheduleFinishTime
-					};
+						// Update local storage with the new data
+						var storedSchedule = {
+							scheduleNo : scheduleNo,
+							screenNo : screenNo,
+							scheduleStartTime : scheduleStartTime,
+							scheduleFinishTime : scheduleFinishTime,
+							screenTotalSeat : screenTotalSeat,
+							movieNo : movieNo
+						};
 
-					// 실제 업데이트 요청
-					$.ajax({
-						type : "POST",
-						url : "/movieschedule/update",
-						contentType : "application/json;charset=UTF-8",
-						data : JSON.stringify(data),
-						success : function(response) {
-							alert(response);
-							location.href = "/movieschedule/schedulelist.jsp";
-							localStorage.clear();
-						},
-						error : function(error) {
-							var errorMessage = error.responseText;
-							alert(errorMessage);
-						}
-					});
+						localStorage.setItem('selectedMovieSchedule', JSON
+								.stringify(storedSchedule));
+
+						// Proceed with sending updated data
+						sendUpdatedData(scheduleNo,screenNo, scheduleStartTime,
+								scheduleFinishTime, screenTotalSeat, movieNo);
+					} else {
+						console.error('Invalid moviePlayTime value:',
+								moviePlayTime);
+						alert('영화의 상영 시간이 올바르지 않습니다.');
+					}
 				},
 				error : function(error) {
-					var errorMessage = error.responseText;
-					alert(errorMessage);
+					console.error(error);
+					alert("에러 발생");
+				}
+			});
+		}
+
+		function calculateFinishTime(startTime, playTime) {
+			try {
+				console.log('startTime:', startTime);
+				console.log('playTime:', playTime);
+
+				var startTimeObj = new Date(startTime);
+
+				// Convert playTime to a number
+				playTime = parseFloat(playTime);
+
+				if (isNaN(playTime)) {
+					throw new Error('Invalid playTime value.');
+				}
+
+				var finishTimeObj = new Date(startTimeObj.getTime() + playTime
+						* 60000);
+
+				// Format the finish time to match the format of startTime
+				var finishTime = finishTimeObj.toISOString().slice(0, 16);
+
+				console.log('finishTime:', finishTime);
+
+				return finishTime;
+			} catch (error) {
+				console.error('Error in calculateFinishTime:', error);
+				return null; // Handle the error appropriately or modify as needed
+			}
+		}
+
+		function sendUpdatedData(scheduleNo,screenNo, scheduleStartTime,
+				scheduleFinishTime, screenTotalSeat, movieNo) {
+			console.log('scheduleFinishTime in sendUpdatedData:',
+					scheduleFinishTime);
+
+			$.ajax({
+				type : "POST",
+				url : "/movieschedule/update",
+				data : JSON.stringify({
+					scheduleNo : scheduleNo,
+					screenNo : screenNo,
+					scheduleStartTime : scheduleStartTime,
+					scheduleFinishTime : scheduleFinishTime,
+					screenTotalSeat : screenTotalSeat,
+					movieNo : movieNo
+				}),
+				contentType : "application/json",
+				success : function(response) {
+					console.log(response);
+					alert(response);
+					// Redirect handling
+					localStorage.removeItem('selectedMovieSchedule');
+					window.location.href = '/movieschedule/schedulelist.jsp';
+				},
+				error : function(error) {
+					console.error(error);
+					alert("에러 발생");
 				}
 			});
 		}
 	</script>
-
-
 </body>
 </html>

@@ -54,7 +54,6 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 	}
 
 	@Override
-	@Transactional
 	public void modifyMovieSchedule(MovieScheduleDTO.Update dto) {
 		Mapper.scheduleUpdate(dto);
 	}

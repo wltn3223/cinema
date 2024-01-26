@@ -10,7 +10,7 @@ import com.mire.cinema.domain.movieschedule.MovieScheduleDTO;
 public interface MovieScheduleService {
 	// 등록
 	public List<MovieSchedule> scheduleList();// 비교를 위한 리스트 가져옴.
-
+	
 	public void saveMovieSchedule(MovieSchedule schedule);
 
 	// 리스트 출력
